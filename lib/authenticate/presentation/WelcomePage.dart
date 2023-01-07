@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:food/authenticate/presentation/LoginPage.dart';
+import 'package:food/authenticate/presentation/widget/CustomFloatingButton.dart';
 
 class WelcomePage extends StatelessWidget {
   const WelcomePage({Key? key}) : super(key: key);
@@ -192,17 +194,17 @@ class WelcomePage extends StatelessWidget {
                               ),
                             ],
                           ),
-                          child: FloatingActionButton.extended(
-                            label: Text('Facebook',
-                                style: TextStyle(color: Colors.black)),
-                            // <-- Text
-                            backgroundColor: Colors.white,
+                          child: CustomActionFloatingButton(
                             icon: Icon(
                               // <-- Icon
-                              Icons.facebook_rounded,
-                              size: 24.0,
+                              // FontAwesomeIcons.gamepad,
+                              Icons.facebook,
+                              size: 35.0,
                               color: Colors.blue,
                             ),
+                            textColor: Colors.black,
+                            backgroundColor: Colors.white,
+                            text: 'Facebook',
                             onPressed: () {},
                           ),
                         ),
@@ -221,12 +223,7 @@ class WelcomePage extends StatelessWidget {
                               ),
                             ],
                           ),
-                          child: FloatingActionButton.extended(
-                            label: Text(
-                              'Google',
-                              style: TextStyle(color: Colors.black),
-                            ), // <-- Text
-                            backgroundColor: Colors.white,
+                          child: CustomActionFloatingButton(
                             icon: Icon(
                               // <-- Icon
                               // FontAwesomeIcons.gamepad,
@@ -234,24 +231,19 @@ class WelcomePage extends StatelessWidget {
                               size: 40.0,
                               color: Colors.red,
                             ),
+                            textColor: Colors.black,
+                            backgroundColor: Colors.white,
+                            text: 'Google',
                             onPressed: () {},
                           ),
                         ),
                       ],
                     ),
                   ),
-                  FloatingActionButton.extended(
-                    label: Text(
-                      'Sign up with email',
-                      textAlign: TextAlign.center,
-                      style: TextStyle(
-                        fontSize: 15,
-                        fontWeight: FontWeight.w500,
-                        height: 1.2575,
-                        color: Color(0xfffefefe),
-                      ),
-                    ),
+                  CustomActionFloatingButton(
                     backgroundColor: Color(0x35ffffff),
+                    textColor: Color(0xfffefefe),
+                    text: "Sign up with email",
                     onPressed: () {},
                   ),
                   Container(
@@ -276,7 +268,13 @@ class WelcomePage extends StatelessWidget {
                           ),
                         ),
                         GestureDetector(
-                          onTap: () {},
+                          onTap: () {
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (context) => LoginPage()),
+                            );
+                          },
                           child: Text(
                             'Sign In',
                             textAlign: TextAlign.center,
