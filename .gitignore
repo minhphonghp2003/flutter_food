@@ -43,4 +43,7 @@ app.*.map.json
 /android/app/debug
 /android/app/profile
 /android/app/release
+<<<<<<< HEAD
+>>>>>>> 2c260a4 (new)
+=======
 >>>>>>> 2c260a4 (new)
