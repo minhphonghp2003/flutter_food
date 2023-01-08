@@ -12,3 +12,10 @@ class AuthProfileFetched extends Auth {
   String token;
   AuthProfileFetched({required this.token});
 }
+
+class AuthLoginCookieChecked extends Auth {}
+
+class AuthLoginCookieAdded extends Auth {
+  Map<dynamic, dynamic> credentials;
+  AuthLoginCookieAdded({required this.credentials});
+}

@@ -4,14 +4,14 @@ import 'package:food/authenticate/presentation/widget/CustomBackButton.dart';
 import 'package:food/authenticate/presentation/widget/CustomFloatingButton.dart';
 import 'package:food/authenticate/presentation/widget/CustomTextField.dart';
 
-class LoginPage extends StatefulWidget {
-  const LoginPage({Key? key}) : super(key: key);
+class RegisterPage extends StatefulWidget {
+  const RegisterPage({Key? key}) : super(key: key);
 
   @override
-  State<LoginPage> createState() => _LoginPageState();
+  State<RegisterPage> createState() => _RegisterPageState();
 }
 
-class _LoginPageState extends State<LoginPage> {
+class _RegisterPageState extends State<RegisterPage> {
   final _formKey = GlobalKey<FormState>();
 
   @override
@@ -45,7 +45,7 @@ class _LoginPageState extends State<LoginPage> {
               // signupx7j (814:6853)
               margin: EdgeInsets.fromLTRB(26, 0, 0, 0),
               child: Text(
-                'Login\n',
+                'Sign Up\n',
                 style: TextStyle(
                   fontSize: 36.4127006531,
                   fontWeight: FontWeight.w600,
@@ -66,16 +66,29 @@ class _LoginPageState extends State<LoginPage> {
                     child: Column(
                       children: [
                         CustomInputField(
-                          field: "Username",
-                          icon: Icons.person,
+                          field: "Full Name",
+                          icon: Icons.abc,
                           isPassword: false,
                           validator: (value) {
                             if (value == null || value.isEmpty) {
-                              return 'Please enter a username';
+                              return 'Please enter a valid full name';
                             }
                             return null;
                           },
                         ),
+                        CustomInputField(
+                            field: "E-mail",
+                            icon: Icons.email_outlined,
+                            validator: (value) {
+                              if (value == null ||
+                                  value.isEmpty ||
+                                  !RegExp(r"^[a-zA-Z0-9.a-zA-Z0-9.!#$%&'*+-/=?^_`{|}~]+@[a-zA-Z0-9]+\.[a-zA-Z]+")
+                                      .hasMatch(value)) {
+                                return 'Please enter a valid e-mail';
+                              }
+                              return null;
+                            },
+                            isPassword: false),
                         CustomInputField(
                             field: "Password",
                             icon: Icons.visibility,
@@ -89,7 +102,7 @@ class _LoginPageState extends State<LoginPage> {
                               return null;
                             },
                             isPassword: true),
-                        Login(
+                        SignUp(
                           formKey: _formKey,
                         ),
                       ],
@@ -234,8 +247,8 @@ class OtherLoginMethod extends StatelessWidget {
   }
 }
 
-class Login extends StatelessWidget {
-  const Login({Key? key, required this.formKey}) : super(key: key);
+class SignUp extends StatelessWidget {
+  const SignUp({Key? key, required this.formKey}) : super(key: key);
 
   final formKey;
 
@@ -264,7 +277,7 @@ class Login extends StatelessWidget {
           borderRadius: BorderRadius.circular(28.5),
         ),
         child: CustomActionFloatingButton(
-            text: "Login",
+            text: "Sign up",
             backgroundColor: Colors.redAccent,
             textColor: Colors.white,
             onPressed: () {

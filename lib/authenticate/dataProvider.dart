@@ -4,9 +4,9 @@ import 'package:food/authenticate/model/User.dart';
 import 'package:http/http.dart' as http;
 
 class UserProvider {
-  var host = 'localhost:3000';
+  var host = '192.168.1.6:3000';
   var path = 'v1/customer';
-  var client;
+  http.Client client;
   UserProvider({required this.client});
 
   Future<User> getProfile(String token) async {
@@ -35,3 +35,8 @@ class UserProvider {
     return decodedResponse;
   }
 }
+//
+// void main() async {
+//   var res = await UserProvider(client: http.Client()).getProfile("token");
+//   print(res);
+// }

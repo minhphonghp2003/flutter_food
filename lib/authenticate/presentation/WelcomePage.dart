@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:food/authenticate/presentation/LoginPage.dart';
+import 'package:food/authenticate/presentation/RegisterPage.dart';
 import 'package:food/authenticate/presentation/widget/CustomFloatingButton.dart';
 
 class WelcomePage extends StatelessWidget {
@@ -42,32 +43,7 @@ class WelcomePage extends StatelessWidget {
               child: ListView(
                 // crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
-                  Container(
-                    // group179632bb (814:7011)
-                    margin: EdgeInsets.fromLTRB(264, 0, 0, 50),
-                    width: 55,
-                    height: 32,
-                    decoration: BoxDecoration(
-                      color: Color(0xffffffff),
-                      borderRadius: BorderRadius.circular(27.4059333801),
-                      boxShadow: [
-                        BoxShadow(
-                          color: Color(0x3fd3d1d8),
-                          offset: Offset(17.8734359741, 17.8734359741),
-                          blurRadius: 17.8734359741,
-                        ),
-                      ],
-                    ),
-                    child: FloatingActionButton.extended(
-                      label: Text(
-                        'Skip',
-                        style: TextStyle(color: Colors.red),
-                      ), // <-- Text
-                      backgroundColor: Colors.white,
-
-                      onPressed: () {},
-                    ),
-                  ),
+                  SkipButton(),
                   Container(
                     // group18122okm (814:7036)
                     margin: EdgeInsets.fromLTRB(0, 0, 49, 150),
@@ -170,133 +146,206 @@ class WelcomePage extends StatelessWidget {
                       ],
                     ),
                   ),
-                  Container(
-                    // autogroupz71buNh (W75naGQG1duyjBruMLz71b)
-                    margin: EdgeInsets.fromLTRB(2, 0, 0, 23),
-                    width: double.infinity,
-                    height: 54,
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                      crossAxisAlignment: CrossAxisAlignment.center,
-                      children: [
-                        Container(
-                          margin: EdgeInsets.fromLTRB(0, 0, 15.38, 0),
-                          // padding: EdgeInsets.fromLTRB(12, 13, 36, 12.38),
-                          height: double.infinity,
-                          decoration: BoxDecoration(
-                            color: Color(0xffffffff),
-                            borderRadius: BorderRadius.circular(27.4059333801),
-                            boxShadow: [
-                              BoxShadow(
-                                color: Color(0x3fd3d1d8),
-                                offset: Offset(17.8734359741, 17.8734359741),
-                                blurRadius: 17.8734359741,
-                              ),
-                            ],
-                          ),
-                          child: CustomActionFloatingButton(
-                            icon: Icon(
-                              // <-- Icon
-                              // FontAwesomeIcons.gamepad,
-                              Icons.facebook,
-                              size: 35.0,
-                              color: Colors.blue,
-                            ),
-                            textColor: Colors.black,
-                            backgroundColor: Colors.white,
-                            text: 'Facebook',
-                            onPressed: () {},
-                          ),
-                        ),
-                        Container(
-                          margin: EdgeInsets.fromLTRB(0, 0, 15.38, 0),
-                          // padding: EdgeInsets.fromLTRB(12, 13, 36, 12.38),
-                          height: double.infinity,
-                          decoration: BoxDecoration(
-                            color: Color(0xffffffff),
-                            borderRadius: BorderRadius.circular(27.4059333801),
-                            boxShadow: [
-                              BoxShadow(
-                                color: Color(0x3fd3d1d8),
-                                offset: Offset(17.8734359741, 17.8734359741),
-                                blurRadius: 17.8734359741,
-                              ),
-                            ],
-                          ),
-                          child: CustomActionFloatingButton(
-                            icon: Icon(
-                              // <-- Icon
-                              // FontAwesomeIcons.gamepad,
-                              Icons.g_mobiledata_outlined,
-                              size: 40.0,
-                              color: Colors.red,
-                            ),
-                            textColor: Colors.black,
-                            backgroundColor: Colors.white,
-                            text: 'Google',
-                            onPressed: () {},
-                          ),
-                        ),
-                      ],
-                    ),
-                  ),
-                  CustomActionFloatingButton(
-                    backgroundColor: Color(0x35ffffff),
-                    textColor: Color(0xfffefefe),
-                    text: "Sign up with email",
-                    onPressed: () {},
-                  ),
-                  Container(
-                    // group18120uAq (814:7014)
-                    margin: EdgeInsets.fromLTRB(46, 30, 40, 23),
-                    width: double.infinity,
-                    child: Row(
-                      crossAxisAlignment: CrossAxisAlignment.center,
-                      children: [
-                        Container(
-                          // alreadyhaveanaccount329 (814:7015)
-                          margin: EdgeInsets.fromLTRB(0, 1, 16, 0),
-                          child: Text(
-                            'Already have an account? ',
-                            textAlign: TextAlign.center,
-                            style: TextStyle(
-                              fontSize: 16,
-                              fontWeight: FontWeight.w400,
-                              height: 1.2575,
-                              color: Color(0xffffffff),
-                            ),
-                          ),
-                        ),
-                        GestureDetector(
-                          onTap: () {
-                            Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                  builder: (context) => LoginPage()),
-                            );
-                          },
-                          child: Text(
-                            'Sign In',
-                            textAlign: TextAlign.center,
-                            style: TextStyle(
-                              fontSize: 16,
-                              fontWeight: FontWeight.w500,
-                              height: 1.2575,
-                              decoration: TextDecoration.underline,
-                              decorationThickness: 2,
-                              color: Color(0xffffffff),
-                              decorationColor: Color(0xffffffff),
-                            ),
-                          ),
-                        )
-                      ],
-                    ),
-                  ),
+                  OtherLoginMethod(),
+                  SignUp(),
+                  SignIn(),
                 ],
               ),
             ),
           ],
         ),
+      ),
+    );
+  }
+}
+
+class OtherLoginMethod extends StatelessWidget {
+  const OtherLoginMethod({
+    Key? key,
+  }) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      // autogroupz71buNh (W75naGQG1duyjBruMLz71b)
+      margin: EdgeInsets.fromLTRB(2, 0, 0, 23),
+      width: double.infinity,
+      height: 54,
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+        crossAxisAlignment: CrossAxisAlignment.center,
+        children: [
+          Container(
+            margin: EdgeInsets.fromLTRB(0, 0, 15.38, 0),
+            // padding: EdgeInsets.fromLTRB(12, 13, 36, 12.38),
+            height: double.infinity,
+            decoration: BoxDecoration(
+              color: Color(0xffffffff),
+              borderRadius: BorderRadius.circular(27.4059333801),
+              boxShadow: [
+                BoxShadow(
+                  color: Color(0x3fd3d1d8),
+                  offset: Offset(17.8734359741, 17.8734359741),
+                  blurRadius: 17.8734359741,
+                ),
+              ],
+            ),
+            child: CustomActionFloatingButton(
+              icon: Icon(
+                // <-- Icon
+                // FontAwesomeIcons.gamepad,
+                Icons.facebook,
+                size: 35.0,
+                color: Colors.blue,
+              ),
+              textColor: Colors.black,
+              backgroundColor: Colors.white,
+              text: 'Facebook',
+              onPressed: () {},
+            ),
+          ),
+          Container(
+            margin: EdgeInsets.fromLTRB(0, 0, 15.38, 0),
+            // padding: EdgeInsets.fromLTRB(12, 13, 36, 12.38),
+            height: double.infinity,
+            decoration: BoxDecoration(
+              color: Color(0xffffffff),
+              borderRadius: BorderRadius.circular(27.4059333801),
+              boxShadow: [
+                BoxShadow(
+                  color: Color(0x3fd3d1d8),
+                  offset: Offset(17.8734359741, 17.8734359741),
+                  blurRadius: 17.8734359741,
+                ),
+              ],
+            ),
+            child: CustomActionFloatingButton(
+              icon: Icon(
+                // <-- Icon
+                // FontAwesomeIcons.gamepad,
+                Icons.g_mobiledata_outlined,
+                size: 40.0,
+                color: Colors.red,
+              ),
+              textColor: Colors.black,
+              backgroundColor: Colors.white,
+              text: 'Google',
+              onPressed: () {},
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+}
+
+class SignUp extends StatelessWidget {
+  const SignUp({
+    Key? key,
+  }) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return CustomActionFloatingButton(
+      backgroundColor: Color(0x35ffffff),
+      textColor: Color(0xfffefefe),
+      text: "Sign up with email",
+      onPressed: () {
+        Navigator.push(
+          context,
+          MaterialPageRoute(builder: (context) => RegisterPage()),
+        );
+      },
+    );
+  }
+}
+
+class SignIn extends StatelessWidget {
+  const SignIn({
+    Key? key,
+  }) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      // group18120uAq (814:7014)
+      margin: EdgeInsets.fromLTRB(46, 30, 40, 23),
+      width: double.infinity,
+      child: Row(
+        crossAxisAlignment: CrossAxisAlignment.center,
+        children: [
+          Container(
+            // alreadyhaveanaccount329 (814:7015)
+            margin: EdgeInsets.fromLTRB(0, 1, 16, 0),
+            child: Text(
+              'Already have an account? ',
+              textAlign: TextAlign.center,
+              style: TextStyle(
+                fontSize: 16,
+                fontWeight: FontWeight.w400,
+                height: 1.2575,
+                color: Color(0xffffffff),
+              ),
+            ),
+          ),
+          GestureDetector(
+            onTap: () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(builder: (context) => LoginPage()),
+              );
+            },
+            child: Text(
+              'Sign In',
+              textAlign: TextAlign.center,
+              style: TextStyle(
+                fontSize: 16,
+                fontWeight: FontWeight.w500,
+                height: 1.2575,
+                decoration: TextDecoration.underline,
+                decorationThickness: 2,
+                color: Color(0xffffffff),
+                decorationColor: Color(0xffffffff),
+              ),
+            ),
+          )
+        ],
+      ),
+    );
+  }
+}
+
+class SkipButton extends StatelessWidget {
+  const SkipButton({
+    Key? key,
+  }) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      // group179632bb (814:7011)
+      margin: EdgeInsets.fromLTRB(264, 0, 0, 50),
+      width: 55,
+      height: 32,
+      decoration: BoxDecoration(
+        color: Color(0xffffffff),
+        borderRadius: BorderRadius.circular(27.4059333801),
+        boxShadow: [
+          BoxShadow(
+            color: Color(0x3fd3d1d8),
+            offset: Offset(17.8734359741, 17.8734359741),
+            blurRadius: 17.8734359741,
+          ),
+        ],
+      ),
+      child: FloatingActionButton.extended(
+        label: Text(
+          'Skip',
+          style: TextStyle(color: Colors.red),
+        ), // <-- Text
+        backgroundColor: Colors.white,
+
+        onPressed: () {},
       ),
     );
   }

@@ -2,11 +2,13 @@ import 'package:flutter/material.dart';
 
 class CustomInputField extends StatefulWidget {
   String field;
+  final String? Function(String?)? validator;
   bool isPassword;
   IconData icon;
   CustomInputField({
     Key? key,
     required this.field,
+    required this.validator,
     required this.icon,
     required this.isPassword,
   }) : super(key: key);
@@ -62,6 +64,7 @@ class _CustomInputFieldState extends State<CustomInputField> {
                 ],
               ),
               child: TextFormField(
+                validator: widget.validator,
                 keyboardType: TextInputType.text,
                 // controller: _userPasswordController,
                 obscureText: widget.isPassword &&

@@ -39,13 +39,13 @@ class UserRepository {
     return userCred;
   }
 }
-
+//
 // void main() async {
 //   UserRepository repo = new UserRepository();
-//   var result = await repo.login("user6", "user7");
-//   print(result);
-//   // var profile = await repo.getProfile(result["token"]);
-//   // print(profile.id);
+//   // var result = await repo.login("user6", "user7");
+//   // print(result);
+//   var profile = await repo.getProfile("token");
+//   print(profile.id);
 //   // var result = await repo.register("email8", "user8", "888", "user8");
 //   // print(result);
 // }
