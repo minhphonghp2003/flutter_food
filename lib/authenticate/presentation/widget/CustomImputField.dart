@@ -5,9 +5,12 @@ class CustomInputField extends StatefulWidget {
   final String? Function(String?)? validator;
   bool isPassword;
   IconData icon;
+  TextEditingController controller;
+
   CustomInputField({
     Key? key,
     required this.field,
+    required this.controller,
     required this.validator,
     required this.icon,
     required this.isPassword,
@@ -64,6 +67,7 @@ class _CustomInputFieldState extends State<CustomInputField> {
                 ],
               ),
               child: TextFormField(
+                controller: widget.controller,
                 validator: widget.validator,
                 keyboardType: TextInputType.text,
                 // controller: _userPasswordController,

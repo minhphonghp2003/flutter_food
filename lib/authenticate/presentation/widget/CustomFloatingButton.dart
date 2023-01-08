@@ -18,6 +18,7 @@ class CustomActionFloatingButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return FloatingActionButton.extended(
+      heroTag: text,
       label: Text(
         text,
         textAlign: TextAlign.center,

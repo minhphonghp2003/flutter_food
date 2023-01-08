@@ -2,7 +2,7 @@ import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:food/authenticate/presentation/widget/CustomBackButton.dart';
 import 'package:food/authenticate/presentation/widget/CustomFloatingButton.dart';
-import 'package:food/authenticate/presentation/widget/CustomTextField.dart';
+import 'package:food/authenticate/presentation/widget/CustomImputField.dart';
 
 class RegisterPage extends StatefulWidget {
   const RegisterPage({Key? key}) : super(key: key);
@@ -13,6 +13,9 @@ class RegisterPage extends StatefulWidget {
 
 class _RegisterPageState extends State<RegisterPage> {
   final _formKey = GlobalKey<FormState>();
+  TextEditingController fullnameEditingController = TextEditingController();
+  TextEditingController emailEditingController = TextEditingController();
+  TextEditingController passwordEditingController = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
@@ -66,6 +69,7 @@ class _RegisterPageState extends State<RegisterPage> {
                     child: Column(
                       children: [
                         CustomInputField(
+                          controller: fullnameEditingController,
                           field: "Full Name",
                           icon: Icons.abc,
                           isPassword: false,
@@ -77,6 +81,7 @@ class _RegisterPageState extends State<RegisterPage> {
                           },
                         ),
                         CustomInputField(
+                            controller: emailEditingController,
                             field: "E-mail",
                             icon: Icons.email_outlined,
                             validator: (value) {
@@ -90,6 +95,7 @@ class _RegisterPageState extends State<RegisterPage> {
                             },
                             isPassword: false),
                         CustomInputField(
+                            controller: passwordEditingController,
                             field: "Password",
                             icon: Icons.visibility,
                             validator: (value) {
@@ -205,7 +211,7 @@ class OtherLoginMethod extends StatelessWidget {
                     ),
                     textColor: Colors.black,
                     backgroundColor: Colors.white,
-                    text: 'Google',
+                    text: 'Facebook',
                     onPressed: () {},
                   ),
                 ),

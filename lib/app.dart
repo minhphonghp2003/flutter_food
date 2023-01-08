@@ -19,13 +19,12 @@ class _FoodAppState extends State<FoodApp> {
     return MaterialApp(
         home: MultiBlocProvider(
             providers: [
-          BlocProvider<AuthBloc>(
+          BlocProvider(
             create: (BuildContext context) =>
                 AuthBloc()..add(AuthLoginCookieChecked()),
           ),
         ],
             child: BlocBuilder<AuthBloc, AuthState>(builder: (context, state) {
-              print(state);
               if (state is AuthStateLoginFailure) {
                 return Authentication();
               }

@@ -13,6 +13,7 @@ class AuthBloc extends Bloc<Auth, AuthState> {
   AuthBloc() : super(AuthStateInitial()) {
     on<AuthLoggedIn>(_authLoggedIn);
     on<AuthLoginCookieChecked>(_authJwtChecked);
+    on<AuthLoginCookieAdded>(_authJwtAdded);
     on<AuthRegistered>(_authRegistered);
     on<AuthProfileFetched>(_authProfileFetched);
   }
@@ -23,8 +24,14 @@ class AuthBloc extends Bloc<Auth, AuthState> {
     if (response.containsKey("error")) {
       emit(AuthStateLoginFailure(message: "No valid account"));
     } else {
-      emit(AuthStateLogInSuccess(authCredentials: response));
+      add(AuthLoginCookieAdded(credentials: response));
     }
+  }
+
+  void _authJwtAdded(AuthLoginCookieAdded event, emit) async {
+    String cookie = jsonEncode(event.credentials);
+    await _storage.write(key: "login_cookie", value: cookie);
+    emit(AuthStateLogInSuccess(authCredentials: event.credentials));
   }
 
   void _authJwtChecked(event, emit) async {

@@ -1,8 +1,14 @@
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:food/authenticate/bloc/AuthBloc.dart';
 import 'package:food/authenticate/presentation/widget/CustomBackButton.dart';
 import 'package:food/authenticate/presentation/widget/CustomFloatingButton.dart';
-import 'package:food/authenticate/presentation/widget/CustomTextField.dart';
+import 'package:food/authenticate/presentation/widget/CustomImputField.dart';
+import 'package:food/foodlist/foodlist.dart';
+
+import '../bloc/AuthEvent.dart';
+import '../bloc/AuthState.dart';
 
 class LoginPage extends StatefulWidget {
   const LoginPage({Key? key}) : super(key: key);
@@ -13,94 +19,140 @@ class LoginPage extends StatefulWidget {
 
 class _LoginPageState extends State<LoginPage> {
   final _formKey = GlobalKey<FormState>();
+  TextEditingController usernameEditingController = TextEditingController();
+  TextEditingController passwordEditingController = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Container(
-        // signupv2d (814:6830)
-        width: double.infinity,
-        decoration: BoxDecoration(
-          color: Color(0xffffffff),
+      body: BlocProvider(
+        create: (BuildContext context) => AuthBloc(),
+        child: BlocConsumer<AuthBloc, AuthState>(
+          listener: (context, state) {
+            if (state is AuthStateLogInSuccess) {
+              context.read<AuthBloc>().add(
+                  AuthProfileFetched(token: state.authCredentials["token"]));
+            } else if (state is AuthStateProfileFetchedSuccess) {
+              Navigator.of(context).pushAndRemoveUntil(
+                  MaterialPageRoute(builder: (context) => FoodList()),
+                  (Route<dynamic> route) => false);
+            }
+          },
+          builder: (context, state) {
+            return Page(
+                formKey: _formKey,
+                usernameEditingController: usernameEditingController,
+                passwordEditingController: passwordEditingController);
+          },
         ),
-        child: ListView(
-          children: [
-            Stack(
-              children: [
-                Container(
-                  width: double.infinity,
-                  child: Image.asset("assets/loginheader.png",
-                      alignment: Alignment.bottomCenter,
-                      height: 74,
-                      fit: BoxFit.cover),
-                ),
-                CustomBackButton(
-                  onPressed: () {
-                    Navigator.pop(context);
-                  },
-                )
-              ],
-            ),
-            Container(
-              // signupx7j (814:6853)
-              margin: EdgeInsets.fromLTRB(26, 0, 0, 0),
-              child: Text(
-                'Login\n',
-                style: TextStyle(
-                  fontSize: 36.4127006531,
-                  fontWeight: FontWeight.w600,
-                  height: 1.2000000838,
-                  color: Color(0xff000000),
-                ),
+      ),
+    );
+  }
+}
+
+class Page extends StatelessWidget {
+  const Page({
+    Key? key,
+    required GlobalKey<FormState> formKey,
+    required this.usernameEditingController,
+    required this.passwordEditingController,
+  })  : _formKey = formKey,
+        super(key: key);
+
+  final GlobalKey<FormState> _formKey;
+  final TextEditingController usernameEditingController;
+  final TextEditingController passwordEditingController;
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      // signupv2d (814:6830)
+      width: double.infinity,
+      decoration: BoxDecoration(
+        color: Color(0xffffffff),
+      ),
+      child: ListView(
+        children: [
+          Stack(
+            children: [
+              Container(
+                width: double.infinity,
+                child: Image.asset("assets/loginheader.png",
+                    alignment: Alignment.bottomCenter,
+                    height: 74,
+                    fit: BoxFit.cover),
+              ),
+              CustomBackButton(
+                onPressed: () {
+                  Navigator.pop(context);
+                },
+              )
+            ],
+          ),
+          Container(
+            // signupx7j (814:6853)
+            margin: EdgeInsets.fromLTRB(26, 0, 0, 0),
+            child: Text(
+              'Login\n',
+              style: TextStyle(
+                fontSize: 36.4127006531,
+                fontWeight: FontWeight.w600,
+                height: 1.2000000838,
+                color: Color(0xff000000),
               ),
             ),
-            Container(
-              // autogroupy4idqxD (W75kNL5S8nwSP3umMay4iD)
-              padding: EdgeInsets.fromLTRB(25, 29, 24, 28),
-              width: double.infinity,
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.center,
-                children: [
-                  Form(
-                    key: _formKey,
-                    child: Column(
-                      children: [
-                        CustomInputField(
-                          field: "Username",
-                          icon: Icons.person,
-                          isPassword: false,
+          ),
+          Container(
+            // autogroupy4idqxD (W75kNL5S8nwSP3umMay4iD)
+            padding: EdgeInsets.fromLTRB(25, 29, 24, 28),
+            width: double.infinity,
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: [
+                Form(
+                  key: _formKey,
+                  child: Column(
+                    children: [
+                      CustomInputField(
+                        controller: usernameEditingController,
+                        field: "Username",
+                        icon: Icons.person,
+                        isPassword: false,
+                        validator: (value) {
+                          if (value == null || value.isEmpty) {
+                            return 'Please enter a username';
+                          }
+                          return null;
+                        },
+                      ),
+                      CustomInputField(
+                          controller: passwordEditingController,
+                          field: "Password",
+                          icon: Icons.visibility,
                           validator: (value) {
-                            if (value == null || value.isEmpty) {
-                              return 'Please enter a username';
+                            if (value == null ||
+                                value.isEmpty ||
+                                // !RegExp(r'^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9]).{8,}$')
+                                !RegExp(r'^(?=.*?[a-z])(?=.*?[0-9]).{2,}$')
+                                    .hasMatch(value)) {
+                              return 'Password must contain:\n \u2022 One or more numeric characters\n \u2022 One or more uppercase characters\n \u2022 One or more lowercase characters\n \u2022 More than eight characters ';
                             }
                             return null;
                           },
-                        ),
-                        CustomInputField(
-                            field: "Password",
-                            icon: Icons.visibility,
-                            validator: (value) {
-                              if (value == null ||
-                                  value.isEmpty ||
-                                  !RegExp(r'^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9]).{8,}$')
-                                      .hasMatch(value)) {
-                                return 'Password must contain:\n \u2022 One or more numeric characters\n \u2022 One or more uppercase characters\n \u2022 One or more lowercase characters\n \u2022 More than eight characters ';
-                              }
-                              return null;
-                            },
-                            isPassword: true),
-                        Login(
-                          formKey: _formKey,
-                        ),
-                      ],
-                    ),
+                          isPassword: true),
+                      Login(
+                        usernameEditingController: usernameEditingController,
+                        passwordEditingController: passwordEditingController,
+                        formKey: _formKey,
+                      ),
+                    ],
                   ),
-                  OtherLoginMethod(),
-                ],
-              ),
+                ),
+                OtherLoginMethod(),
+              ],
             ),
-          ],
-        ),
+          ),
+        ],
       ),
     );
   }
@@ -192,7 +244,7 @@ class OtherLoginMethod extends StatelessWidget {
                     ),
                     textColor: Colors.black,
                     backgroundColor: Colors.white,
-                    text: 'Google',
+                    text: 'Facebook',
                     onPressed: () {},
                   ),
                 ),
@@ -235,7 +287,14 @@ class OtherLoginMethod extends StatelessWidget {
 }
 
 class Login extends StatelessWidget {
-  const Login({Key? key, required this.formKey}) : super(key: key);
+  final TextEditingController usernameEditingController;
+  final TextEditingController passwordEditingController;
+  const Login(
+      {Key? key,
+      required this.formKey,
+      required this.usernameEditingController,
+      required this.passwordEditingController})
+      : super(key: key);
 
   final formKey;
 
@@ -263,17 +322,20 @@ class Login extends StatelessWidget {
         decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(28.5),
         ),
-        child: CustomActionFloatingButton(
-            text: "Login",
-            backgroundColor: Colors.redAccent,
-            textColor: Colors.white,
-            onPressed: () {
-              if (formKey.currentState!.validate()) {
-                ScaffoldMessenger.of(context).showSnackBar(
-                  const SnackBar(content: Text('Processing Data')),
-                );
-              }
-            }),
+        child: Builder(builder: (context) {
+          return CustomActionFloatingButton(
+              text: "Login",
+              backgroundColor: Colors.redAccent,
+              textColor: Colors.white,
+              onPressed: () {
+                if (formKey.currentState!.validate()) {
+                  String username = usernameEditingController.text;
+                  String password = passwordEditingController.text;
+                  context.read<AuthBloc>().add(
+                      AuthLoggedIn(username: username, password: password));
+                }
+              });
+        }),
       ),
     );
   }
