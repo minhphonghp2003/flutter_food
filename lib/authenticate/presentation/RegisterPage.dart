@@ -1,8 +1,14 @@
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:food/authenticate/bloc/AuthEvent.dart';
+import 'package:food/authenticate/bloc/AuthState.dart';
 import 'package:food/authenticate/presentation/widget/CustomBackButton.dart';
 import 'package:food/authenticate/presentation/widget/CustomFloatingButton.dart';
 import 'package:food/authenticate/presentation/widget/CustomImputField.dart';
+import 'package:food/foodlist/foodlist.dart';
+
+import '../bloc/AuthBloc.dart';
 
 class RegisterPage extends StatefulWidget {
   const RegisterPage({Key? key}) : super(key: key);
@@ -13,112 +19,165 @@ class RegisterPage extends StatefulWidget {
 
 class _RegisterPageState extends State<RegisterPage> {
   final _formKey = GlobalKey<FormState>();
-  TextEditingController fullnameEditingController = TextEditingController();
+  TextEditingController usernameEditingController = TextEditingController();
+  TextEditingController phoneEditingController = TextEditingController();
   TextEditingController emailEditingController = TextEditingController();
   TextEditingController passwordEditingController = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      body: Container(
-        // signupv2d (814:6830)
-        width: double.infinity,
-        decoration: BoxDecoration(
-          color: Color(0xffffffff),
-        ),
-        child: ListView(
-          children: [
-            Stack(
-              children: [
-                Container(
-                  width: double.infinity,
-                  child: Image.asset("assets/loginheader.png",
-                      alignment: Alignment.bottomCenter,
-                      height: 74,
-                      fit: BoxFit.cover),
-                ),
-                CustomBackButton(
-                  onPressed: () {
-                    Navigator.pop(context);
-                  },
-                )
-              ],
-            ),
-            Container(
-              // signupx7j (814:6853)
-              margin: EdgeInsets.fromLTRB(26, 0, 0, 0),
-              child: Text(
-                'Sign Up\n',
-                style: TextStyle(
-                  fontSize: 36.4127006531,
-                  fontWeight: FontWeight.w600,
-                  height: 1.2000000838,
-                  color: Color(0xff000000),
-                ),
-              ),
-            ),
-            Container(
-              // autogroupy4idqxD (W75kNL5S8nwSP3umMay4iD)
-              padding: EdgeInsets.fromLTRB(25, 29, 24, 28),
-              width: double.infinity,
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.center,
+    return BlocProvider(
+      create: (BuildContext context) => AuthBloc(),
+      child: Scaffold(
+        body: Container(
+          // signupv2d (814:6830)
+          width: double.infinity,
+          decoration: BoxDecoration(
+            color: Color(0xffffffff),
+          ),
+          child: ListView(
+            children: [
+              Stack(
                 children: [
-                  Form(
-                    key: _formKey,
-                    child: Column(
-                      children: [
-                        CustomInputField(
-                          controller: fullnameEditingController,
-                          field: "Full Name",
-                          icon: Icons.abc,
-                          isPassword: false,
-                          validator: (value) {
-                            if (value == null || value.isEmpty) {
-                              return 'Please enter a valid full name';
-                            }
-                            return null;
-                          },
-                        ),
-                        CustomInputField(
-                            controller: emailEditingController,
-                            field: "E-mail",
-                            icon: Icons.email_outlined,
-                            validator: (value) {
-                              if (value == null ||
-                                  value.isEmpty ||
-                                  !RegExp(r"^[a-zA-Z0-9.a-zA-Z0-9.!#$%&'*+-/=?^_`{|}~]+@[a-zA-Z0-9]+\.[a-zA-Z]+")
-                                      .hasMatch(value)) {
-                                return 'Please enter a valid e-mail';
-                              }
-                              return null;
-                            },
-                            isPassword: false),
-                        CustomInputField(
-                            controller: passwordEditingController,
-                            field: "Password",
-                            icon: Icons.visibility,
-                            validator: (value) {
-                              if (value == null ||
-                                  value.isEmpty ||
-                                  !RegExp(r'^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9]).{8,}$')
-                                      .hasMatch(value)) {
-                                return 'Password must contain:\n \u2022 One or more numeric characters\n \u2022 One or more uppercase characters\n \u2022 One or more lowercase characters\n \u2022 More than eight characters ';
-                              }
-                              return null;
-                            },
-                            isPassword: true),
-                        SignUp(
-                          formKey: _formKey,
-                        ),
-                      ],
-                    ),
+                  Container(
+                    width: double.infinity,
+                    child: Image.asset("assets/loginheader.png",
+                        alignment: Alignment.bottomCenter,
+                        height: 74,
+                        fit: BoxFit.cover),
                   ),
-                  OtherLoginMethod(),
+                  CustomBackButton(
+                    onPressed: () {
+                      Navigator.pop(context);
+                    },
+                  )
                 ],
               ),
-            ),
-          ],
+              Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Container(
+                    // signupx7j (814:6853)
+                    margin: EdgeInsets.fromLTRB(26, 0, 0, 0),
+                    child: Text(
+                      'Sign Up\n',
+                      style: TextStyle(
+                        fontSize: 36.4127006531,
+                        fontWeight: FontWeight.w600,
+                        height: 1.2000000838,
+                        color: Color(0xff000000),
+                      ),
+                    ),
+                  ),
+                  BlocConsumer<AuthBloc, AuthState>(listener: (context, state) {
+                    if (state is AuthStateLogInSuccess) {
+                      Navigator.of(context).pushAndRemoveUntil(
+                          MaterialPageRoute(builder: (context) => FoodList()),
+                          (Route<dynamic> route) => false);
+                    }
+                  }, builder: (context, state) {
+                    if (state is AuthStateRegisterFailure) {
+                      return Container(
+                        // signupx7j (814:6853)
+                        margin: EdgeInsets.fromLTRB(26, 0, 0, 0),
+                        child: Text(
+                          'Cannot create account :((((((\n'
+                          'Username, phone or email has been taken.',
+                          style: TextStyle(
+                            fontWeight: FontWeight.w600,
+                            height: 1.2000000838,
+                            color: Colors.red,
+                          ),
+                        ),
+                      );
+                    }
+                    return Text("");
+                  }),
+                ],
+              ),
+              Container(
+                // autogroupy4idqxD (W75kNL5S8nwSP3umMay4iD)
+                padding: EdgeInsets.fromLTRB(25, 29, 24, 28),
+                width: double.infinity,
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  children: [
+                    Form(
+                      key: _formKey,
+                      child: Column(
+                        children: [
+                          CustomInputField(
+                            controller: usernameEditingController,
+                            field: "Username",
+                            icon: Icons.abc,
+                            isPassword: false,
+                            validator: (value) {
+                              if (value == null || value.isEmpty) {
+                                return 'Please enter a valid username';
+                              }
+                              return null;
+                            },
+                          ),
+                          CustomInputField(
+                            controller: phoneEditingController,
+                            field: "Phone",
+                            icon: Icons.phone,
+                            isPassword: false,
+                            validator: (value) {
+                              if (value == null ||
+                                  value.isEmpty ||
+                                  !RegExp("^(?:[+0]9)?[0-9]{10}\$")
+                                      .hasMatch(value)) {
+                                return 'Please enter a valid phone number';
+                              }
+                              return null;
+                            },
+                          ),
+                          CustomInputField(
+                              controller: emailEditingController,
+                              field: "E-mail",
+                              icon: Icons.email_outlined,
+                              validator: (value) {
+                                if (value == null ||
+                                    value.isEmpty ||
+                                    !RegExp(r"^[a-zA-Z0-9.a-zA-Z0-9.!#$%&'*+-/=?^_`{|}~]+@[a-zA-Z0-9]+\.[a-zA-Z]+")
+                                        .hasMatch(value)) {
+                                  return 'Please enter a valid e-mail';
+                                }
+                                return null;
+                              },
+                              isPassword: false),
+                          CustomInputField(
+                              controller: passwordEditingController,
+                              field: "Password",
+                              icon: Icons.visibility,
+                              validator: (value) {
+                                if (value == null ||
+                                    value.isEmpty ||
+                                    !RegExp(r'^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9]).{8,}$')
+                                        // !RegExp(r'^(?=.*?[a-z])(?=.*?[0-9]).{2,}$')
+                                        .hasMatch(value)) {
+                                  return 'Password must contain:\n \u2022 One or more numeric characters\n \u2022 One or more uppercase characters\n \u2022 One or more lowercase characters\n \u2022 More than eight characters ';
+                                }
+                                return null;
+                              },
+                              isPassword: true),
+                          SignUp(
+                            formKey: _formKey,
+                            phoneController: phoneEditingController,
+                            usernameController: usernameEditingController,
+                            emailController: emailEditingController,
+                            passwordController: passwordEditingController,
+                          ),
+                        ],
+                      ),
+                    ),
+                    OtherLoginMethod(),
+                  ],
+                ),
+              ),
+            ],
+          ),
         ),
       ),
     );
@@ -254,8 +313,18 @@ class OtherLoginMethod extends StatelessWidget {
 }
 
 class SignUp extends StatelessWidget {
-  const SignUp({Key? key, required this.formKey}) : super(key: key);
-
+  const SignUp(
+      {Key? key,
+      required this.formKey,
+      required this.phoneController,
+      required this.emailController,
+      required this.usernameController,
+      required this.passwordController})
+      : super(key: key);
+  final TextEditingController usernameController;
+  final TextEditingController emailController;
+  final TextEditingController passwordController;
+  final TextEditingController phoneController;
   final formKey;
 
   @override
@@ -288,9 +357,11 @@ class SignUp extends StatelessWidget {
             textColor: Colors.white,
             onPressed: () {
               if (formKey.currentState!.validate()) {
-                ScaffoldMessenger.of(context).showSnackBar(
-                  const SnackBar(content: Text('Processing Data')),
-                );
+                context.read<AuthBloc>().add(AuthRegistered(
+                    username: usernameController.text,
+                    email: emailController.text,
+                    phone: phoneController.text,
+                    password: passwordController.text));
               }
             }),
       ),

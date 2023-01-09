@@ -6,7 +6,17 @@ class AuthLoggedIn extends Auth {
   AuthLoggedIn({required this.username, required this.password});
 }
 
-class AuthRegistered extends Auth {}
+class AuthRegistered extends Auth {
+  final String username;
+  final String phone;
+  final String email;
+  final String password;
+  AuthRegistered(
+      {required this.username,
+      required this.phone,
+      required this.email,
+      required this.password});
+}
 
 class AuthProfileFetched extends Auth {
   String token;

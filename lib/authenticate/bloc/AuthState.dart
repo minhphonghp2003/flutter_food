@@ -17,12 +17,6 @@ class AuthStateLoginFailure extends AuthState {
 
 class AuthStateRegisterFailure extends AuthState {}
 
-class AuthStateRegisterSuccess extends AuthState {
-  Map<dynamic, dynamic> authCredentials;
-
-  AuthStateRegisterSuccess({required this.authCredentials});
-}
-
 class AuthStateProfileFetchedSuccess extends AuthState {
   User profile;
   AuthStateProfileFetchedSuccess({required this.profile});

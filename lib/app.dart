@@ -28,6 +28,7 @@ class _FoodAppState extends State<FoodApp> {
               if (state is AuthStateLoginFailure) {
                 return Authentication();
               }
+
               return FoodList();
             })));
   }

@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:food/authenticate/presentation/LoginPage.dart';
 import 'package:food/authenticate/presentation/RegisterPage.dart';
 import 'package:food/authenticate/presentation/widget/CustomFloatingButton.dart';
+import 'package:food/foodlist/foodlist.dart';
 
 class WelcomePage extends StatelessWidget {
   const WelcomePage({Key? key}) : super(key: key);
@@ -345,7 +346,11 @@ class SkipButton extends StatelessWidget {
         ), // <-- Text
         backgroundColor: Colors.white,
 
-        onPressed: () {},
+        onPressed: () {
+          Navigator.of(context).pushAndRemoveUntil(
+              MaterialPageRoute(builder: (context) => FoodList()),
+              (Route<dynamic> route) => false);
+        },
       ),
     );
   }

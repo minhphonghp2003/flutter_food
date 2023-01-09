@@ -28,6 +28,16 @@ class AuthBloc extends Bloc<Auth, AuthState> {
     }
   }
 
+  void _authRegistered(event, emit) async {
+    Map<dynamic, dynamic> response = await userRepository.register(
+        event.email, event.username, event.phone, event.password);
+    if (response.containsKey("error")) {
+      emit(AuthStateRegisterFailure());
+    } else {
+      add(AuthLoggedIn(username: event.username, password: event.password));
+    }
+  }
+
   void _authJwtAdded(AuthLoginCookieAdded event, emit) async {
     String cookie = jsonEncode(event.credentials);
     await _storage.write(key: "login_cookie", value: cookie);
@@ -40,13 +50,8 @@ class AuthBloc extends Bloc<Auth, AuthState> {
       emit(AuthStateLoginFailure(message: "No jwt"));
     } else {
       Map<dynamic, dynamic> decoded_login_cookie = jsonDecode(login_cookie);
-      add(AuthProfileFetched(token: decoded_login_cookie["token"]));
       emit(AuthStateLogInSuccess(authCredentials: decoded_login_cookie));
     }
-  }
-
-  void _authRegistered(event, emit) {
-    print(event);
   }
 
   void _authProfileFetched(AuthProfileFetched event, emit) async {

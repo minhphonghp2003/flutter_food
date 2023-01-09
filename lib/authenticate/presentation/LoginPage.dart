@@ -30,9 +30,6 @@ class _LoginPageState extends State<LoginPage> {
         child: BlocConsumer<AuthBloc, AuthState>(
           listener: (context, state) {
             if (state is AuthStateLogInSuccess) {
-              context.read<AuthBloc>().add(
-                  AuthProfileFetched(token: state.authCredentials["token"]));
-            } else if (state is AuthStateProfileFetchedSuccess) {
               Navigator.of(context).pushAndRemoveUntil(
                   MaterialPageRoute(builder: (context) => FoodList()),
                   (Route<dynamic> route) => false);
@@ -92,14 +89,34 @@ class Page extends StatelessWidget {
           Container(
             // signupx7j (814:6853)
             margin: EdgeInsets.fromLTRB(26, 0, 0, 0),
-            child: Text(
-              'Login\n',
-              style: TextStyle(
-                fontSize: 36.4127006531,
-                fontWeight: FontWeight.w600,
-                height: 1.2000000838,
-                color: Color(0xff000000),
-              ),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(
+                  'Login\n',
+                  style: TextStyle(
+                    fontSize: 36.4127006531,
+                    fontWeight: FontWeight.w600,
+                    height: 1.2000000838,
+                    color: Color(0xff000000),
+                  ),
+                ),
+                BlocBuilder<AuthBloc, AuthState>(builder: (context, state) {
+                  if (state is AuthStateLoginFailure) {
+                    return Text(
+                      'Login failed (${state.message})\n',
+                      style: TextStyle(
+                        // fontSize: 36.4127006531,
+                        fontWeight: FontWeight.w600,
+                        height: 1.2000000838,
+                        color: Colors.redAccent,
+                      ),
+                    );
+                  }
+
+                  return Text("");
+                }),
+              ],
             ),
           ),
           Container(
@@ -132,8 +149,8 @@ class Page extends StatelessWidget {
                           validator: (value) {
                             if (value == null ||
                                 value.isEmpty ||
-                                // !RegExp(r'^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9]).{8,}$')
-                                !RegExp(r'^(?=.*?[a-z])(?=.*?[0-9]).{2,}$')
+                                !RegExp(r'^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9]).{8,}$')
+                                    // !RegExp(r'^(?=.*?[a-z])(?=.*?[0-9]).{2,}$')
                                     .hasMatch(value)) {
                               return 'Password must contain:\n \u2022 One or more numeric characters\n \u2022 One or more uppercase characters\n \u2022 One or more lowercase characters\n \u2022 More than eight characters ';
                             }
@@ -289,6 +306,7 @@ class OtherLoginMethod extends StatelessWidget {
 class Login extends StatelessWidget {
   final TextEditingController usernameEditingController;
   final TextEditingController passwordEditingController;
+
   const Login(
       {Key? key,
       required this.formKey,

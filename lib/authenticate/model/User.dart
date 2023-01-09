@@ -32,4 +32,10 @@ class User {
         'phone': phone,
         'email': email,
       };
+  String toString() {
+    return "${this.last_name}\n"
+        "${this.first_name}\n"
+        "${this.email}\n"
+        "${this.username}";
+  }
 }
