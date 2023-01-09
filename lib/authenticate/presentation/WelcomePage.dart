@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:food/authenticate/presentation/LoginPage.dart';
 import 'package:food/authenticate/presentation/RegisterPage.dart';
 import 'package:food/authenticate/presentation/widget/CustomFloatingButton.dart';
-import 'package:food/foodlist/foodlist.dart';
+import 'package:food/foodlist/food.dart';
 
 class WelcomePage extends StatelessWidget {
   const WelcomePage({Key? key}) : super(key: key);

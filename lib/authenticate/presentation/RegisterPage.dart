@@ -6,7 +6,7 @@ import 'package:food/authenticate/bloc/AuthState.dart';
 import 'package:food/authenticate/presentation/widget/CustomBackButton.dart';
 import 'package:food/authenticate/presentation/widget/CustomFloatingButton.dart';
 import 'package:food/authenticate/presentation/widget/CustomImputField.dart';
-import 'package:food/foodlist/foodlist.dart';
+import 'package:food/foodlist/food.dart';
 
 import '../bloc/AuthBloc.dart';
 
