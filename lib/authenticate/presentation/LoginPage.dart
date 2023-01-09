@@ -2,6 +2,7 @@ import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:food/authenticate/bloc/AuthBloc.dart';
+import 'package:food/authenticate/presentation/NewPasswordPage.dart';
 import 'package:food/authenticate/presentation/widget/CustomBackButton.dart';
 import 'package:food/authenticate/presentation/widget/CustomFloatingButton.dart';
 import 'package:food/authenticate/presentation/widget/CustomImputField.dart';
@@ -157,6 +158,29 @@ class Page extends StatelessWidget {
                             return null;
                           },
                           isPassword: true),
+                      Container(
+                        // forgotpassword2Lq (814:6810)
+                        margin: EdgeInsets.fromLTRB(0, 0, 0, 24),
+                        child: GestureDetector(
+                          onTap: () {
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (context) => NewPasswordPage()),
+                            );
+                          },
+                          child: Text(
+                            'Forgot password?',
+                            textAlign: TextAlign.center,
+                            style: TextStyle(
+                              fontSize: 14,
+                              fontWeight: FontWeight.w400,
+                              height: 1.2575,
+                              color: Color(0xfffe724c),
+                            ),
+                          ),
+                        ),
+                      ),
                       Login(
                         usernameEditingController: usernameEditingController,
                         passwordEditingController: passwordEditingController,
