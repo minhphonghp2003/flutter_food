@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:food/foodlist/presentation/widget/Category.dart';
 import 'package:food/foodlist/presentation/widget/FeatureRestau.dart';
-import 'package:food/foodlist/presentation/widget/Header.dart';
 import 'package:food/foodlist/presentation/widget/PopularItems.dart';
 import 'package:food/foodlist/presentation/widget/SearchArea.dart';
 
@@ -27,7 +26,7 @@ class FoodListPage extends StatelessWidget {
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      Header(),
+                      // Header(),
                       Container(
                         // whatwouldyouliketoorderNXj (814:6473)
                         margin: EdgeInsets.fromLTRB(0, 0, 0, 3),
