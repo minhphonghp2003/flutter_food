@@ -6,8 +6,8 @@ import 'package:food/authenticate/presentation/NewPasswordPage.dart';
 import 'package:food/authenticate/presentation/widget/CustomBackButton.dart';
 import 'package:food/authenticate/presentation/widget/CustomFloatingButton.dart';
 import 'package:food/authenticate/presentation/widget/CustomImputField.dart';
-import 'package:food/foodlist/food.dart';
 
+import '../../foodlist/food.dart';
 import '../bloc/AuthEvent.dart';
 import '../bloc/AuthState.dart';
 
@@ -30,17 +30,21 @@ class _LoginPageState extends State<LoginPage> {
         create: (BuildContext context) => AuthBloc(),
         child: BlocConsumer<AuthBloc, AuthState>(
           listener: (context, state) {
-            if (state is AuthStateLogInSuccess) {
+            if (state is AuthStateProfileFetchedSuccess) {
               Navigator.of(context).pushAndRemoveUntil(
-                  MaterialPageRoute(builder: (context) => FoodList()),
+                  MaterialPageRoute(
+                      builder: (context) => FoodList(
+                            userProfile: state.profile,
+                          )),
                   (Route<dynamic> route) => false);
+            }
+            if (state is AuthStateLogInSuccess) {
+              context.read<AuthBloc>().add(AuthProfileFetched(token: state.authCredentials["token"]));
             }
           },
           builder: (context, state) {
             return Page(
-                formKey: _formKey,
-                usernameEditingController: usernameEditingController,
-                passwordEditingController: passwordEditingController);
+                formKey: _formKey, usernameEditingController: usernameEditingController, passwordEditingController: passwordEditingController);
           },
         ),
       ),
@@ -75,10 +79,7 @@ class Page extends StatelessWidget {
             children: [
               Container(
                 width: double.infinity,
-                child: Image.asset("assets/loginheader.png",
-                    alignment: Alignment.bottomCenter,
-                    height: 74,
-                    fit: BoxFit.cover),
+                child: Image.asset("assets/loginheader.png", alignment: Alignment.bottomCenter, height: 74, fit: BoxFit.cover),
               ),
               CustomBackButton(
                 onPressed: () {
@@ -165,8 +166,7 @@ class Page extends StatelessWidget {
                           onTap: () {
                             Navigator.push(
                               context,
-                              MaterialPageRoute(
-                                  builder: (context) => NewPasswordPage()),
+                              MaterialPageRoute(builder: (context) => NewPasswordPage()),
                             );
                           },
                           child: Text(
@@ -331,12 +331,7 @@ class Login extends StatelessWidget {
   final TextEditingController usernameEditingController;
   final TextEditingController passwordEditingController;
 
-  const Login(
-      {Key? key,
-      required this.formKey,
-      required this.usernameEditingController,
-      required this.passwordEditingController})
-      : super(key: key);
+  const Login({Key? key, required this.formKey, required this.usernameEditingController, required this.passwordEditingController}) : super(key: key);
 
   final formKey;
 
@@ -373,8 +368,7 @@ class Login extends StatelessWidget {
                 if (formKey.currentState!.validate()) {
                   String username = usernameEditingController.text;
                   String password = passwordEditingController.text;
-                  context.read<AuthBloc>().add(
-                      AuthLoggedIn(username: username, password: password));
+                  context.read<AuthBloc>().add(AuthLoggedIn(username: username, password: password));
                 }
               });
         }),

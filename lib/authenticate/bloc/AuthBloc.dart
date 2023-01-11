@@ -16,11 +16,15 @@ class AuthBloc extends Bloc<Auth, AuthState> {
     on<AuthLoginCookieAdded>(_authJwtAdded);
     on<AuthRegistered>(_authRegistered);
     on<AuthProfileFetched>(_authProfileFetched);
+    on<AuthEmailVerifiedSent>(_authEmailVerifiedSent);
+  }
+
+  void _authEmailVerifiedSent(event, emit) async {
+    await userRepository.sendVerifiedEmail(event.email);
   }
 
   void _authLoggedIn(AuthLoggedIn event, emit) async {
-    Map<dynamic, dynamic> response =
-        await userRepository.login(event.username, event.password);
+    Map<dynamic, dynamic> response = await userRepository.login(event.username, event.password);
     if (response.containsKey("error")) {
       emit(AuthStateLoginFailure(message: "No valid account"));
     } else {
@@ -29,8 +33,7 @@ class AuthBloc extends Bloc<Auth, AuthState> {
   }
 
   void _authRegistered(event, emit) async {
-    Map<dynamic, dynamic> response = await userRepository.register(
-        event.email, event.username, event.phone, event.password);
+    Map<dynamic, dynamic> response = await userRepository.register(event.email, event.username, event.phone, event.password);
     if (response.containsKey("error")) {
       emit(AuthStateRegisterFailure());
     } else {

@@ -1,10 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
+import 'package:food/authenticate/model/User.dart';
+import 'package:food/authenticate/presentation/Profile.dart';
 import 'package:food/authenticate/presentation/WelcomePage.dart';
 import 'package:food/foodlist/presentation/widget/CustomFloatingButton.dart';
 
 class CustomDrawer extends StatelessWidget {
-  const CustomDrawer({Key? key}) : super(key: key);
+  const CustomDrawer({Key? key, required this.userProfile}) : super(key: key);
+  final User? userProfile;
 
   @override
   Widget build(BuildContext context) {
@@ -37,7 +40,7 @@ class CustomDrawer extends StatelessWidget {
                   ),
                   Container(
                     // group18062UKs (814:6607)
-                    width: 135,
+                    width: double.infinity,
                     height: 41,
                     child: Stack(
                       children: [
@@ -47,10 +50,10 @@ class CustomDrawer extends StatelessWidget {
                           top: 0,
                           child: Align(
                             child: SizedBox(
-                              width: 100,
-                              height: 26,
+                              // width: 100,
+                              // height: 26,
                               child: Text(
-                                'Farion Wick',
+                                '${userProfile?.first_name} ${userProfile?.last_name}',
                                 style: TextStyle(
                                   fontSize: 20,
                                   fontWeight: FontWeight.w600,
@@ -70,7 +73,7 @@ class CustomDrawer extends StatelessWidget {
                               width: 135,
                               height: 18,
                               child: Text(
-                                'farionwick@gmail.com',
+                                '${userProfile?.email}',
                                 style: TextStyle(
                                   fontSize: 14,
                                   fontWeight: FontWeight.w400,
@@ -112,7 +115,7 @@ class CustomDrawer extends StatelessWidget {
                                   margin: EdgeInsets.fromLTRB(0, 0.42, 16.88, 0),
                                   width: 17.25,
                                   height: 19.17,
-                                  child: Icon(Icons.list_alt)),
+                                  child: Icon(Icons.list_alt, color: Colors.grey)),
                               Text(
                                 // myordersiG9 (814:6587)
                                 'My Orders',
@@ -129,30 +132,38 @@ class CustomDrawer extends StatelessWidget {
                         SizedBox(
                           height: 35,
                         ),
-                        Container(
-                          // group181312Xj (814:6589)
-                          margin: EdgeInsets.fromLTRB(0, 0, 53.04, 0),
-                          width: double.infinity,
-                          child: Row(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              Container(
-                                  // iconlybulkprofileZXf (814:7168)
-                                  margin: EdgeInsets.fromLTRB(0, 0.42, 16.88, 0),
-                                  width: 17.25,
-                                  height: 19.17,
-                                  child: Icon(Icons.portrait)),
-                              Text(
-                                // myprofile5F7 (814:6590)
-                                'My Profile',
-                                style: TextStyle(
-                                  fontSize: 16,
-                                  fontWeight: FontWeight.w400,
-                                  height: 1.2575,
-                                  color: Color(0xff000000),
+                        GestureDetector(
+                          onTap: () {
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(builder: (context) => Profile(id: "${userProfile?.id}")),
+                            );
+                          },
+                          child: Container(
+                            // group181312Xj (814:6589)
+                            margin: EdgeInsets.fromLTRB(0, 0, 53.04, 0),
+                            width: double.infinity,
+                            child: Row(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Container(
+                                    // iconlybulkprofileZXf (814:7168)
+                                    margin: EdgeInsets.fromLTRB(0, 0.42, 16.88, 0),
+                                    width: 17.25,
+                                    height: 19.17,
+                                    child: Icon(Icons.portrait, color: Colors.grey)),
+                                Text(
+                                  // myprofile5F7 (814:6590)
+                                  'My Profile',
+                                  style: TextStyle(
+                                    fontSize: 16,
+                                    fontWeight: FontWeight.w400,
+                                    height: 1.2575,
+                                    color: Color(0xff000000),
+                                  ),
                                 ),
-                              ),
-                            ],
+                              ],
+                            ),
                           ),
                         ),
                         SizedBox(
@@ -170,7 +181,7 @@ class CustomDrawer extends StatelessWidget {
                                   margin: EdgeInsets.fromLTRB(0, 0.42, 18.79, 0),
                                   width: 13.42,
                                   height: 19.17,
-                                  child: Icon(Icons.delivery_dining_sharp)),
+                                  child: Icon(Icons.delivery_dining_sharp, color: Colors.grey)),
                               Text(
                                 // deliveryaddressH6H (814:6593)
                                 'Delivery Address',
@@ -198,7 +209,7 @@ class CustomDrawer extends StatelessWidget {
                             margin: EdgeInsets.fromLTRB(0, 0, 15.92, 1),
                             width: 19.17,
                             height: 17.25,
-                            child: Icon(Icons.payment)),
+                            child: Icon(Icons.payment, color: Colors.grey)),
                         Text(
                           // paymentmethodsrob (814:6596)
                           'Payment Methods',
@@ -231,7 +242,7 @@ class CustomDrawer extends StatelessWidget {
                                   margin: EdgeInsets.fromLTRB(0, 0, 15.92, 1),
                                   width: 19.17,
                                   height: 17.25,
-                                  child: Icon(Icons.mail)),
+                                  child: Icon(Icons.mail, color: Colors.grey)),
                               Text(
                                 // contactusbeh (814:6599)
                                 'Contact Us',
@@ -257,7 +268,7 @@ class CustomDrawer extends StatelessWidget {
                                   margin: EdgeInsets.fromLTRB(0, 0.42, 16.4, 0),
                                   width: 18.21,
                                   height: 19.17,
-                                  child: Icon(Icons.settings)),
+                                  child: Icon(Icons.settings, color: Colors.grey)),
                               Text(
                                 // settingsPaZ (814:6602)
                                 'Settings',
@@ -283,7 +294,7 @@ class CustomDrawer extends StatelessWidget {
                                   margin: EdgeInsets.fromLTRB(0, 0, 15.83, 0.83),
                                   width: 19.17,
                                   height: 19.17,
-                                  child: Icon(Icons.help)),
+                                  child: Icon(Icons.help, color: Colors.grey)),
                               Text(
                                 // helpsfaqs9i9 (814:6605)
                                 'Helps & FAQs',

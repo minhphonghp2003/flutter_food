@@ -11,8 +11,7 @@ class UserRepository {
   var _chars = 'AaBbCcDdEeFfGgHhIiJjKkLlMmNnOoPpQqRrSsTtUuVvWwXxYyZz1234567890';
   Random _rnd = Random();
 
-  String _getRandomString(int length) => String.fromCharCodes(Iterable.generate(
-      length, (_) => _chars.codeUnitAt(_rnd.nextInt(_chars.length))));
+  String _getRandomString(int length) => String.fromCharCodes(Iterable.generate(length, (_) => _chars.codeUnitAt(_rnd.nextInt(_chars.length))));
 
   final UserProvider _userProvider = UserProvider(client: _httpclient);
 
@@ -24,19 +23,17 @@ class UserRepository {
     return await _userProvider.login(username, password);
   }
 
-  Future<Map<dynamic, dynamic>> register(
-      String email, String username, String phone, String password) async {
+  Future<Map<dynamic, dynamic>> register(String email, String username, String phone, String password) async {
     String first_name = _getRandomString(5);
     String last_name = _getRandomString(4);
 
-    Map<dynamic, dynamic> userCred = await _userProvider.register(User(
-        password: password,
-        email: email,
-        first_name: first_name,
-        last_name: last_name,
-        phone: phone,
-        username: username));
+    Map<dynamic, dynamic> userCred = await _userProvider
+        .register(User(password: password, email: email, first_name: first_name, last_name: last_name, phone: phone, username: username));
     return userCred;
+  }
+
+  Future<void> sendVerifiedEmail(String email) async {
+    await _userProvider.sendVerifiedEmail(email);
   }
 }
 //

@@ -73,7 +73,7 @@ class SearchArea extends StatelessWidget {
             ),
             child: Center(
               // group17877t49 (814:6483)
-              child: CustomFloatingButtonExtend(child: Icon(Icons.toggle_off, color: Colors.red), backgroundColor: Colors.white, onPressed: () {}),
+              child: CustomFloatingButton(child: Icon(Icons.tune, color: Colors.red), backgroundColor: Colors.white, onPressed: () {}),
             ),
           ),
         ],

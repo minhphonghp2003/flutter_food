@@ -41,10 +41,7 @@ class _RegisterPageState extends State<RegisterPage> {
                 children: [
                   Container(
                     width: double.infinity,
-                    child: Image.asset("assets/loginheader.png",
-                        alignment: Alignment.bottomCenter,
-                        height: 74,
-                        fit: BoxFit.cover),
+                    child: Image.asset("assets/loginheader.png", alignment: Alignment.bottomCenter, height: 74, fit: BoxFit.cover),
                   ),
                   CustomBackButton(
                     onPressed: () {
@@ -70,10 +67,16 @@ class _RegisterPageState extends State<RegisterPage> {
                     ),
                   ),
                   BlocConsumer<AuthBloc, AuthState>(listener: (context, state) {
-                    if (state is AuthStateLogInSuccess) {
+                    if (state is AuthStateProfileFetchedSuccess) {
                       Navigator.of(context).pushAndRemoveUntil(
-                          MaterialPageRoute(builder: (context) => FoodList()),
+                          MaterialPageRoute(
+                              builder: (context) => FoodList(
+                                    userProfile: state.profile,
+                                  )),
                           (Route<dynamic> route) => false);
+                    }
+                    if (state is AuthStateLogInSuccess) {
+                      context.read<AuthBloc>().add(AuthProfileFetched(token: state.authCredentials["token"]));
                     }
                   }, builder: (context, state) {
                     if (state is AuthStateRegisterFailure) {
@@ -124,10 +127,7 @@ class _RegisterPageState extends State<RegisterPage> {
                             icon: Icons.phone,
                             isPassword: false,
                             validator: (value) {
-                              if (value == null ||
-                                  value.isEmpty ||
-                                  !RegExp("^(?:[+0]9)?[0-9]{10}\$")
-                                      .hasMatch(value)) {
+                              if (value == null || value.isEmpty || !RegExp("^(?:[+0]9)?[0-9]{10}\$").hasMatch(value)) {
                                 return 'Please enter a valid phone number';
                               }
                               return null;
@@ -140,8 +140,7 @@ class _RegisterPageState extends State<RegisterPage> {
                               validator: (value) {
                                 if (value == null ||
                                     value.isEmpty ||
-                                    !RegExp(r"^[a-zA-Z0-9.a-zA-Z0-9.!#$%&'*+-/=?^_`{|}~]+@[a-zA-Z0-9]+\.[a-zA-Z]+")
-                                        .hasMatch(value)) {
+                                    !RegExp(r"^[a-zA-Z0-9.a-zA-Z0-9.!#$%&'*+-/=?^_`{|}~]+@[a-zA-Z0-9]+\.[a-zA-Z]+").hasMatch(value)) {
                                   return 'Please enter a valid e-mail';
                                 }
                                 return null;
@@ -358,10 +357,7 @@ class SignUp extends StatelessWidget {
             onPressed: () {
               if (formKey.currentState!.validate()) {
                 context.read<AuthBloc>().add(AuthRegistered(
-                    username: usernameController.text,
-                    email: emailController.text,
-                    phone: phoneController.text,
-                    password: passwordController.text));
+                    username: usernameController.text, email: emailController.text, phone: phoneController.text, password: passwordController.text));
               }
             }),
       ),
