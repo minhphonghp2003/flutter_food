@@ -73,7 +73,8 @@ class AuthBloc extends Bloc<Auth, AuthState> {
     if (response.containsKey("error")) {
       emit(AuthStateProfileUpdatedFailure());
     } else {
-      emit(AuthStateProfileUpdatedSuccess());
+      User newProfile = User.fromJson(event.fields);
+      emit(AuthStateProfileUpdatedSuccess(newProfile: newProfile));
     }
   }
 }

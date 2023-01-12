@@ -36,7 +36,7 @@ class UserRepository {
     await _userProvider.sendVerifiedEmail(email);
   }
 
-  Future<Map<dynamic, dynamic>> updateProfile(String token, Map<String, String> field) async {
+  Future<Map<dynamic, dynamic>> updateProfile(String token, Map<dynamic, dynamic> field) async {
     Map<dynamic, dynamic> response = await _userProvider.updateProfile(token, field);
     if (response.containsKey("error")) {
       return {"error": "Can not update profile"};

@@ -42,7 +42,6 @@ class _PageState extends State<Page> {
   TextEditingController last_name = TextEditingController();
   TextEditingController email = TextEditingController();
   TextEditingController phone = TextEditingController();
-
   String? phoneValidator(value) {
     if (value == null || value.isEmpty || !RegExp("^(?:[+0]9)?[0-9]{10}\$").hasMatch(value)) {
       return 'Please enter a valid phone number';
@@ -133,10 +132,17 @@ class _PageState extends State<Page> {
                         child: SizedBox(
                             width: 60,
                             height: 60,
-                            child: CustomBackButton(
-                              onPressed: () {
-                                Navigator.pop(context);
+                            child: BlocListener<AuthBloc, AuthState>(
+                              listener: (context, state) {
+                                if (state is AuthStateProfileUpdatedSuccess) {
+                                  Navigator.pop(context, state.newProfile);
+                                }
                               },
+                              child: CustomBackButton(
+                                onPressed: () {
+                                  Navigator.pop(context, widget.profile);
+                                },
+                              ),
                             )),
                       ),
                     ),
@@ -173,26 +179,6 @@ class _PageState extends State<Page> {
                           ),
                           BlocBuilder<AuthBloc, AuthState>(
                             builder: (context, state) {
-                              if (state is AuthStateProfileUpdatedSuccess) {
-                                widget.profile?.first_name = first_name.text;
-                                widget.profile?.last_name = last_name.text;
-                                widget.profile?.email = email.text;
-                                widget.profile?.phone = phone.text;
-                                return Container(
-                                  // editprofileMNz (814:5136)
-                                  margin: EdgeInsets.fromLTRB(0, 0, 2, 0),
-                                  child: Text(
-                                    'Profile updated successfully',
-                                    textAlign: TextAlign.center,
-                                    style: TextStyle(
-                                      fontSize: 14,
-                                      fontWeight: FontWeight.w400,
-                                      height: 1.2575,
-                                      color: Colors.redAccent,
-                                    ),
-                                  ),
-                                );
-                              }
                               if (state is AuthStateProfileUpdatedFailure) {
                                 return Container(
                                   // editprofileMNz (814:5136)
@@ -271,11 +257,12 @@ class _PageState extends State<Page> {
                                       if (_formKey.currentState!.validate()) {
                                         String token = jsonDecode(await _storage.read(key: "login_cookie") ?? "")["token"];
 
-                                        Map<String, String> fields = {
+                                        Map<dynamic, dynamic> fields = {
                                           "first_name": first_name.text,
                                           "last_name": last_name.text,
                                           "email": email.text,
-                                          "phone": phone.text
+                                          "phone": phone.text,
+                                          "username": widget.profile?.username ?? "",
                                         };
                                         context.read<AuthBloc>().add(AuthProfileUpdated(token: token, fields: fields));
                                       }

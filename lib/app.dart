@@ -4,7 +4,6 @@ import 'package:food/authenticate/authenticate.dart';
 import 'package:food/authenticate/bloc/AuthBloc.dart';
 import 'package:food/authenticate/bloc/AuthEvent.dart';
 import 'package:food/authenticate/bloc/AuthState.dart';
-import 'package:food/foodlist/food.dart';
 
 class FoodApp extends StatefulWidget {
   const FoodApp({Key? key}) : super(key: key);
@@ -20,16 +19,11 @@ class _FoodAppState extends State<FoodApp> {
         home: MultiBlocProvider(
             providers: [
           BlocProvider(
-            create: (BuildContext context) =>
-                AuthBloc()..add(AuthLoginCookieChecked()),
+            create: (BuildContext context) => AuthBloc()..add(AuthLoginCookieChecked()),
           ),
         ],
             child: BlocBuilder<AuthBloc, AuthState>(builder: (context, state) {
-              if (state is AuthStateLoginFailure) {
-                return Authentication();
-              }
-
-              return FoodList();
+              return Authentication();
             })));
   }
 }

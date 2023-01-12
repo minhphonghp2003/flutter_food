@@ -39,7 +39,7 @@ class UserProvider {
     return user;
   }
 
-  Future<Map<dynamic, dynamic>> updateProfile(String token, Map<String, String> field) async {
+  Future<Map<dynamic, dynamic>> updateProfile(String token, Map<dynamic, dynamic> field) async {
     // field: first_name, last_name, email,phone
     var response = await client.put(Uri.http(host, "$path/profile"),
         headers: {

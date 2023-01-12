@@ -26,4 +26,7 @@ class AuthStateProfileFetchedFailure extends AuthState {}
 
 class AuthStateProfileUpdatedFailure extends AuthState {}
 
-class AuthStateProfileUpdatedSuccess extends AuthState {}
+class AuthStateProfileUpdatedSuccess extends AuthState {
+  AuthStateProfileUpdatedSuccess({required this.newProfile});
+  final User newProfile;
+}

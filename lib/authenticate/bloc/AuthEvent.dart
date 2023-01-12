@@ -34,5 +34,5 @@ class AuthEmailVerifiedSent extends Auth {
 class AuthProfileUpdated extends Auth {
   AuthProfileUpdated({required this.token, required this.fields});
   final String token;
-  final Map<String, String> fields;
+  final Map<dynamic, dynamic> fields;
 }

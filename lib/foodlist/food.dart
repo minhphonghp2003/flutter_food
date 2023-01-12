@@ -2,12 +2,11 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:food/authenticate/bloc/AuthBloc.dart';
 import 'package:food/authenticate/model/User.dart';
+import 'package:food/authenticate/presentation/WelcomePage.dart';
 import 'package:food/foodlist/presentation/FoodListPage.dart';
 import 'package:food/foodlist/presentation/widget/AppbarTitle.dart';
 import 'package:food/foodlist/presentation/widget/CustomFloatingButton.dart';
 import 'package:food/foodlist/presentation/widget/Drawer.dart';
-
-import '../authenticate/presentation/WelcomePage.dart';
 
 class FoodList extends StatelessWidget {
   const FoodList({Key? key, this.userProfile}) : super(key: key);

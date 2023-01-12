@@ -12,7 +12,6 @@ class Authentication extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return BlocConsumer<AuthBloc, AuthState>(listener: (context, state) {
-      print(state);
       if (state is AuthStateLogInSuccess) {
         context.read<AuthBloc>().add(AuthProfileFetched(token: state.authCredentials["token"]));
       }

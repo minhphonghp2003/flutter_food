@@ -1,13 +1,25 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
+import 'package:food/authenticate/bloc/AuthState.dart';
 import 'package:food/authenticate/model/User.dart';
 import 'package:food/authenticate/presentation/Profile.dart';
 import 'package:food/authenticate/presentation/WelcomePage.dart';
 import 'package:food/foodlist/presentation/widget/CustomFloatingButton.dart';
 
+import '../../../authenticate/bloc/AuthBloc.dart';
+
 class CustomDrawer extends StatelessWidget {
-  const CustomDrawer({Key? key, required this.userProfile}) : super(key: key);
-  final User? userProfile;
+  CustomDrawer({Key? key, required this.userProfile}) : super(key: key);
+  User? userProfile;
+
+  void _editProfile(BuildContext context, User userProfile) async {
+    final newProfile = await Navigator.push(
+      context,
+      MaterialPageRoute(builder: (context) => Profile(profile: userProfile)),
+    );
+    context.read<AuthBloc>().emit(AuthStateProfileUpdatedSuccess(newProfile: newProfile));
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -24,71 +36,7 @@ class CustomDrawer extends StatelessWidget {
               // autogroupkbwhD93 (W75Z8V8uKaF5269SbMKbWh)
               padding: EdgeInsets.fromLTRB(2.08, 0, 2.08, 44.5),
               width: double.infinity,
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Container(
-                    // maskgroupx6d (814:6610)
-                    margin: EdgeInsets.fromLTRB(0, 0, 0, 21),
-                    width: 90,
-                    height: 90,
-                    child: Image.asset(
-                      "assets/avatar.png",
-                      width: 90,
-                      height: 90,
-                    ),
-                  ),
-                  Container(
-                    // group18062UKs (814:6607)
-                    width: double.infinity,
-                    height: 41,
-                    child: Stack(
-                      children: [
-                        Positioned(
-                          // farionwickE49 (814:6608)
-                          left: 0,
-                          top: 0,
-                          child: Align(
-                            child: SizedBox(
-                              // width: 100,
-                              // height: 26,
-                              child: Text(
-                                '${userProfile?.first_name} ${userProfile?.last_name}',
-                                style: TextStyle(
-                                  fontSize: 20,
-                                  fontWeight: FontWeight.w600,
-                                  height: 1.2575,
-                                  color: Color(0xff000000),
-                                ),
-                              ),
-                            ),
-                          ),
-                        ),
-                        Positioned(
-                          // farionwickgmailcomW1f (814:6609)
-                          left: 0,
-                          top: 23,
-                          child: Align(
-                            child: SizedBox(
-                              width: 135,
-                              height: 18,
-                              child: Text(
-                                '${userProfile?.email}',
-                                style: TextStyle(
-                                  fontSize: 14,
-                                  fontWeight: FontWeight.w400,
-                                  height: 1.2575,
-                                  color: Color(0xff9ea1b1),
-                                ),
-                              ),
-                            ),
-                          ),
-                        ),
-                      ],
-                    ),
-                  ),
-                ],
-              ),
+              child: ProfileSection(userProfile: userProfile),
             ),
             Container(
               // group18139nE5 (814:6585)
@@ -132,39 +80,43 @@ class CustomDrawer extends StatelessWidget {
                         SizedBox(
                           height: 35,
                         ),
-                        GestureDetector(
-                          onTap: () {
-                            Navigator.push(
-                              context,
-                              MaterialPageRoute(builder: (context) => Profile(id: "${userProfile?.id}")),
+                        BlocBuilder<AuthBloc, AuthState>(
+                          builder: (context, state) {
+                            if (state is AuthStateProfileUpdatedSuccess) {
+                              userProfile = state.newProfile;
+                            }
+                            return InkWell(
+                              onTap: () {
+                                _editProfile(context, userProfile!);
+                              },
+                              child: Container(
+                                // group181312Xj (814:6589)
+                                margin: EdgeInsets.fromLTRB(0, 0, 53.04, 0),
+                                width: double.infinity,
+                                child: Row(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    Container(
+                                        // iconlybulkprofileZXf (814:7168)
+                                        margin: EdgeInsets.fromLTRB(0, 0.42, 16.88, 0),
+                                        width: 17.25,
+                                        height: 19.17,
+                                        child: Icon(Icons.portrait, color: Colors.grey)),
+                                    Text(
+                                      // myprofile5F7 (814:6590)
+                                      'My Profile',
+                                      style: TextStyle(
+                                        fontSize: 16,
+                                        fontWeight: FontWeight.w400,
+                                        height: 1.2575,
+                                        color: Color(0xff000000),
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                              ),
                             );
                           },
-                          child: Container(
-                            // group181312Xj (814:6589)
-                            margin: EdgeInsets.fromLTRB(0, 0, 53.04, 0),
-                            width: double.infinity,
-                            child: Row(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                Container(
-                                    // iconlybulkprofileZXf (814:7168)
-                                    margin: EdgeInsets.fromLTRB(0, 0.42, 16.88, 0),
-                                    width: 17.25,
-                                    height: 19.17,
-                                    child: Icon(Icons.portrait, color: Colors.grey)),
-                                Text(
-                                  // myprofile5F7 (814:6590)
-                                  'My Profile',
-                                  style: TextStyle(
-                                    fontSize: 16,
-                                    fontWeight: FontWeight.w400,
-                                    height: 1.2575,
-                                    color: Color(0xff000000),
-                                  ),
-                                ),
-                              ],
-                            ),
-                          ),
                         ),
                         SizedBox(
                           height: 35,
@@ -337,6 +289,91 @@ class CustomDrawer extends StatelessWidget {
           ],
         ),
       ),
+    );
+  }
+}
+
+class ProfileSection extends StatelessWidget {
+  ProfileSection({
+    Key? key,
+    required this.userProfile,
+  }) : super(key: key);
+
+  User? userProfile;
+
+  @override
+  Widget build(BuildContext context) {
+    return BlocBuilder<AuthBloc, AuthState>(
+      builder: (BuildContext context, state) {
+        if (state is AuthStateProfileUpdatedSuccess) {
+          userProfile = state.newProfile;
+        }
+        return Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Container(
+              // maskgroupx6d (814:6610)
+              margin: EdgeInsets.fromLTRB(0, 0, 0, 21),
+              width: 90,
+              height: 90,
+              child: Image.asset(
+                "assets/avatar.png",
+                width: 90,
+                height: 90,
+              ),
+            ),
+            Container(
+              // group18062UKs (814:6607)
+              width: double.infinity,
+              height: 41,
+              child: Stack(
+                children: [
+                  Positioned(
+                    // farionwickE49 (814:6608)
+                    left: 0,
+                    top: 0,
+                    child: Align(
+                      child: SizedBox(
+                        // width: 100,
+                        // height: 26,
+                        child: Text(
+                          '${userProfile?.first_name} ${userProfile?.last_name}',
+                          style: TextStyle(
+                            fontSize: 20,
+                            fontWeight: FontWeight.w600,
+                            height: 1.2575,
+                            color: Color(0xff000000),
+                          ),
+                        ),
+                      ),
+                    ),
+                  ),
+                  Positioned(
+                    // farionwickgmailcomW1f (814:6609)
+                    left: 0,
+                    top: 23,
+                    child: Align(
+                      child: SizedBox(
+                        width: 135,
+                        height: 18,
+                        child: Text(
+                          '${userProfile?.email}',
+                          style: TextStyle(
+                            fontSize: 14,
+                            fontWeight: FontWeight.w400,
+                            height: 1.2575,
+                            color: Color(0xff9ea1b1),
+                          ),
+                        ),
+                      ),
+                    ),
+                  ),
+                ],
+              ),
+            ),
+          ],
+        );
+      },
     );
   }
 }
