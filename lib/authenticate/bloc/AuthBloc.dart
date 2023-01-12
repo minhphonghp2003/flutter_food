@@ -17,6 +17,7 @@ class AuthBloc extends Bloc<Auth, AuthState> {
     on<AuthRegistered>(_authRegistered);
     on<AuthProfileFetched>(_authProfileFetched);
     on<AuthEmailVerifiedSent>(_authEmailVerifiedSent);
+    on<AuthProfileUpdated>(_authProfileUpdated);
   }
 
   void _authEmailVerifiedSent(event, emit) async {
@@ -64,6 +65,15 @@ class AuthBloc extends Bloc<Auth, AuthState> {
       emit(AuthStateProfileFetchedSuccess(profile: profile));
     } catch (error) {
       emit(AuthStateProfileFetchedFailure());
+    }
+  }
+
+  void _authProfileUpdated(AuthProfileUpdated event, emit) async {
+    Map<dynamic, dynamic> response = await userRepository.updateProfile(event.token, event.fields);
+    if (response.containsKey("error")) {
+      emit(AuthStateProfileUpdatedFailure());
+    } else {
+      emit(AuthStateProfileUpdatedSuccess());
     }
   }
 }

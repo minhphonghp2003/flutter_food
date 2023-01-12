@@ -23,3 +23,7 @@ class AuthStateProfileFetchedSuccess extends AuthState {
 }
 
 class AuthStateProfileFetchedFailure extends AuthState {}
+
+class AuthStateProfileUpdatedFailure extends AuthState {}
+
+class AuthStateProfileUpdatedSuccess extends AuthState {}
