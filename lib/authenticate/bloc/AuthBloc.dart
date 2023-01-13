@@ -7,7 +7,7 @@ import 'package:food/authenticate/bloc/AuthState.dart';
 import 'package:food/authenticate/model/User.dart';
 import 'package:food/authenticate/repository.dart';
 
-class AuthBloc extends Bloc<Auth, AuthState> {
+class AuthBloc extends Bloc<AuthEvent, AuthState> {
   final _storage = new FlutterSecureStorage();
   final UserRepository userRepository = new UserRepository();
   AuthBloc() : super(AuthStateInitial()) {

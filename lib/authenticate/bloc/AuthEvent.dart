@@ -1,12 +1,12 @@
-abstract class Auth {}
+abstract class AuthEvent {}
 
-class AuthLoggedIn extends Auth {
+class AuthLoggedIn extends AuthEvent {
   String username;
   String password;
   AuthLoggedIn({required this.username, required this.password});
 }
 
-class AuthRegistered extends Auth {
+class AuthRegistered extends AuthEvent {
   final String username;
   final String phone;
   final String email;
@@ -14,24 +14,24 @@ class AuthRegistered extends Auth {
   AuthRegistered({required this.username, required this.phone, required this.email, required this.password});
 }
 
-class AuthProfileFetched extends Auth {
+class AuthProfileFetched extends AuthEvent {
   String token;
   AuthProfileFetched({required this.token});
 }
 
-class AuthLoginCookieChecked extends Auth {}
+class AuthLoginCookieChecked extends AuthEvent {}
 
-class AuthLoginCookieAdded extends Auth {
+class AuthLoginCookieAdded extends AuthEvent {
   Map<dynamic, dynamic> credentials;
   AuthLoginCookieAdded({required this.credentials});
 }
 
-class AuthEmailVerifiedSent extends Auth {
+class AuthEmailVerifiedSent extends AuthEvent {
   final String email;
   AuthEmailVerifiedSent({required this.email});
 }
 
-class AuthProfileUpdated extends Auth {
+class AuthProfileUpdated extends AuthEvent {
   AuthProfileUpdated({required this.token, required this.fields});
   final String token;
   final Map<dynamic, dynamic> fields;
