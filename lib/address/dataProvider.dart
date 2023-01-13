@@ -6,7 +6,7 @@ import 'model/Address.dart';
 
 class AddressProvider {
   var host = '192.168.1.6:3000';
-  var path = 'v1/customer/';
+  var path = 'v1/customer';
   http.Client client;
   AddressProvider({required this.client});
   Future<List<Address>> getAddress(String token) async {

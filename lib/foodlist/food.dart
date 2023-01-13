@@ -1,17 +1,36 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:food/address/address.dart';
 import 'package:food/authenticate/bloc/AuthBloc.dart';
 import 'package:food/authenticate/model/User.dart';
 import 'package:food/authenticate/presentation/WelcomePage.dart';
+import 'package:food/cart/CartPage.dart';
+import 'package:food/favorite/FavoritePage.dart';
 import 'package:food/foodlist/presentation/FoodListPage.dart';
 import 'package:food/foodlist/presentation/widget/AppbarTitle.dart';
 import 'package:food/foodlist/presentation/widget/CustomFloatingButton.dart';
 import 'package:food/foodlist/presentation/widget/Drawer.dart';
 
-class FoodList extends StatelessWidget {
+import '../notification/NotificationPage.dart';
+
+class FoodList extends StatefulWidget {
   const FoodList({Key? key, this.userProfile}) : super(key: key);
 
   final User? userProfile;
+
+  @override
+  State<FoodList> createState() => _FoodListState();
+}
+
+class _FoodListState extends State<FoodList> {
+  int _selectedIndex = 0;
+  void _onItemTapped(int indx) {
+    setState(() {
+      _selectedIndex = indx;
+    });
+  }
+
+  List<Widget> _page = [FoodListPage(), Address(), CartPage(), FavoritePage(), NotificationPage()];
 
   @override
   Widget build(BuildContext context) {
@@ -22,30 +41,32 @@ class FoodList extends StatelessWidget {
         ),
       ],
       child: Scaffold(
-        appBar: AppBar(
-            iconTheme: IconThemeData(color: Colors.black),
-            elevation: 0,
-            backgroundColor: Colors.transparent,
-            actions: userProfile != null
-                ? [
-                    Container(
-                      // maskgroupFi1 (814:6506)
-                      margin: EdgeInsets.fromLTRB(0, 0, 10, 0),
-                      width: 38,
-                      height: 38,
-                      child: Image.asset(
-                        "assets/avatar.png",
-                        width: 38,
-                        height: 38,
-                      ),
-                    ),
-                  ]
-                : null,
-            title: userProfile != null ? AppbarTitle() : null),
-        drawer: userProfile != null
+        appBar: _selectedIndex == 0
+            ? AppBar(
+                iconTheme: IconThemeData(color: Colors.black),
+                elevation: 0,
+                backgroundColor: Colors.transparent,
+                actions: widget.userProfile != null
+                    ? [
+                        Container(
+                          // maskgroupFi1 (814:6506)
+                          margin: EdgeInsets.fromLTRB(0, 0, 10, 0),
+                          width: 38,
+                          height: 38,
+                          child: Image.asset(
+                            "assets/avatar.png",
+                            width: 38,
+                            height: 38,
+                          ),
+                        ),
+                      ]
+                    : null,
+                title: widget.userProfile != null ? AppbarTitle() : null)
+            : null,
+        drawer: widget.userProfile != null
             ? Drawer(
                 child: CustomDrawer(
-                userProfile: userProfile,
+                userProfile: widget.userProfile,
               ))
             : CustomFloatingButtonExtend(
                 child: Row(
@@ -61,8 +82,8 @@ class FoodList extends StatelessWidget {
                 onPressed: () async {
                   Navigator.of(context).pushAndRemoveUntil(MaterialPageRoute(builder: (context) => WelcomePage()), (Route<dynamic> route) => false);
                 }),
-        body: FoodListPage(),
-        bottomNavigationBar: userProfile != null
+        body: _page[_selectedIndex],
+        bottomNavigationBar: widget.userProfile != null
             ? BottomNavigationBar(
                 showSelectedLabels: false,
                 showUnselectedLabels: false,
@@ -113,8 +134,8 @@ class FoodList extends StatelessWidget {
                     label: 'Notif',
                   ),
                 ],
-                currentIndex: 0,
-                // onTap: _onItemTapped,
+                currentIndex: _selectedIndex,
+                onTap: _onItemTapped,
               )
             : null,
       ),

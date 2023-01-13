@@ -51,7 +51,7 @@ class AppbarTitle extends StatelessWidget {
                       elevation: 16,
                       style: const TextStyle(color: Colors.deepPurple),
                       onChanged: (Address? value) {
-                        context.read<AddressBloc>().add(AddressUpdated(choiseAddress: value!));
+                        context.read<AddressBloc>().add(AddressUpdated(choiceAddress: value!));
                       },
                       items: state.addresses.map<DropdownMenuItem<Address>>((Address value) {
                         return DropdownMenuItem<Address>(

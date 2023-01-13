@@ -19,7 +19,7 @@ class AddressBloc extends Bloc<AddressEvent, AddressState> {
   _updateAddress(AddressUpdated event, emit) async {
     String? login_cookie = await _storage.read(key: "login_cookie");
     String? token = jsonDecode(login_cookie!)["token"];
-    await _repository.updateAddress(token!, event.choiseAddress.id);
+    await _repository.updateAddress(token!, event.choiceAddress.id);
     add(AddressFetched());
   }
 

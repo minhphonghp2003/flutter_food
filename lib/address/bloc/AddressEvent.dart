@@ -5,6 +5,6 @@ abstract class AddressEvent {}
 class AddressFetched extends AddressEvent {}
 
 class AddressUpdated extends AddressEvent {
-  Address choiseAddress;
-  AddressUpdated({required this.choiseAddress});
+  Address choiceAddress;
+  AddressUpdated({required this.choiceAddress});
 }

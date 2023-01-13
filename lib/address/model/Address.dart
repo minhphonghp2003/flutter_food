@@ -14,7 +14,7 @@ class Address {
 
   Map<String, dynamic> toJson() => {
         'city': city,
-        'communt_ward': commune_ward,
+        'commune_ward': commune_ward,
         'street': street,
       };
 }
