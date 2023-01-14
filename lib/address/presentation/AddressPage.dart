@@ -1,25 +1,27 @@
 import 'dart:convert';
 
 import 'package:flutter/material.dart';
+import 'package:food/address/presentation/LocationChoosingPage.dart';
 import 'package:food/authenticate/presentation/widget/CustomBackButton.dart';
+import 'package:food/authenticate/presentation/widget/CustomFloatingButton.dart';
 import 'package:food/authenticate/presentation/widget/CustomImputField.dart';
-import 'package:food/foodlist/presentation/widget/CustomFloatingButton.dart';
 import 'package:http/http.dart' as http;
 
-Future<List<dynamic>> fetchProvince() async {
+Future<List<dynamic>> fetchLocation(int code) async {
   var client = http.Client();
-  final response = await client.get(Uri.http('vn-public-apis.fpo.vn', 'provinces/getAll', {"limit": "-1"}));
-  if (response.statusCode == 200) {
-    return json.decode(response.body)["data"]["data"];
-  } else {
-    throw Exception('Failed to fetch data');
+  if (code == 0) {
+    final response = await client.get(Uri.http('vn-public-apis.fpo.vn', 'provinces/getAll', {"limit": "-1"}));
+    if (response.statusCode == 200) {
+      return json.decode(response.body)["data"]["data"];
+    } else {
+      throw Exception('Failed to fetch data');
+    }
   }
+  return [];
 }
 
 class AddressPage extends StatelessWidget {
   AddressPage({Key? key}) : super(key: key);
-  TextEditingController city = TextEditingController();
-  TextEditingController commune_ward = TextEditingController();
   TextEditingController street = TextEditingController();
   final _formKey = GlobalKey<FormState>();
 
@@ -72,17 +74,25 @@ class AddressPage extends StatelessWidget {
                 key: _formKey,
                 child: Column(
                   children: [
+                    CustomActionFloatingButton(
+                        backgroundColor: Colors.white,
+                        textColor: Colors.black45,
+                        text: "City/Province",
+                        onPressed: () async {
+                          var city_province = await fetchLocation(0);
+                          var chosenCP = await Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) => LocationChoosingPage(locations: city_province),
+                            ),
+                          );
+                          print(chosenCP);
+                        }),
+                    SizedBox(
+                      height: 30,
+                    ),
                     CustomInputField(
                         field: "Street (Include house number)", controller: street, validator: null, icon: Icons.location_on, isPassword: false),
-                    Container(
-                      width: double.infinity,
-                      child: Row(
-                        children: [
-                          CustomInputField(field: "City/Province", controller: city, validator: null, icon: Icons.location_city, isPassword: false),
-                          CustomFloatingButtonExtend(child: Text("Select city/province"), backgroundColor: Colors.white, onPressed: () {})
-                        ],
-                      ),
-                    )
                   ],
                 ))
           ],
