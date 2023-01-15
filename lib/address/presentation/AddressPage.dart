@@ -54,6 +54,7 @@ class _AddressPageState extends State<AddressPage> {
     setState(() {
       cities = response;
       chosenCity = cities![0];
+      chooseCity(chosenCity);
     });
   }
 
@@ -62,6 +63,7 @@ class _AddressPageState extends State<AddressPage> {
     setState(() {
       districts = response;
       chosenDistrict = districts![0];
+      chooseDistrict(chosenDistrict);
     });
   }
 
@@ -70,6 +72,7 @@ class _AddressPageState extends State<AddressPage> {
     setState(() {
       commune_wards = response;
       chosenWard = commune_wards![0];
+      chooseWard(chosenWard);
     });
   }
 
@@ -279,7 +282,11 @@ class _AddressPageState extends State<AddressPage> {
                         child: Text("Confirm"),
                         backgroundColor: Colors.redAccent,
                         onPressed: () {
-                          print("${chosenWard!["name"]}, ${chosenDistrict!["name"]}, ${chosenCity!["name"]}, ${street.text}");
+                          try {
+                            print("${chosenWard!["name"]}, ${chosenDistrict!["name"]}, ${chosenCity!["name"]}, ${street.text}");
+                          } catch (e) {
+                            print(e);
+                          }
                         })
                   ],
                 ))
