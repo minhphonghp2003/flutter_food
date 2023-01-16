@@ -1,11 +1,17 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:food/address/presentation/AddressPage.dart';
 
-class Address extends StatelessWidget {
-  const Address({Key? key}) : super(key: key);
+import 'bloc/AddressBloc.dart';
+
+class Delivery extends StatelessWidget {
+  const Delivery({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    return AddressPage();
+    return BlocProvider(
+      create: (BuildContext context) => AddressBloc(),
+      child: AddressPage(),
+    );
   }
 }

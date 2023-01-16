@@ -12,3 +12,5 @@ class AddressStateFetchedSuccess extends AddressState {
 }
 
 class AddressStateFetchedFailure extends AddressState {}
+
+class AddressStateCreatedSuccess extends AddressState {}

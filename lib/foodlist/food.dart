@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:food/address/address.dart';
 import 'package:food/authenticate/bloc/AuthBloc.dart';
 import 'package:food/authenticate/model/User.dart';
 import 'package:food/authenticate/presentation/WelcomePage.dart';
@@ -11,6 +10,7 @@ import 'package:food/foodlist/presentation/widget/AppbarTitle.dart';
 import 'package:food/foodlist/presentation/widget/CustomFloatingButton.dart';
 import 'package:food/foodlist/presentation/widget/Drawer.dart';
 
+import '../address/address.dart';
 import '../notification/NotificationPage.dart';
 
 class FoodList extends StatefulWidget {
@@ -30,7 +30,7 @@ class _FoodListState extends State<FoodList> {
     });
   }
 
-  List<Widget> _page = [FoodListPage(), Address(), CartPage(), FavoritePage(), NotificationPage()];
+  List<Widget> _page = [FoodListPage(), Delivery(), CartPage(), FavoritePage(), NotificationPage()];
 
   @override
   Widget build(BuildContext context) {

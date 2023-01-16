@@ -58,7 +58,7 @@ class AppbarTitle extends StatelessWidget {
                           value: value,
                           child: Center(
                             child: Text(
-                              "${value.street} ${value.commune_ward} ${value.city}",
+                              "${value.street} ${value.commune_ward} ${value.district} ${value.city}",
                               textAlign: TextAlign.center,
                               overflow: TextOverflow.ellipsis,
                               style: TextStyle(

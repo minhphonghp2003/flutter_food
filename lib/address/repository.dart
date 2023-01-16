@@ -12,6 +12,10 @@ class AddressRepository {
   Future<void> updateAddress(String token, String addressId) async {
     await _addressProvider.updateAddress(token, addressId);
   }
+
+  Future<Map<dynamic, dynamic>> createAddress(String token, Address address) async {
+    return await _addressProvider.createAddress(token, address);
+  }
 }
 //
 // void main() async {

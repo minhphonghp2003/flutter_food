@@ -14,18 +14,30 @@ class AddressBloc extends Bloc<AddressEvent, AddressState> {
   AddressBloc() : super(AddressStateInitial()) {
     on<AddressFetched>(_fetchAddress);
     on<AddressUpdated>(_updateAddress);
+    on<AddressCreated>(_createAddress);
+  }
+  Future<String?> _getToken() async {
+    String? login_cookie = await _storage.read(key: "login_cookie");
+    String? token = jsonDecode(login_cookie!)["token"];
+    return token;
+  }
+
+  _createAddress(AddressCreated event, emit) async {
+    String? token = await _getToken();
+    Map<dynamic, dynamic> response = await _repository.createAddress(token!, event.address);
+    if (!response.containsKey("error")) {
+      emit(AddressStateCreatedSuccess());
+    }
   }
 
   _updateAddress(AddressUpdated event, emit) async {
-    String? login_cookie = await _storage.read(key: "login_cookie");
-    String? token = jsonDecode(login_cookie!)["token"];
-    await _repository.updateAddress(token!, event.choiceAddress.id);
+    String? token = await _getToken();
+    await _repository.updateAddress(token!, event.choiceAddress.id!);
     add(AddressFetched());
   }
 
   _fetchAddress(event, emit) async {
-    String? login_cookie = await _storage.read(key: "login_cookie");
-    String? token = jsonDecode(login_cookie!)["token"];
+    String? token = await _getToken();
     List<Address> addresses;
     try {
       addresses = await _repository.getAddress(token!);
@@ -33,7 +45,7 @@ class AddressBloc extends Bloc<AddressEvent, AddressState> {
         emit(AddressStateEmpty());
       } else {
         for (int i = 0; i < addresses.length; i++) {
-          if (addresses[i].isDefault) {
+          if (addresses[i].isDefault!) {
             _swap(addresses, 0, i);
             break;
           }

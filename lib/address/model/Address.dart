@@ -1,12 +1,14 @@
 class Address {
-  String id;
-  bool isDefault;
+  String? id;
+  bool? isDefault;
   String city;
   String commune_ward;
   String street;
-  Address({required this.id, required this.isDefault, required this.city, required this.commune_ward, required this.street});
+  String district;
+  Address({this.id, this.isDefault, required this.city, required this.district, required this.commune_ward, required this.street});
   Address.fromJson(Map<dynamic, dynamic> json)
       : id = json["address"]['id'],
+        district = json["address"]['district'],
         isDefault = json['default'] == 1 ? true : false,
         city = json["address"]['city'],
         commune_ward = json["address"]['commune_ward'],
@@ -14,6 +16,7 @@ class Address {
 
   Map<String, dynamic> toJson() => {
         'city': city,
+        'district': district,
         'commune_ward': commune_ward,
         'street': street,
       };

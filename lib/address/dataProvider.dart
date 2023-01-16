@@ -29,6 +29,12 @@ class AddressProvider {
       "address": addressId
     });
   }
+
+  Future<Map<dynamic, dynamic>> createAddress(String token, Address addressDetail) async {
+    var response = await client.post(Uri.http(host, "$path/address"), headers: {"token": token}, body: addressDetail.toJson());
+    var decodedResponse = jsonDecode(utf8.decode(response.bodyBytes)) as Map;
+    return decodedResponse;
+  }
 }
 
 // void main() async {

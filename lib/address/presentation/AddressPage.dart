@@ -1,6 +1,11 @@
 import 'dart:convert';
 
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:food/address/bloc/AddressBloc.dart';
+import 'package:food/address/bloc/AddressEvent.dart';
+import 'package:food/address/bloc/AddressState.dart';
+import 'package:food/address/model/Address.dart';
 import 'package:food/authenticate/presentation/widget/CustomImputField.dart';
 import 'package:food/foodlist/presentation/widget/CustomFloatingButton.dart';
 import 'package:http/http.dart' as http;
@@ -137,6 +142,32 @@ class _AddressPageState extends State<AddressPage> {
                 ),
               ),
             ),
+            BlocBuilder<AddressBloc, AddressState>(builder: (context, state) {
+              if (state is AddressStateCreatedSuccess) {
+                return Center(
+                  child: Container(
+                    // autogroupkm37cfk (W759DFpi4sneC5W488kM37)
+                    margin: EdgeInsets.fromLTRB(0, 0, 0, 34),
+                    width: double.infinity,
+                    child: Container(
+                      // addnewaddressq2i (814:4425)
+                      // margin: EdgeInsets.fromLTRB(0, 5, 0, 0),
+                      child: Text(
+                        'Address added successfully',
+                        textAlign: TextAlign.center,
+                        style: TextStyle(
+                          fontSize: 15,
+                          // fontWeight: FontWeight.w400,
+                          height: 1.2575,
+                          color: Colors.redAccent,
+                        ),
+                      ),
+                    ),
+                  ),
+                );
+              }
+              return Text("");
+            }),
             Form(
                 key: _formKey,
                 child: Column(
@@ -277,16 +308,22 @@ class _AddressPageState extends State<AddressPage> {
                       height: 30,
                     ),
                     CustomInputField(
-                        field: "Street (Include house number)", controller: street, validator: null, icon: Icons.location_on, isPassword: false),
+                        field: "Street (Include house number)",
+                        controller: street,
+                        validator: (value) {
+                          if (value == null || value.isEmpty) {
+                            return "Please input a street";
+                          }
+                          return null;
+                        },
+                        icon: Icons.location_on,
+                        isPassword: false),
                     CustomFloatingButtonExtend(
                         child: Text("Confirm"),
                         backgroundColor: Colors.redAccent,
                         onPressed: () {
-                          try {
-                            print("${chosenWard!["name"]}, ${chosenDistrict!["name"]}, ${chosenCity!["name"]}, ${street.text}");
-                          } catch (e) {
-                            print(e);
-                          }
+                          createAddress(_formKey, context, street.text, chosenWard!["type"] + " " + chosenWard!["name"],
+                              chosenDistrict!["type"] + " " + chosenDistrict!["name"], chosenCity!["type"] + " " + chosenCity!["name"]);
                         })
                   ],
                 ))
@@ -294,5 +331,12 @@ class _AddressPageState extends State<AddressPage> {
         ),
       ),
     );
+  }
+}
+
+void createAddress(dynamic formKey, BuildContext context, String street, String ward, String district, String city) {
+  if (formKey.currentState!.validate()) {
+    Address address = new Address(street: street, district: district, city: city, commune_ward: ward);
+    context.read<AddressBloc>().add(AddressCreated(address: address));
   }
 }
