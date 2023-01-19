@@ -7,10 +7,15 @@ import 'package:food/authenticate/presentation/Profile.dart';
 import 'package:food/authenticate/presentation/WelcomePage.dart';
 import 'package:food/foodlist/presentation/widget/CustomFloatingButton.dart';
 
+import '../../../address/presentation/DeliveryAddressPage.dart';
 import '../../../authenticate/bloc/AuthBloc.dart';
 
 class CustomDrawer extends StatelessWidget {
-  CustomDrawer({Key? key, required this.userProfile}) : super(key: key);
+  CustomDrawer({
+    Key? key,
+    required this.userProfile,
+  }) : super(key: key);
+
   User? userProfile;
 
   void _editProfile(BuildContext context, User userProfile) async {
@@ -121,30 +126,38 @@ class CustomDrawer extends StatelessWidget {
                         SizedBox(
                           height: 35,
                         ),
-                        Container(
-                          // group18130cVw (814:6592)
-                          margin: EdgeInsets.fromLTRB(1.92, 0, 9.04, 0),
-                          width: double.infinity,
-                          child: Row(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              Container(
-                                  // iconlybulklocationxZo (814:7162)
-                                  margin: EdgeInsets.fromLTRB(0, 0.42, 18.79, 0),
-                                  width: 13.42,
-                                  height: 19.17,
-                                  child: Icon(Icons.delivery_dining_sharp, color: Colors.grey)),
-                              Text(
-                                // deliveryaddressH6H (814:6593)
-                                'Delivery Address',
-                                style: TextStyle(
-                                  fontSize: 16,
-                                  fontWeight: FontWeight.w400,
-                                  height: 1.2575,
-                                  color: Color(0xff000000),
+                        GestureDetector(
+                          onTap: () {
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(builder: (context) => DeliveryPage()),
+                            );
+                          },
+                          child: Container(
+                            // group18130cVw (814:6592)
+                            margin: EdgeInsets.fromLTRB(1.92, 0, 9.04, 0),
+                            width: double.infinity,
+                            child: Row(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Container(
+                                    // iconlybulklocationxZo (814:7162)
+                                    margin: EdgeInsets.fromLTRB(0, 0.42, 18.79, 0),
+                                    width: 13.42,
+                                    height: 19.17,
+                                    child: Icon(Icons.delivery_dining_sharp, color: Colors.grey)),
+                                Text(
+                                  // deliveryaddressH6H (814:6593)
+                                  'Delivery Address',
+                                  style: TextStyle(
+                                    fontSize: 16,
+                                    fontWeight: FontWeight.w400,
+                                    height: 1.2575,
+                                    color: Color(0xff000000),
+                                  ),
                                 ),
-                              ),
-                            ],
+                              ],
+                            ),
                           ),
                         ),
                       ],

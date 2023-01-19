@@ -16,6 +16,10 @@ class AddressRepository {
   Future<Map<dynamic, dynamic>> createAddress(String token, Address address) async {
     return await _addressProvider.createAddress(token, address);
   }
+
+  Future<void> deleteAddress(String token, String id) async {
+    return await _addressProvider.deleteAddress(token, id);
+  }
 }
 //
 // void main() async {

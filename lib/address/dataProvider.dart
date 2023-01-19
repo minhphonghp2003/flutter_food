@@ -5,7 +5,7 @@ import 'package:http/http.dart' as http;
 import 'model/Address.dart';
 
 class AddressProvider {
-  var host = '192.168.1.6:3000';
+  var host = '192.168.1.3:3000';
   var path = 'v1/customer';
   http.Client client;
   AddressProvider({required this.client});
@@ -34,6 +34,10 @@ class AddressProvider {
     var response = await client.post(Uri.http(host, "$path/address"), headers: {"token": token}, body: addressDetail.toJson());
     var decodedResponse = jsonDecode(utf8.decode(response.bodyBytes)) as Map;
     return decodedResponse;
+  }
+
+  Future<void> deleteAddress(String token, String addressId) async {
+    await client.delete(Uri.http(host, "$path/address"), headers: {"token": token}, body: {'id': addressId});
   }
 }
 

@@ -13,3 +13,8 @@ class AddressCreated extends AddressEvent {
   Address address;
   AddressCreated({required this.address});
 }
+
+class AddressDeleted extends AddressEvent {
+  Address address;
+  AddressDeleted({required this.address});
+}

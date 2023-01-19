@@ -11,7 +11,7 @@ class Delivery extends StatelessWidget {
   Widget build(BuildContext context) {
     return BlocProvider(
       create: (BuildContext context) => AddressBloc(),
-      child: AddressPage(),
+      child: CreateAddressPage(),
     );
   }
 }

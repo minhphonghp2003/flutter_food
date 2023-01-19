@@ -14,3 +14,8 @@ class AddressStateFetchedSuccess extends AddressState {
 class AddressStateFetchedFailure extends AddressState {}
 
 class AddressStateCreatedSuccess extends AddressState {}
+
+class AddressStateDeletedSuccess extends AddressState {
+  Address deletedAddr;
+  AddressStateDeletedSuccess({required this.deletedAddr});
+}
