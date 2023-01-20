@@ -22,7 +22,7 @@ class AddressProvider {
     return addresses;
   }
 
-  Future<void> updateAddress(String token, String addressId) async {
+  Future<void> updateDefaultAddress(String token, String addressId) async {
     await client.put(Uri.http(host, "$path/defaultaddress"), headers: {
       "token": token,
     }, body: {
@@ -31,13 +31,17 @@ class AddressProvider {
   }
 
   Future<Map<dynamic, dynamic>> createAddress(String token, Address addressDetail) async {
-    var response = await client.post(Uri.http(host, "$path/address"), headers: {"token": token}, body: addressDetail.toJson());
+    var response = await client.post(Uri.http(host, "$path/address"), headers: {"token": token}, body: addressDetail.toJsonForCreating());
     var decodedResponse = jsonDecode(utf8.decode(response.bodyBytes)) as Map;
     return decodedResponse;
   }
 
   Future<void> deleteAddress(String token, String addressId) async {
     await client.delete(Uri.http(host, "$path/address"), headers: {"token": token}, body: {'id': addressId});
+  }
+
+  Future<void> updateAddress(String token, Address address) async {
+    await client.put(Uri.http(host, "$path/address"), headers: {"token": token}, body: address.toJsonForUpdating());
   }
 }
 

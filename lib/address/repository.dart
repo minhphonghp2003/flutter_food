@@ -9,8 +9,8 @@ class AddressRepository {
     return await _addressProvider.getAddress(token);
   }
 
-  Future<void> updateAddress(String token, String addressId) async {
-    await _addressProvider.updateAddress(token, addressId);
+  Future<void> updateDefaultAddress(String token, String addressId) async {
+    await _addressProvider.updateDefaultAddress(token, addressId);
   }
 
   Future<Map<dynamic, dynamic>> createAddress(String token, Address address) async {
@@ -19,6 +19,10 @@ class AddressRepository {
 
   Future<void> deleteAddress(String token, String id) async {
     return await _addressProvider.deleteAddress(token, id);
+  }
+
+  Future<void> updateAddress(String token, Address address) async {
+    return await _addressProvider.updateAddress(token, address);
   }
 }
 //

@@ -56,30 +56,14 @@ class _AddressFormState extends State<AddressForm> {
   Map<dynamic, dynamic>? chosenDistrict;
   Map<dynamic, dynamic>? chosenWard;
 
+  bool firstTime = true;
+
   void fetchCity() async {
     var response = await fetchLocation(0, "city");
     setState(() {
       cities = response;
-      chosenCity = cities![0];
+      chosenCity = widget.address != null && firstTime ? (cities?.where((e) => widget.address!.city.contains(e["name"])).toList())![0] : cities![0];
       chooseCity(chosenCity);
-    });
-  }
-
-  void fetchDistrict(int code) async {
-    var response = await fetchLocation(code, "district");
-    setState(() {
-      districts = response;
-      chosenDistrict = districts![0];
-      chooseDistrict(chosenDistrict);
-    });
-  }
-
-  void fetchWard(int code) async {
-    var response = await fetchLocation(code, "ward");
-    setState(() {
-      commune_wards = response;
-      chosenWard = commune_wards![0];
-      chooseWard(chosenWard);
     });
   }
 
@@ -90,6 +74,18 @@ class _AddressFormState extends State<AddressForm> {
     });
   }
 
+  void fetchDistrict(int code) async {
+    var response = await fetchLocation(code, "district");
+    setState(() {
+      districts = response;
+      print(widget.address?.district);
+      chosenDistrict = widget.address != null && firstTime
+          ? (districts?.reversed.where((e) => widget.address!.district.contains(e["name"])).toList())![0]
+          : districts![0];
+      chooseDistrict(chosenDistrict);
+    });
+  }
+
   void chooseDistrict(Map<dynamic, dynamic>? chosen) {
     setState(() {
       chosenDistrict = chosen;
@@ -97,9 +93,21 @@ class _AddressFormState extends State<AddressForm> {
     });
   }
 
+  void fetchWard(int code) async {
+    var response = await fetchLocation(code, "ward");
+    setState(() {
+      commune_wards = response;
+      chosenWard = widget.address != null && firstTime
+          ? (commune_wards?.where((e) => widget.address!.commune_ward.contains(e["name"])).toList())![0]
+          : commune_wards![0];
+      chooseWard(chosenWard);
+    });
+  }
+
   void chooseWard(Map<dynamic, dynamic>? chosen) {
     setState(() {
       chosenWard = chosen;
+      firstTime = false;
     });
   }
 
@@ -256,7 +264,7 @@ class _AddressFormState extends State<AddressForm> {
               ),
               CustomInputField(
                   field: "Street (Include house number)",
-                  controller: street,
+                  controller: street..text = widget.address != null ? widget.address!.street : "",
                   validator: (value) {
                     if (value == null || value.isEmpty) {
                       return "Please input a street";
@@ -274,7 +282,8 @@ class _AddressFormState extends State<AddressForm> {
                           chosenDistrict!["type"] + " " + chosenDistrict!["name"], chosenCity!["type"] + " " + chosenCity!["name"]);
                     }
                     if (widget.action == 'update') {
-                      print("update address ${widget.address}");
+                      updateAddress(_formKey, context, widget.address!.id, street.text, chosenWard!["type"] + " " + chosenWard!["name"],
+                          chosenDistrict!["type"] + " " + chosenDistrict!["name"], chosenCity!["type"] + " " + chosenCity!["name"]);
                     }
                   })
             ],
@@ -287,5 +296,13 @@ void createAddress(dynamic formKey, BuildContext context, String street, String 
   if (formKey.currentState!.validate()) {
     Address address = new Address(street: street, district: district, city: city, commune_ward: ward);
     context.read<AddressBloc>().add(AddressCreated(address: address));
+  }
+}
+
+void updateAddress(dynamic formKey, BuildContext context, String? id, String street, String ward, String district, String city) {
+  if (formKey.currentState!.validate()) {
+    Address address = new Address(street: street, district: district, city: city, commune_ward: ward, id: id);
+    context.read<AddressBloc>().add(AddressUpdated(address: address));
+    Navigator.pop(context);
   }
 }

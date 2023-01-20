@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:food/address/model/Address.dart';
 import 'package:food/address/presentation/widget/AddressForm.dart';
+import 'package:food/foodlist/presentation/widget/CustomFloatingButton.dart';
 
 import '../bloc/AddressBloc.dart';
 import '../bloc/AddressState.dart';
@@ -21,6 +22,15 @@ class _UpdateAddressPageState extends State<UpdateAddressPage> {
     return BlocProvider(
       create: (BuildContext context) => AddressBloc(),
       child: Scaffold(
+        floatingActionButton: CustomFloatingButton(
+            child: Text(
+              "Done",
+              style: TextStyle(color: Colors.black),
+            ),
+            onPressed: () {
+              Navigator.pop(context);
+            },
+            backgroundColor: Colors.white),
         body: SafeArea(
           child: Container(
             // addnewaddressk7k (814:4397)

@@ -14,7 +14,15 @@ class Address {
         commune_ward = json["address"]['commune_ward'],
         street = json["address"]['street'];
 
-  Map<String, dynamic> toJson() => {
+  Map<String, dynamic> toJsonForUpdating() => {
+        'city': city,
+        'district': district,
+        'commune_ward': commune_ward,
+        'street': street,
+        'id': id != null ? id : null,
+      };
+
+  Map<String, dynamic> toJsonForCreating() => {
         'city': city,
         'district': district,
         'commune_ward': commune_ward,

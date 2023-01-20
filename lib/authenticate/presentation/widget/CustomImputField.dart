@@ -71,8 +71,7 @@ class _CustomInputFieldState extends State<CustomInputField> {
                 validator: widget.validator,
                 keyboardType: TextInputType.text,
                 // controller: _userPasswordController,
-                obscureText: widget.isPassword &&
-                    !_fieldVisible, //This will obscure text dynamically
+                obscureText: widget.isPassword && !_fieldVisible, //This will obscure text dynamically
                 decoration: InputDecoration(
                   // labelText: 'Password',
                   // hintText: 'Enter your password',

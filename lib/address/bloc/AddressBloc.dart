@@ -13,6 +13,7 @@ class AddressBloc extends Bloc<AddressEvent, AddressState> {
   AddressRepository _repository = new AddressRepository();
   AddressBloc() : super(AddressStateInitial()) {
     on<AddressFetched>(_fetchAddress);
+    on<AddressDefaultUpdated>(_updateDefaultAddress);
     on<AddressUpdated>(_updateAddress);
     on<AddressCreated>(_createAddress);
     on<AddressDeleted>(_deleteAddress);
@@ -22,6 +23,11 @@ class AddressBloc extends Bloc<AddressEvent, AddressState> {
     String? login_cookie = await _storage.read(key: "login_cookie");
     String? token = jsonDecode(login_cookie!)["token"];
     return token;
+  }
+
+  Future<void> _updateAddress(AddressUpdated event, emit) async {
+    String? token = await _getToken();
+    await _repository.updateAddress(token!, event.address);
   }
 
   _deleteAddress(AddressDeleted event, emit) async {
@@ -38,9 +44,9 @@ class AddressBloc extends Bloc<AddressEvent, AddressState> {
     }
   }
 
-  _updateAddress(AddressUpdated event, emit) async {
+  _updateDefaultAddress(AddressDefaultUpdated event, emit) async {
     String? token = await _getToken();
-    await _repository.updateAddress(token!, event.choiceAddress.id!);
+    await _repository.updateDefaultAddress(token!, event.choiceAddress.id!);
     add(AddressFetched());
   }
 
