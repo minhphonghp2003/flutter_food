@@ -12,6 +12,6 @@ class FoodBloc extends Bloc<FoodEvent, FoodState> {
   }
   _foodAllCategoriesFetched(event, emit) async {
     List<Category> _foodCategories = await _foodRepository.getAllCategory();
-    print(_foodCategories);
+    emit(FoodStateAllCategoriesFetchedSuccess(categories: _foodCategories));
   }
 }

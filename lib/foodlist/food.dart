@@ -5,6 +5,8 @@ import 'package:food/authenticate/model/User.dart';
 import 'package:food/authenticate/presentation/WelcomePage.dart';
 import 'package:food/cart/CartPage.dart';
 import 'package:food/favorite/FavoritePage.dart';
+import 'package:food/foodlist/bloc/FoodBloc.dart';
+import 'package:food/foodlist/bloc/FoodEvent.dart';
 import 'package:food/foodlist/presentation/FoodListPage.dart';
 import 'package:food/foodlist/presentation/widget/AppbarTitle.dart';
 import 'package:food/foodlist/presentation/widget/CustomFloatingButton.dart';
@@ -38,6 +40,9 @@ class _FoodListState extends State<FoodList> {
       providers: [
         BlocProvider(
           create: (BuildContext context) => AuthBloc(),
+        ),
+        BlocProvider(
+          create: (BuildContext context) => FoodBloc()..add(FoodAllCategoriesFetched()),
         ),
       ],
       child: Scaffold(

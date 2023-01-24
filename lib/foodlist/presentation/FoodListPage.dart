@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:food/authenticate/bloc/AuthBloc.dart';
+import 'package:food/foodlist/bloc/FoodBloc.dart';
+import 'package:food/foodlist/bloc/FoodState.dart';
 import 'package:food/foodlist/presentation/widget/Category.dart';
 import 'package:food/foodlist/presentation/widget/FeatureRestau.dart';
 import 'package:food/foodlist/presentation/widget/PopularItems.dart';
@@ -238,16 +240,23 @@ class CategorySection extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      // group17846Cad (814:6509)
-      margin: EdgeInsets.fromLTRB(0, 0, 0, 30),
-      width: 424.67,
-      height: 98,
-      child: ListView(
-        scrollDirection: Axis.horizontal,
+        // group17846Cad (814:6509)
+        margin: EdgeInsets.fromLTRB(0, 0, 0, 30),
+        width: 424.67,
+        height: 98,
+        child: BlocBuilder<FoodBloc, FoodState>(builder: (context, state) {
+          if (state is FoodStateAllCategoriesFetchedSuccess) {
+            return ListView(
+              scrollDirection: Axis.horizontal,
 
-        // crossAxisAlignment: CrossAxisAlignment.center,
-        children: [Category(), Category(), Category(), Category(), Category(), Category()],
-      ),
-    );
+              // crossAxisAlignment: CrossAxisAlignment.center,
+              children: state.categories.map((category) {
+                return CategoryWidget(category: category);
+              }).toList(),
+              // children: [CategoryWidget(), CategoryWidget(), CategoryWidget(), CategoryWidget(), CategoryWidget(), CategoryWidget()],
+            );
+          }
+          return Container();
+        }));
   }
 }
