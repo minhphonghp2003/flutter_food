@@ -5,7 +5,7 @@ import 'package:food/authenticate/model/User.dart';
 import 'package:http/http.dart' as http;
 
 class UserProvider {
-  var host = '192.168.1.3:3000';
+  var host = '192.168.1.5:3000';
   var path = 'v1/customer';
   http.Client client;
   UserProvider({required this.client});
