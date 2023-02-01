@@ -42,7 +42,10 @@ class _FoodListState extends State<FoodList> {
           create: (BuildContext context) => AuthBloc(),
         ),
         BlocProvider(
-          create: (BuildContext context) => FoodBloc()..add(FoodAllCategoriesFetched()),
+          create: (BuildContext context) => FoodBloc()
+            ..add(FoodAllCategoriesFetched())
+            ..add(FoodProductFetched(page: 1, size: 6))
+            ..add(FoodProductFetched(page: 1, size: 5, sort: "price")),
         ),
       ],
       child: Scaffold(

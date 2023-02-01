@@ -1,12 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:food/foodlist/model/Food.dart';
 
 import 'CustomFloatingButton.dart';
 
-class PopularItems extends StatelessWidget {
-  const PopularItems({
-    Key? key,
-  }) : super(key: key);
-
+class SubProductWidget extends StatelessWidget {
+  SubProductWidget({Key? key, required this.food}) : super(key: key);
+  Food food;
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -20,7 +19,7 @@ class PopularItems extends StatelessWidget {
         borderRadius: BorderRadius.circular(15),
         image: DecorationImage(
           fit: BoxFit.cover,
-          image: AssetImage('assets/smallproduct.png'),
+          image: NetworkImage(food.image),
         ),
       ),
       child: Column(
@@ -43,7 +42,7 @@ class PopularItems extends StatelessWidget {
                       borderRadius: BorderRadius.circular(100),
                     ),
                     child: CustomFloatingButtonExtend(
-                      child: Text("5.50\$", style: TextStyle(color: Colors.black)),
+                      child: Text("${food.price}", style: TextStyle(color: Colors.black)),
                       onPressed: () {},
                       backgroundColor: Colors.white,
                     )),
@@ -56,7 +55,7 @@ class PopularItems extends StatelessWidget {
                       backgroundColor: Colors.transparent,
                       child: Icon(
                         Icons.favorite_outlined,
-                        color: Colors.white,
+                        color: food.isFavorite ? Colors.redAccent : Colors.white,
                       ),
                     )),
               ],
@@ -90,7 +89,7 @@ class PopularItems extends StatelessWidget {
                     // end (814:6342)
                     // margin: EdgeInsets.fromLTRB(0, 0, 5.76, 0),
                     child: Text(
-                      '4.5',
+                      '${food.rating}',
                       style: TextStyle(
                         fontSize: 11.6949138641,
                         fontWeight: FontWeight.w600,
@@ -104,7 +103,7 @@ class PopularItems extends StatelessWidget {
                     // V2Z (814:6343)
                     margin: EdgeInsets.fromLTRB(0, 2, 0, 0),
                     child: Text(
-                      '(25+)',
+                      '(${food.reviewCount})',
                       style: TextStyle(
                         fontSize: 8.1864395142,
                         fontWeight: FontWeight.w400,
@@ -126,7 +125,7 @@ class PopularItems extends StatelessWidget {
                   // salmonsalad14m (814:6426)
                   margin: EdgeInsets.fromLTRB(0, 0, 0, 5.21),
                   child: Text(
-                    'Salmon Salad',
+                    '${food.name}',
                     style: TextStyle(
                       fontSize: 14,
                       fontWeight: FontWeight.w600,

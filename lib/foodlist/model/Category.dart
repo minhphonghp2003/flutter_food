@@ -2,7 +2,7 @@ class Category {
   int id;
   String name;
   String? imageUrl;
-  Category({required this.id, required this.imageUrl, required this.name});
+  Category({required this.id, this.imageUrl, required this.name});
 
   Category.fromJson(Map<dynamic, dynamic> json)
       : id = json['id'],
