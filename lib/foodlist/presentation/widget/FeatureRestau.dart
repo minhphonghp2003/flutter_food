@@ -2,8 +2,8 @@ import 'package:flutter/material.dart';
 
 import 'CustomFloatingButton.dart';
 
-class FeatureRestaurant extends StatelessWidget {
-  const FeatureRestaurant({
+class ProductWidget extends StatelessWidget {
+  const ProductWidget({
     Key? key,
   }) : super(key: key);
 
@@ -153,132 +153,128 @@ class FeatureRestaurant extends StatelessWidget {
                           ],
                         ),
                       ),
-                      Container(
-                        // group17812hgM (814:6365)
-                        child: Row(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Container(
-                                // group175043VK (814:6368)
-                                margin: EdgeInsets.fromLTRB(0, 1, 6.22, 0),
-                                width: 13.78,
-                                height: 11.43,
-                                child: Icon(Icons.delivery_dining, color: Colors.red[600], size: 18)),
-                            Container(
-                              // freedelivery9HT (814:6366)
-                              margin: EdgeInsets.fromLTRB(0, 0, 21, 0),
-                              child: Text(
-                                'Free delivery',
-                                style: TextStyle(
-                                  fontSize: 12,
-                                  fontWeight: FontWeight.w400,
-                                  height: 1.2575,
-                                  color: Color(0xff7d8391),
-                                ),
-                              ),
-                            ),
-                            Container(
-                                // group17503Tow (814:6377)
-                                margin: EdgeInsets.fromLTRB(0, 1, 4.32, 0),
-                                width: 10.68,
-                                height: 12.09,
-                                child: Icon(Icons.timelapse, color: Colors.red[600], size: 15)),
-                            Text(
-                              // minsNR7 (814:6367)
-                              '10-15 mins',
-                              style: TextStyle(
-                                fontSize: 12,
-                                fontWeight: FontWeight.w400,
-                                height: 1.2575,
-                                color: Color(0xff7d8391),
-                              ),
-                            ),
-                          ],
-                        ),
-                      ),
                     ],
                   ),
                 ),
                 Container(
-                  // group178457Nh (814:6355)
+                  // group17546JTs (814:6341)
                   width: double.infinity,
-                  height: 22,
-                  decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(5),
-                  ),
                   child: Row(
-                    crossAxisAlignment: CrossAxisAlignment.center,
+                    crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Container(
-                        // group17803drq (814:6356)
-                        padding: EdgeInsets.fromLTRB(9.5, 6, 11.5, 0),
-                        height: double.infinity,
-                        decoration: BoxDecoration(
-                          color: Color(0xfff6f6f6),
-                          borderRadius: BorderRadius.circular(5),
-                        ),
-                        child: Text(
-                          'Burger',
-                          textAlign: TextAlign.center,
-                          style: TextStyle(
-                            fontSize: 12,
-                            fontWeight: FontWeight.w400,
-                            height: 1.2575,
-                            letterSpacing: -0.24,
-                            color: Color(0xff898d9b),
-                          ),
-                        ),
+                        // end (814:6342)
+                        // margin: EdgeInsets.fromLTRB(0, 0, 5.76, 0),
+                        child: Icon(Icons.attach_money_outlined, size: 15, color: Colors.redAccent),
                       ),
-                      // SizedBox(
-                      //   width: 8,
-                      // ),
                       Container(
-                        // group178046Ed (814:6359)
-                        padding: EdgeInsets.fromLTRB(10, 6, 11, 0),
-                        height: double.infinity,
-                        decoration: BoxDecoration(
-                          color: Color(0xfff6f6f6),
-                          borderRadius: BorderRadius.circular(5),
-                        ),
+                        // V2Z (814:6343)
+                        margin: EdgeInsets.fromLTRB(0, 2, 0, 0),
                         child: Text(
-                          'Chicken',
-                          textAlign: TextAlign.center,
+                          '30000',
                           style: TextStyle(
-                            fontSize: 12,
+                            fontSize: 10,
                             fontWeight: FontWeight.w400,
                             height: 1.2575,
-                            letterSpacing: -0.24,
-                            color: Color(0xff898d9b),
-                          ),
-                        ),
-                      ),
-                      // SizedBox(
-                      //   width: 8,
-                      // ),
-                      Container(
-                        // group17805YcR (814:6362)
-                        padding: EdgeInsets.fromLTRB(13, 6, 10, 0),
-                        height: double.infinity,
-                        decoration: BoxDecoration(
-                          color: Color(0xfff6f6f6),
-                          borderRadius: BorderRadius.circular(5),
-                        ),
-                        child: Text(
-                          'Fast Food',
-                          textAlign: TextAlign.center,
-                          style: TextStyle(
-                            fontSize: 12,
-                            fontWeight: FontWeight.w400,
-                            height: 1.2575,
-                            letterSpacing: -0.24,
-                            color: Color(0xff898d9b),
+                            color: Color(0xff9796a1),
                           ),
                         ),
                       ),
                     ],
                   ),
                 ),
+                Categories(),
               ],
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+}
+
+class Categories extends StatelessWidget {
+  const Categories({
+    Key? key,
+  }) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      // group178457Nh (814:6355)
+      width: double.infinity,
+      height: 22,
+      decoration: BoxDecoration(
+        borderRadius: BorderRadius.circular(5),
+      ),
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+        crossAxisAlignment: CrossAxisAlignment.center,
+        children: [
+          Container(
+            // group17803drq (814:6356)
+            padding: EdgeInsets.fromLTRB(9.5, 6, 11.5, 0),
+            height: double.infinity,
+            decoration: BoxDecoration(
+              color: Color(0xfff6f6f6),
+              borderRadius: BorderRadius.circular(50),
+            ),
+            child: Text(
+              'Burger',
+              textAlign: TextAlign.center,
+              style: TextStyle(
+                fontSize: 12,
+                fontWeight: FontWeight.w400,
+                height: 1.2575,
+                letterSpacing: -0.24,
+                color: Color(0xff898d9b),
+              ),
+            ),
+          ),
+          // SizedBox(
+          //   width: 8,
+          // ),
+          Container(
+            // group178046Ed (814:6359)
+            padding: EdgeInsets.fromLTRB(10, 6, 11, 0),
+            height: double.infinity,
+            decoration: BoxDecoration(
+              color: Color(0xfff6f6f6),
+              borderRadius: BorderRadius.circular(50),
+            ),
+            child: Text(
+              'Chicken',
+              textAlign: TextAlign.center,
+              style: TextStyle(
+                fontSize: 12,
+                fontWeight: FontWeight.w400,
+                height: 1.2575,
+                letterSpacing: -0.24,
+                color: Color(0xff898d9b),
+              ),
+            ),
+          ),
+          // SizedBox(
+          //   width: 8,
+          // ),
+          Container(
+            // group17805YcR (814:6362)
+            padding: EdgeInsets.fromLTRB(13, 6, 10, 0),
+            height: double.infinity,
+            decoration: BoxDecoration(
+              color: Color(0xfff6f6f6),
+              borderRadius: BorderRadius.circular(50),
+            ),
+            child: Text(
+              'Fast Food',
+              textAlign: TextAlign.center,
+              style: TextStyle(
+                fontSize: 12,
+                fontWeight: FontWeight.w400,
+                height: 1.2575,
+                letterSpacing: -0.24,
+                color: Color(0xff898d9b),
+              ),
             ),
           ),
         ],

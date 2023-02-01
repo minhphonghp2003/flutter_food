@@ -68,7 +68,7 @@ class FoodListPage extends StatelessWidget {
                                 // featuredrestaurantsrgR (814:6414)
                                 margin: EdgeInsets.fromLTRB(0, 0, 96, 0),
                                 child: Text(
-                                  'Featured Restaurants',
+                                  'New Products',
                                   textAlign: TextAlign.right,
                                   style: TextStyle(
                                     fontSize: 18,
@@ -82,14 +82,16 @@ class FoodListPage extends StatelessWidget {
                                 // group17552Ax1 (814:6415)
                                 margin: EdgeInsets.fromLTRB(0, 3, 0, 3),
                                 height: double.infinity,
-                                child: Row(
-                                  crossAxisAlignment: CrossAxisAlignment.center,
-                                  children: [
-                                    Container(
-                                      // viewallJHX (814:6416)
-                                      margin: EdgeInsets.fromLTRB(0, 0, 5, 0),
-                                      child: GestureDetector(
-                                        onTap: () {},
+                                child: GestureDetector(
+                                  onTap: () {
+                                    print("View all");
+                                  },
+                                  child: Row(
+                                    crossAxisAlignment: CrossAxisAlignment.center,
+                                    children: [
+                                      Container(
+                                        // viewallJHX (814:6416)
+                                        margin: EdgeInsets.fromLTRB(0, 0, 5, 0),
                                         child: Text(
                                           'View All',
                                           textAlign: TextAlign.right,
@@ -101,23 +103,20 @@ class FoodListPage extends StatelessWidget {
                                           ),
                                         ),
                                       ),
-                                    ),
-                                    GestureDetector(
-                                      onTap: () {},
-                                      child: Container(
+                                      Container(
                                           // path3424ok5 (814:6417)
                                           margin: EdgeInsets.fromLTRB(0, 0, 0, 4.32),
                                           // width: 3.34,
                                           // height: 6.68,
                                           child: Text(">", style: TextStyle(color: Colors.red))),
-                                    ),
-                                  ],
+                                    ],
+                                  ),
                                 ),
                               ),
                             ],
                           ),
                         ),
-                        FeatureSection(),
+                        NewProduct(),
                         Container(
                           // autogroupd83bLCH (W75QAk4va9HNfubZz5d83b)
                           margin: EdgeInsets.fromLTRB(14, 0, 23.66, 10),
@@ -211,8 +210,8 @@ class PopularSection extends StatelessWidget {
   }
 }
 
-class FeatureSection extends StatelessWidget {
-  const FeatureSection({
+class NewProduct extends StatelessWidget {
+  const NewProduct({
     Key? key,
   }) : super(key: key);
 
@@ -226,7 +225,7 @@ class FeatureSection extends StatelessWidget {
       child: ListView(
         scrollDirection: Axis.horizontal,
         // crossAxisAlignment: CrossAxisAlignment.center,
-        children: [FeatureRestaurant(), FeatureRestaurant(), FeatureRestaurant(), FeatureRestaurant()],
+        children: [ProductWidget(), ProductWidget(), ProductWidget(), ProductWidget()],
       ),
     );
   }
@@ -248,12 +247,9 @@ class CategorySection extends StatelessWidget {
           if (state is FoodStateAllCategoriesFetchedSuccess) {
             return ListView(
               scrollDirection: Axis.horizontal,
-
-              // crossAxisAlignment: CrossAxisAlignment.center,
               children: state.categories.map((category) {
                 return CategoryWidget(category: category);
               }).toList(),
-              // children: [CategoryWidget(), CategoryWidget(), CategoryWidget(), CategoryWidget(), CategoryWidget(), CategoryWidget()],
             );
           }
           return Container();

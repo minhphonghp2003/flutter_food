@@ -5,7 +5,7 @@ import 'package:http/http.dart' as http;
 import 'model/Category.dart';
 
 class FoodProvider {
-  var host = '192.168.1.5:3000';
+  var host = '172.16.1.40:3000';
   var path = 'v1/product';
   http.Client client;
   FoodProvider({required this.client});

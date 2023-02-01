@@ -21,6 +21,7 @@ class CategoryWidget extends StatelessWidget {
           boxShadow: [
             BoxShadow(
               color: Color(0x40fe724c),
+              // spreadRadius: 5.0,
               offset: Offset(0, 20),
               blurRadius: 15,
             ),
@@ -34,10 +35,13 @@ class CategoryWidget extends StatelessWidget {
               margin: EdgeInsets.fromLTRB(0, 0, 0, 11.76),
               width: 49.56,
               height: 49.56,
-              child: Image.asset(
-                "assets/category.png",
-                width: 49.56,
-                height: 49.56,
+              child: CircleAvatar(
+                radius: 48, // Image radius
+                backgroundImage: category.imageUrl != null
+                    ? NetworkImage(category.imageUrl!)
+                    : NetworkImage(
+                        "https://thumbs.dreamstime.com/b/vegetarian-food-plate-editable-vector-illustration-isolated-dark-grey-background-medical-healthcare-dietary-poster-134019735.jpg",
+                      ),
               ),
             ),
             Container(
@@ -45,6 +49,7 @@ class CategoryWidget extends StatelessWidget {
               margin: EdgeInsets.fromLTRB(0, 0, 1.13, 0),
               child: Text(
                 '${category.name}',
+                overflow: TextOverflow.ellipsis,
                 textAlign: TextAlign.center,
                 style: TextStyle(
                   fontSize: 11,
