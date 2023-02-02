@@ -9,7 +9,7 @@ class FoodRepository {
     return await _dataProvider.getAllCategories();
   }
 
-  Future<List<Food>> getProducts(int page, int size, String? sort, String? userId) async {
-    return await _dataProvider.getProducts(page, size, sort, userId);
+  Future<List<Food>> getProducts(int page, int size, String? sort, String? sortDirect, String? userId) async {
+    return await _dataProvider.getProducts(page, size, sort, sortDirect, userId);
   }
 }

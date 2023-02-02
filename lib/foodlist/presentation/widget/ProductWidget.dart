@@ -92,7 +92,7 @@ class ProductWidget extends StatelessWidget {
                               '(${food.reviewCount})',
                               style: TextStyle(
                                 fontSize: 8.1864395142,
-                                fontWeight: FontWeight.w400,
+                                // fontWeight: FontWeight.w400,
                                 height: 1.2575,
                                 color: Color(0xff9796a1),
                               ),
@@ -173,7 +173,7 @@ class ProductWidget extends StatelessWidget {
                           'VND ${food.price}',
                           style: TextStyle(
                             fontSize: 10,
-                            fontWeight: FontWeight.w400,
+                            fontWeight: FontWeight.w600,
                             height: 1.2575,
                             color: Color(0xff9796a1),
                           ),
@@ -218,7 +218,7 @@ class Categories extends StatelessWidget {
                 borderRadius: BorderRadius.circular(50),
               ),
               child: Text(
-                'Burger',
+                '${e.name}',
                 textAlign: TextAlign.center,
                 style: TextStyle(
                   fontSize: 12,
