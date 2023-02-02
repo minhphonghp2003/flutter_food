@@ -5,12 +5,12 @@ import 'package:http/http.dart' as http;
 import 'model/Address.dart';
 
 class AddressProvider {
-  var host = '192.168.1.5:3000';
+  var host = 'http://minhnitro:3000/';
   var path = 'v1/customer';
   http.Client client;
   AddressProvider({required this.client});
   Future<List<Address>> getAddress(String token) async {
-    var response = await client.get(Uri.http(host, "$path/address"), headers: {
+    var response = await client.get(Uri.parse(host + "$path/address"), headers: {
       "token": token,
     });
     var decodedResponse = jsonDecode(utf8.decode(response.bodyBytes)) as List<dynamic>;
@@ -23,7 +23,7 @@ class AddressProvider {
   }
 
   Future<void> updateDefaultAddress(String token, String addressId) async {
-    await client.put(Uri.http(host, "$path/defaultaddress"), headers: {
+    await client.put(Uri.parse(host + "$path/defaultaddress"), headers: {
       "token": token,
     }, body: {
       "address": addressId
@@ -31,17 +31,17 @@ class AddressProvider {
   }
 
   Future<Map<dynamic, dynamic>> createAddress(String token, Address addressDetail) async {
-    var response = await client.post(Uri.http(host, "$path/address"), headers: {"token": token}, body: addressDetail.toJsonForCreating());
+    var response = await client.post(Uri.parse(host + "$path/address"), headers: {"token": token}, body: addressDetail.toJsonForCreating());
     var decodedResponse = jsonDecode(utf8.decode(response.bodyBytes)) as Map;
     return decodedResponse;
   }
 
   Future<void> deleteAddress(String token, String addressId) async {
-    await client.delete(Uri.http(host, "$path/address"), headers: {"token": token}, body: {'id': addressId});
+    await client.delete(Uri.parse(host + "$path/address"), headers: {"token": token}, body: {'id': addressId});
   }
 
   Future<void> updateAddress(String token, Address address) async {
-    await client.put(Uri.http(host, "$path/address"), headers: {"token": token}, body: address.toJsonForUpdating());
+    await client.put(Uri.parse(host + "$path/address"), headers: {"token": token}, body: address.toJsonForUpdating());
   }
 }
 

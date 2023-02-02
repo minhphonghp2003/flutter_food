@@ -5,8 +5,6 @@ import 'package:food/authenticate/model/User.dart';
 import 'package:food/authenticate/presentation/WelcomePage.dart';
 import 'package:food/cart/CartPage.dart';
 import 'package:food/favorite/FavoritePage.dart';
-import 'package:food/foodlist/bloc/FoodBloc.dart';
-import 'package:food/foodlist/bloc/FoodEvent.dart';
 import 'package:food/foodlist/presentation/FoodListPage.dart';
 import 'package:food/foodlist/presentation/widget/AppbarTitle.dart';
 import 'package:food/foodlist/presentation/widget/CustomFloatingButton.dart';
@@ -14,6 +12,7 @@ import 'package:food/foodlist/presentation/widget/Drawer.dart';
 
 import '../address/address.dart';
 import '../notification/NotificationPage.dart';
+import 'bloc/FoodBloc.dart';
 
 class FoodList extends StatefulWidget {
   const FoodList({Key? key, this.userProfile}) : super(key: key);
@@ -41,12 +40,7 @@ class _FoodListState extends State<FoodList> {
         BlocProvider(
           create: (BuildContext context) => AuthBloc(),
         ),
-        BlocProvider(
-          create: (BuildContext context) => FoodBloc()
-            ..add(FoodAllCategoriesFetched())
-            ..add(FoodProductFetched(page: 1, size: 6))
-            ..add(FoodProductFetched(page: 1, size: 5, sort: "price")),
-        ),
+        BlocProvider(create: (BuildContext context) => FoodBloc()),
       ],
       child: Scaffold(
         appBar: _selectedIndex == 0

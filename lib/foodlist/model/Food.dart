@@ -6,7 +6,7 @@ class Food {
   String price;
   String image;
   int reviewCount;
-  double? rating;
+  double rating;
   bool isFavorite;
   List<Category> categories;
 
@@ -26,7 +26,7 @@ class Food {
         image = json['images'],
         rating = json['rating'] != null ? json['rating'] * 1.0 : 0.0,
         isFavorite = json['isFavorite'],
-        reviewCount = json['reviewCount'],
+        reviewCount = json['reviewCount'] != null ? json['reviewCount'] : 0,
         categories = (json['categories'] as List).map((e) => Category.fromJson(e)).toList(),
-        price = json['price'];
+        price = json['price'].toString();
 }

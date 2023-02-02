@@ -5,7 +5,7 @@ import 'package:food/authenticate/model/User.dart';
 import 'package:http/http.dart' as http;
 
 class UserProvider {
-  var host = '192.168.1.5:3000';
+  var host = 'http://minhnitro:3000/';
   var path = 'v1/customer';
   http.Client client;
   UserProvider({required this.client});
@@ -25,13 +25,13 @@ class UserProvider {
   }
 
   Future<void> sendVerifiedEmail(String email) async {
-    var emailId = await client.post(Uri.http(host, "$path/emailentry"), body: {"email": email});
+    var emailId = await client.post(Uri.parse(host + "$path/emailentry"), body: {"email": email});
     var link = "create link";
     await _sendEmail(email, link);
   }
 
   Future<User> getProfile(String token) async {
-    var response = await client.get(Uri.http(host, "$path/profile"), headers: {
+    var response = await client.get(Uri.parse(host + "$path/profile"), headers: {
       "token": token,
     });
     var decodedResponse = jsonDecode(utf8.decode(response.bodyBytes)) as Map;
@@ -41,7 +41,7 @@ class UserProvider {
 
   Future<Map<dynamic, dynamic>> updateProfile(String token, Map<dynamic, dynamic> field) async {
     // field: first_name, last_name, email,phone
-    var response = await client.put(Uri.http(host, "$path/profile"),
+    var response = await client.put(Uri.parse(host + "$path/profile"),
         headers: {
           "token": token,
         },
@@ -52,7 +52,7 @@ class UserProvider {
 
   Future<Map<dynamic, dynamic>> login(String username, String password) async {
     var client = http.Client();
-    var response = await client.post(Uri.http(host, "$path/login"), body: {"username": username, "password": password});
+    var response = await client.post(Uri.parse(host + "$path/login"), body: {"username": username, "password": password});
     var decodedResponse = jsonDecode(utf8.decode(response.bodyBytes)) as Map;
 
     return decodedResponse;
@@ -60,7 +60,7 @@ class UserProvider {
 
   Future<Map<dynamic, dynamic>> register(User userCred) async {
     var client = http.Client();
-    var response = await client.post(Uri.http(host, "$path/register"), body: userCred.toJsonForReg());
+    var response = await client.post(Uri.parse(host + "$path/register"), body: userCred.toJsonForReg());
     var decodedResponse = jsonDecode(utf8.decode(response.bodyBytes)) as Map;
     return decodedResponse;
   }

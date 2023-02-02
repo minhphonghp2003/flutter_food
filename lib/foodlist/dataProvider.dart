@@ -26,8 +26,9 @@ class FoodProvider {
     var response = await client.get(Uri.parse(host + "$path?page=$page&size=$size&sort=$sort&userId=$userId"));
     var decodedResponse = jsonDecode(utf8.decode(response.bodyBytes));
     List<Food> food = [];
-    for (var f in decodedResponse["paginatedProd"]) {
-      food.add(Food.fromJson(f));
+
+    for (var f in decodedResponse["hits"]) {
+      food.add(Food.fromJson(f["_source"]));
     }
     return food;
   }

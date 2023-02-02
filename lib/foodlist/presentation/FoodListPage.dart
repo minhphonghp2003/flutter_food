@@ -24,9 +24,13 @@ class FoodListPage extends StatelessWidget {
         BlocProvider<AuthBloc>(
           create: (BuildContext context) => AuthBloc(),
         ),
-        BlocProvider.value(value: BlocProvider.of<FoodBloc>(context)
-            // child: (),
-            )
+        BlocProvider.value(
+          value: BlocProvider.of<FoodBloc>(context)
+            ..add(FoodAllCategoriesFetched())
+            ..add(FoodProductFetched(page: 1, size: 6))
+            ..add(FoodProductFetched(page: 1, size: 5, sort: "reviewCount")),
+          // child: (),
+        )
       ],
       child: SafeArea(
           child: Container(
@@ -42,7 +46,7 @@ class FoodListPage extends StatelessWidget {
                 onRefresh: () {
                   context.read<FoodBloc>().add(FoodAllCategoriesFetched());
                   context.read<FoodBloc>().add(FoodProductFetched(page: 1, size: 6));
-                  context.read<FoodBloc>().add(FoodProductFetched(page: 1, size: 5, sort: "price"));
+                  context.read<FoodBloc>().add(FoodProductFetched(page: 1, size: 5, sort: "reviewCount"));
                   _refreshController.refreshCompleted();
                 },
                 child: ListView(
@@ -149,7 +153,7 @@ class FoodListPage extends StatelessWidget {
                                   // featuredrestaurantsrgR (814:6414)
                                   margin: EdgeInsets.fromLTRB(0, 0, 96, 0),
                                   child: Text(
-                                    'Highest Price',
+                                    'Most popular',
                                     textAlign: TextAlign.right,
                                     style: TextStyle(
                                       fontSize: 18,

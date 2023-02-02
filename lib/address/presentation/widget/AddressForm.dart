@@ -78,7 +78,6 @@ class _AddressFormState extends State<AddressForm> {
     var response = await fetchLocation(code, "district");
     setState(() {
       districts = response;
-      print(widget.address?.district);
       chosenDistrict = widget.address != null && firstTime
           ? (districts?.reversed.where((e) => widget.address!.district.contains(e["name"])).toList())![0]
           : districts![0];
