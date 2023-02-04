@@ -46,6 +46,11 @@ class _DeliveryPageState extends State<DeliveryPage> {
                   } else {
                     addresses = [];
                   }
+                  if (addresses?.length == 0) {
+                    return Center(
+                      child: Text("Try adding some address"),
+                    );
+                  }
                   return Expanded(
                     child: SmartRefresher(
                       enablePullDown: true,

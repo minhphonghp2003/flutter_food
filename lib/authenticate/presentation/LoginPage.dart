@@ -6,6 +6,7 @@ import 'package:food/authenticate/presentation/NewPasswordPage.dart';
 import 'package:food/authenticate/presentation/widget/CustomBackButton.dart';
 import 'package:food/authenticate/presentation/widget/CustomFloatingButton.dart';
 import 'package:food/authenticate/presentation/widget/CustomImputField.dart';
+import 'package:food/authenticate/presentation/widget/OauthLoginButton.dart';
 
 import '../../foodlist/food.dart';
 import '../bloc/AuthEvent.dart';
@@ -260,63 +261,23 @@ class OtherLoginMethod extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.center,
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
               children: [
-                Container(
-                  margin: EdgeInsets.fromLTRB(0, 0, 15.38, 0),
-                  // padding: EdgeInsets.fromLTRB(12, 13, 36, 12.38),
-                  height: double.infinity,
-                  decoration: BoxDecoration(
-                    color: Color(0xffffffff),
-                    borderRadius: BorderRadius.circular(27.4059333801),
-                    boxShadow: [
-                      BoxShadow(
-                        color: Color(0x3fd3d1d8),
-                        offset: Offset(17.8734359741, 17.8734359741),
-                        blurRadius: 17.8734359741,
-                      ),
-                    ],
+                OauthLogin(
+                  name: "Facebook",
+                  icon: Icon(
+                    Icons.facebook,
+                    color: Colors.blueAccent,
+                    size: 35.0,
                   ),
-                  child: CustomActionFloatingButton(
-                    icon: Icon(
-                      // <-- Icon
-                      // FontAwesomeIcons.gamepad,
-                      Icons.facebook,
-                      size: 35.0,
-                      color: Colors.blue,
-                    ),
-                    textColor: Colors.black,
-                    backgroundColor: Colors.white,
-                    text: 'Facebook',
-                    onPressed: () {},
-                  ),
+                  oauthBy: 'facebook',
                 ),
-                Container(
-                  margin: EdgeInsets.fromLTRB(0, 0, 15.38, 0),
-                  // padding: EdgeInsets.fromLTRB(12, 13, 36, 12.38),
-                  height: double.infinity,
-                  decoration: BoxDecoration(
-                    color: Color(0xffffffff),
-                    borderRadius: BorderRadius.circular(27.4059333801),
-                    boxShadow: [
-                      BoxShadow(
-                        color: Color(0x3fd3d1d8),
-                        offset: Offset(17.8734359741, 17.8734359741),
-                        blurRadius: 17.8734359741,
-                      ),
-                    ],
+                OauthLogin(
+                  name: "Google",
+                  icon: Icon(
+                    Icons.g_mobiledata_outlined,
+                    color: Colors.redAccent,
+                    size: 35.0,
                   ),
-                  child: CustomActionFloatingButton(
-                    icon: Icon(
-                      // <-- Icon
-                      // FontAwesomeIcons.gamepad,
-                      Icons.g_mobiledata_outlined,
-                      size: 40.0,
-                      color: Colors.red,
-                    ),
-                    textColor: Colors.black,
-                    backgroundColor: Colors.white,
-                    text: 'Google',
-                    onPressed: () {},
-                  ),
+                  oauthBy: 'google',
                 ),
               ],
             ),

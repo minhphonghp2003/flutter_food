@@ -42,12 +42,6 @@ class _PageState extends State<Page> {
   TextEditingController last_name = TextEditingController();
   TextEditingController email = TextEditingController();
   TextEditingController phone = TextEditingController();
-  String? phoneValidator(value) {
-    if (value == null || value.isEmpty || !RegExp("^(?:[+0]9)?[0-9]{10}\$").hasMatch(value)) {
-      return 'Please enter a valid phone number';
-    }
-    return null;
-  }
 
   String? emailValidator(value) {
     if (value == null || value.isEmpty || !RegExp(r"^[a-zA-Z0-9.a-zA-Z0-9.!#$%&'*+-/=?^_`{|}~]+@[a-zA-Z0-9]+\.[a-zA-Z]+").hasMatch(value)) {
@@ -245,8 +239,10 @@ class _PageState extends State<Page> {
                                 isPassword: false),
                             CustomInputField(
                                 field: "Phone Number",
-                                controller: phone..text = widget.profile?.phone ?? "phone",
-                                validator: phoneValidator,
+                                controller: phone..text = widget.profile?.phone ?? "",
+                                validator: (String? value) {
+                                  return null;
+                                },
                                 icon: Icons.phone,
                                 isPassword: false),
                             Center(

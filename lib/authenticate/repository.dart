@@ -19,16 +19,16 @@ class UserRepository {
     return await _userProvider.getProfile(token);
   }
 
-  Future<Map<dynamic, dynamic>> login(String username, String password) async {
-    return await _userProvider.login(username, password);
+  Future<Map<dynamic, dynamic>> login(String username, String password, String? oauth) async {
+    return await _userProvider.login(username, password, oauth);
   }
 
-  Future<Map<dynamic, dynamic>> register(String email, String username, String phone, String password) async {
+  Future<Map<dynamic, dynamic>> register(String email, String username, String password) async {
     String first_name = _getRandomString(5);
     String last_name = _getRandomString(4);
 
-    Map<dynamic, dynamic> userCred = await _userProvider
-        .register(User(password: password, email: email, first_name: first_name, last_name: last_name, phone: phone, username: username));
+    Map<dynamic, dynamic> userCred =
+        await _userProvider.register(User(password: password, email: email, first_name: first_name, last_name: last_name, username: username));
     return userCred;
   }
 

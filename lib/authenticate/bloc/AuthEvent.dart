@@ -3,15 +3,15 @@ abstract class AuthEvent {}
 class AuthLoggedIn extends AuthEvent {
   String username;
   String password;
-  AuthLoggedIn({required this.username, required this.password});
+  String? oauth;
+  AuthLoggedIn({required this.username, required this.password, this.oauth});
 }
 
 class AuthRegistered extends AuthEvent {
   final String username;
-  final String phone;
   final String email;
   final String password;
-  AuthRegistered({required this.username, required this.phone, required this.email, required this.password});
+  AuthRegistered({required this.username, required this.email, required this.password});
 }
 
 class AuthProfileFetched extends AuthEvent {

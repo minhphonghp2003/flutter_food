@@ -20,7 +20,6 @@ class RegisterPage extends StatefulWidget {
 class _RegisterPageState extends State<RegisterPage> {
   final _formKey = GlobalKey<FormState>();
   TextEditingController usernameEditingController = TextEditingController();
-  TextEditingController phoneEditingController = TextEditingController();
   TextEditingController emailEditingController = TextEditingController();
   TextEditingController passwordEditingController = TextEditingController();
 
@@ -122,18 +121,6 @@ class _RegisterPageState extends State<RegisterPage> {
                             },
                           ),
                           CustomInputField(
-                            controller: phoneEditingController,
-                            field: "Phone",
-                            icon: Icons.phone,
-                            isPassword: false,
-                            validator: (value) {
-                              if (value == null || value.isEmpty || !RegExp("^(?:[+0]9)?[0-9]{10}\$").hasMatch(value)) {
-                                return 'Please enter a valid phone number';
-                              }
-                              return null;
-                            },
-                          ),
-                          CustomInputField(
                               controller: emailEditingController,
                               field: "E-mail",
                               icon: Icons.email_outlined,
@@ -163,7 +150,6 @@ class _RegisterPageState extends State<RegisterPage> {
                               isPassword: true),
                           SignUp(
                             formKey: _formKey,
-                            phoneController: phoneEditingController,
                             usernameController: usernameEditingController,
                             emailController: emailEditingController,
                             passwordController: passwordEditingController,
@@ -312,18 +298,11 @@ class OtherLoginMethod extends StatelessWidget {
 }
 
 class SignUp extends StatelessWidget {
-  const SignUp(
-      {Key? key,
-      required this.formKey,
-      required this.phoneController,
-      required this.emailController,
-      required this.usernameController,
-      required this.passwordController})
+  const SignUp({Key? key, required this.formKey, required this.emailController, required this.usernameController, required this.passwordController})
       : super(key: key);
   final TextEditingController usernameController;
   final TextEditingController emailController;
   final TextEditingController passwordController;
-  final TextEditingController phoneController;
   final formKey;
 
   @override
@@ -356,8 +335,9 @@ class SignUp extends StatelessWidget {
             textColor: Colors.white,
             onPressed: () {
               if (formKey.currentState!.validate()) {
-                context.read<AuthBloc>().add(AuthRegistered(
-                    username: usernameController.text, email: emailController.text, phone: phoneController.text, password: passwordController.text));
+                context
+                    .read<AuthBloc>()
+                    .add(AuthRegistered(username: usernameController.text, email: emailController.text, password: passwordController.text));
               }
             }),
       ),

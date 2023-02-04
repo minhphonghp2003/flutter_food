@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
+import 'package:food/authenticate/authenticate.dart';
 import 'package:food/authenticate/bloc/AuthState.dart';
 import 'package:food/authenticate/model/User.dart';
 import 'package:food/authenticate/presentation/Profile.dart';
-import 'package:food/authenticate/presentation/WelcomePage.dart';
 import 'package:food/foodlist/presentation/widget/CustomFloatingButton.dart';
 
 import '../../../address/presentation/DeliveryAddressPage.dart';
@@ -290,7 +290,7 @@ class CustomDrawer extends StatelessWidget {
                                 final storage = new FlutterSecureStorage();
                                 await storage.delete(key: "login_cookie");
                                 Navigator.of(context)
-                                    .pushAndRemoveUntil(MaterialPageRoute(builder: (context) => WelcomePage()), (Route<dynamic> route) => false);
+                                    .pushAndRemoveUntil(MaterialPageRoute(builder: (context) => Authentication()), (Route<dynamic> route) => false);
                               }),
                         )
                       ],

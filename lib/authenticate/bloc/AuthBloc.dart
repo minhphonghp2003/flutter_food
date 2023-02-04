@@ -25,16 +25,18 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
   }
 
   void _authLoggedIn(AuthLoggedIn event, emit) async {
-    Map<dynamic, dynamic> response = await userRepository.login(event.username, event.password);
-    if (response.containsKey("error")) {
+    Map<dynamic, dynamic> loginToken = {};
+    loginToken = await userRepository.login(event.username, event.password, event.oauth);
+
+    if (loginToken.containsKey("error")) {
       emit(AuthStateLoginFailure(message: "No valid account"));
     } else {
-      add(AuthLoginCookieAdded(credentials: response));
+      add(AuthLoginCookieAdded(credentials: loginToken));
     }
   }
 
   void _authRegistered(event, emit) async {
-    Map<dynamic, dynamic> response = await userRepository.register(event.email, event.username, event.phone, event.password);
+    Map<dynamic, dynamic> response = await userRepository.register(event.email, event.username, event.password);
     if (response.containsKey("error")) {
       emit(AuthStateRegisterFailure());
     } else {

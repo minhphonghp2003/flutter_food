@@ -4,17 +4,10 @@ class User {
   String? id;
   String last_name;
   String email;
-  String phone;
+  String? phone;
   String username;
 
-  User(
-      {this.id,
-      required this.password,
-      required this.email,
-      required this.first_name,
-      required this.last_name,
-      required this.phone,
-      required this.username});
+  User({this.id, required this.password, required this.email, required this.first_name, required this.last_name, this.phone, required this.username});
 
   User.fromJson(Map<dynamic, dynamic> json)
       : email = json['email'],
@@ -29,7 +22,6 @@ class User {
         'first_name': first_name,
         'username': username,
         'last_name': last_name,
-        'phone': phone,
         'email': email,
       };
   String toString() {
