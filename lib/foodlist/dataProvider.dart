@@ -22,8 +22,8 @@ class FoodProvider {
     return categories;
   }
 
-  Future<List<Food>> getProducts(int page, int size, String? sort, String? sortDirect, String? userId) async {
-    var response = await client.get(Uri.parse(host + "$path?page=$page&size=$size&sort=$sort&sortDirect=$sortDirect&userId=$userId"));
+  Future<List<Food>> getProducts(int page, int size, String? sort, String? userId) async {
+    var response = await client.get(Uri.parse(host + "$path?page=$page&size=$size&sort=$sort&userId=$userId"));
     var decodedResponse = jsonDecode(utf8.decode(response.bodyBytes));
     List<Food> food = [];
 
@@ -37,5 +37,5 @@ class FoodProvider {
 void main() async {
   var provider = new FoodProvider(client: http.Client());
   // print(await provider.getAllCategories());
-  // print(await provider.getProducts(1, 2, "lastest", "c0a5bc18-c2c6-45dc-bd9d-846ef63ff265"));
+  print(await provider.getProducts(1, 2, "lastest", "c0a5bc18-c2c6-45dc-bd9d-846ef63ff265"));
 }

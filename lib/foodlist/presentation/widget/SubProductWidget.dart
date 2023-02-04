@@ -137,21 +137,15 @@ class SubProductWidget extends StatelessWidget {
                 Container(
                   // bakedsalmonfishVEq (814:6427)
                   margin: EdgeInsets.fromLTRB(1.01, 0, 0, 0),
-                  child: Builder(builder: (context) {
-                    String category = "";
-                    for (var cate in food.categories) {
-                      category += " ${cate.name}";
-                    }
-                    return Text(
-                      category,
-                      style: TextStyle(
-                        fontSize: 12,
-                        overflow: TextOverflow.ellipsis,
-                        height: 1.2575,
-                        color: Colors.white,
-                      ),
-                    );
-                  }),
+                  child: Text(
+                    'Baked salmon fish',
+                    style: TextStyle(
+                      fontSize: 12,
+                      fontWeight: FontWeight.w300,
+                      height: 1.2575,
+                      color: Colors.white,
+                    ),
+                  ),
                 ),
               ],
             ),

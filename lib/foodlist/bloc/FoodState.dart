@@ -12,6 +12,6 @@ class FoodStateAllCategoriesFetchedSuccess extends FoodState {
 
 class FoodStateProductFetchedSuccess extends FoodState {
   List<Food> food;
-  String? sort;
+  String? sort = "lastest";
   FoodStateProductFetchedSuccess({required this.food, this.sort});
 }
