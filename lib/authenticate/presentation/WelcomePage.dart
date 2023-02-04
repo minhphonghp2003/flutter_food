@@ -124,7 +124,6 @@ class WelcomePage extends StatelessWidget {
                               top: 0,
                               child: Align(
                                 child: SizedBox(
-                                  width: 77,
                                   height: 21,
                                   child: Text(
                                     ' sign in with',

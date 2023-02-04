@@ -1,0 +1,20 @@
+{
+    "logs": [
+        {
+            "outputFile": "/home/minh/AndroidStudioProjects/flutter_food/build/app/intermediates/incremental/mergeDebugResources/merged.dir/values-hdpi-v4/values-hdpi-v4.xml",
+            "map": [
+                {
+                    "source": "/home/minh/.gradle/caches/transforms-3/d6d1e11dd3c8926901f8e52a7c4db12a/transformed/appcompat-1.5.1/res/values-hdpi-v4/values-hdpi-v4.xml",
+                    "from": {
+                        "startLines": "2",
+                        "startColumns": "4",
+                        "startOffsets": "55",
+                        "endLines": "6",
+                        "endColumns": "13",
+                        "endOffsets": "327"
+                    }
+                }
+            ]
+        }
+    ]
+}

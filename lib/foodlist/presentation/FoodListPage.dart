@@ -15,6 +15,10 @@ import '../model/Food.dart';
 
 class FoodListPage extends StatelessWidget {
   FoodListPage({Key? key}) : super(key: key);
+  void _onLoading() async {
+    await Future.delayed(Duration(milliseconds: 1000));
+    _refreshController.loadComplete();
+  }
 
   RefreshController _refreshController = RefreshController(initialRefresh: false);
   @override
@@ -27,8 +31,9 @@ class FoodListPage extends StatelessWidget {
         BlocProvider.value(
           value: BlocProvider.of<FoodBloc>(context)
             ..add(FoodAllCategoriesFetched())
-            ..add(FoodProductFetched(page: 1, size: 6))
-            ..add(FoodProductFetched(page: 1, size: 5, sort: "reviewCount")),
+            ..add(FoodProductFetched(page: 1, size: 5))
+            ..add(FoodProductFetched(page: 1, size: 5, sort: "reviewCount", sortDirect: "desc"))
+            ..add(FoodProductFetched(page: 1, size: 5, sort: "price", sortDirect: "asc")),
           // child: (),
         )
       ],
@@ -44,9 +49,9 @@ class FoodListPage extends StatelessWidget {
                 header: WaterDropMaterialHeader(),
                 controller: _refreshController,
                 onRefresh: () {
-                  context.read<FoodBloc>().add(FoodAllCategoriesFetched());
-                  context.read<FoodBloc>().add(FoodProductFetched(page: 1, size: 6));
-                  context.read<FoodBloc>().add(FoodProductFetched(page: 1, size: 5, sort: "reviewCount"));
+                  context.read<FoodBloc>().add(FoodProductFetched(page: 1, size: 5));
+                  context.read<FoodBloc>().add(FoodProductFetched(page: 1, size: 5, sort: "reviewCount", sortDirect: "desc"));
+                  context.read<FoodBloc>().add(FoodProductFetched(page: 1, size: 5, sort: "price", sortDirect: "asc"));
                   _refreshController.refreshCompleted();
                 },
                 child: ListView(
@@ -202,7 +207,74 @@ class FoodListPage extends StatelessWidget {
                               ],
                             ),
                           ),
+
                           PopularSection(),
+                          SizedBox(
+                            height: 20,
+                          ),
+                          Container(
+                            // autogroupd83bLCH (W75QAk4va9HNfubZz5d83b)
+                            margin: EdgeInsets.fromLTRB(14, 10, 23.66, 10),
+                            width: double.infinity,
+                            height: 23,
+                            child: Row(
+                              crossAxisAlignment: CrossAxisAlignment.center,
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: [
+                                Container(
+                                  // featuredrestaurantsrgR (814:6414)
+                                  margin: EdgeInsets.fromLTRB(0, 0, 96, 0),
+                                  child: Text(
+                                    'Good Price',
+                                    textAlign: TextAlign.right,
+                                    style: TextStyle(
+                                      fontSize: 18,
+                                      fontWeight: FontWeight.w600,
+                                      height: 1.2575,
+                                      color: Color(0xff323643),
+                                    ),
+                                  ),
+                                ),
+                                Container(
+                                  // group17552Ax1 (814:6415)
+                                  margin: EdgeInsets.fromLTRB(0, 3, 0, 3),
+                                  height: double.infinity,
+                                  child: Row(
+                                    crossAxisAlignment: CrossAxisAlignment.center,
+                                    children: [
+                                      Container(
+                                        // viewallJHX (814:6416)
+                                        margin: EdgeInsets.fromLTRB(0, 0, 5, 0),
+                                        child: GestureDetector(
+                                          onTap: () {},
+                                          child: Text(
+                                            'View All',
+                                            textAlign: TextAlign.right,
+                                            style: TextStyle(
+                                              fontSize: 13,
+                                              fontWeight: FontWeight.w400,
+                                              height: 1.2575,
+                                              color: Color(0xfff56844),
+                                            ),
+                                          ),
+                                        ),
+                                      ),
+                                      GestureDetector(
+                                        onTap: () {},
+                                        child: Container(
+                                            // path3424ok5 (814:6417)
+                                            margin: EdgeInsets.fromLTRB(0, 0, 0, 4.32),
+                                            // width: 3.34,
+                                            // height: 6.68,
+                                            child: Text(">", style: TextStyle(color: Colors.red))),
+                                      ),
+                                    ],
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ),
+                          GoodPriceSection(),
                         ],
                       ),
                     ),
@@ -210,6 +282,35 @@ class FoodListPage extends StatelessWidget {
                 ),
               ))),
     );
+  }
+}
+
+class GoodPriceSection extends StatelessWidget {
+  GoodPriceSection({
+    Key? key,
+  }) : super(key: key);
+  List<Food>? food = [];
+  @override
+  Widget build(BuildContext context) {
+    return BlocBuilder<FoodBloc, FoodState>(builder: (context, state) {
+      if (state is FoodStateProductFetchedSuccess && state.sort == 'price') {
+        food = state.food;
+      }
+      if (food!.length > 0) {
+        return Container(
+          // autogroupgbhsvZo (W75QNKZy1voG9HzRJiGbhs)
+          margin: EdgeInsets.fromLTRB(1, 0, 0, 0),
+          width: double.infinity,
+          height: 229,
+          child: ListView(
+            scrollDirection: Axis.horizontal,
+            // crossAxisAlignment: CrossAxisAlignment.center,
+            children: food!.map((e) => SubProductWidget(food: e)).toList(),
+          ),
+        );
+      }
+      return Container(child: Text("Please wait..."));
+    });
   }
 }
 
@@ -221,7 +322,7 @@ class PopularSection extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return BlocBuilder<FoodBloc, FoodState>(builder: (context, state) {
-      if (state is FoodStateProductFetchedSuccess && state.sort != null) {
+      if (state is FoodStateProductFetchedSuccess && state.sort == "reviewCount") {
         food = state.food;
       }
       if (food!.length > 0) {

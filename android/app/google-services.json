@@ -10,7 +10,7 @@
       "client_info": {
         "mobilesdk_app_id": "1:1070940620313:android:1d145827782d78988d4c88",
         "android_client_info": {
-          "package_name": "com.minh.food"
+          "package_name": "com.example.food"
         }
       },
       "oauth_client": [

@@ -6,5 +6,6 @@ class FoodProductFetched extends FoodEvent {
   int page;
   int size;
   String? sort = null;
-  FoodProductFetched({required this.page, required this.size, this.sort});
+  String? sortDirect = null;
+  FoodProductFetched({required this.page, required this.size, this.sort, this.sortDirect});
 }
