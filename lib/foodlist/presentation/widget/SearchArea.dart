@@ -44,8 +44,9 @@ class SearchArea extends StatelessWidget {
                       child: Icon(Icons.search, color: Colors.black45)),
                   Text(
                     // findforfoodorrestaurantrt9 (814:6480)
-                    'Find for com.minh.food or restaurant...',
+                    'Find for food or restaurant...',
                     style: TextStyle(
+                      overflow: TextOverflow.ellipsis,
                       fontSize: 14,
                       fontWeight: FontWeight.w400,
                       height: 1.2575,

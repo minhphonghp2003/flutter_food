@@ -40,7 +40,7 @@ class CategoryWidget extends StatelessWidget {
                 backgroundImage: category.imageUrl != null
                     ? NetworkImage(category.imageUrl!)
                     : NetworkImage(
-                        "https://thumbs.dreamstime.com/b/vegetarian-com.minh.food-plate-editable-vector-illustration-isolated-dark-grey-background-medical-healthcare-dietary-poster-134019735.jpg",
+                        "https://thumbs.dreamstime.com/b/vegetarian-food-plate-editable-vector-illustration-isolated-dark-grey-background-medical-healthcare-dietary-poster-134019735.jpg",
                       ),
               ),
             ),
