@@ -6,7 +6,6 @@ import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:food/authenticate/bloc/AuthBloc.dart';
 import 'package:food/authenticate/bloc/AuthEvent.dart';
 import 'package:food/authenticate/bloc/AuthState.dart';
-import 'package:food/authenticate/presentation/widget/CustomBackButton.dart';
 import 'package:food/authenticate/presentation/widget/CustomImputField.dart';
 import 'package:food/foodlist/presentation/widget/CustomFloatingButton.dart';
 
@@ -132,7 +131,12 @@ class _PageState extends State<Page> {
                                   Navigator.pop(context, state.newProfile);
                                 }
                               },
-                              child: CustomBackButton(
+                              child: FloatingActionButton(
+                                backgroundColor: Colors.white,
+                                child: Icon(
+                                  Icons.keyboard_backspace_sharp,
+                                  color: Colors.black,
+                                ),
                                 onPressed: () {
                                   Navigator.pop(context, widget.profile);
                                 },
