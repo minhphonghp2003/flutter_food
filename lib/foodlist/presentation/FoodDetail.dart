@@ -18,6 +18,8 @@ class FoodDetail extends StatefulWidget {
 
 class _FoodDetailState extends State<FoodDetail> {
   List<Addon> addons = [];
+  String description = "";
+  int quanity = 1;
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -236,13 +238,19 @@ class _FoodDetailState extends State<FoodDetail> {
                                       margin: EdgeInsets.fromLTRB(0, 0, 8.7, 0),
                                       width: 30.6,
                                       height: 30.6,
-                                      child: Icon(Icons.remove),
+                                      child: GestureDetector(
+                                          onTap: () {
+                                            setState(() {
+                                              quanity == 0 ? 0 : quanity--;
+                                            });
+                                          },
+                                          child: Icon(Icons.remove)),
                                     ),
                                     Container(
                                       // 84B (814:6303)
                                       margin: EdgeInsets.fromLTRB(0, 0, 13, 1.04),
                                       child: Text(
-                                        '02',
+                                        '${quanity}',
                                         style: TextStyle(
                                           fontSize: 16,
                                           fontWeight: FontWeight.w600,
@@ -263,7 +271,13 @@ class _FoodDetailState extends State<FoodDetail> {
                                       ),
                                       width: 30.6,
                                       height: 30.6,
-                                      child: Icon(Icons.add, color: Colors.redAccent),
+                                      child: GestureDetector(
+                                          onTap: () {
+                                            setState(() {
+                                              quanity++;
+                                            });
+                                          },
+                                          child: Icon(Icons.add, color: Colors.redAccent)),
                                     ),
                                   ],
                                 ),
@@ -281,12 +295,11 @@ class _FoodDetailState extends State<FoodDetail> {
                         maxWidth: 310,
                       ),
                       child: BlocBuilder<FoodBloc, FoodState>(builder: (context, state) {
-                        String? description;
                         if (state is FoodStateDescriptionAndImgFetchedSuccess) {
                           description = state.imgAndDes.description;
                         }
                         return Text(
-                          description != null ? description : "Description",
+                          description != null ? description : "",
                           style: TextStyle(
                             fontSize: 15,
                             fontWeight: FontWeight.w400,
@@ -317,36 +330,64 @@ class _FoodDetailState extends State<FoodDetail> {
                     return Column(
                         children: addons != null
                             ? addons.map((addon) {
-                                return Container(
-                                  // group17854Bxo (814:6260)
-                                  margin: EdgeInsets.fromLTRB(0, 0, 0.35, 10),
-                                  width: double.infinity,
-                                  height: 39.17,
-                                  child: Row(
-                                    crossAxisAlignment: CrossAxisAlignment.center,
-                                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                    children: [
-                                      Container(
-                                          // group17851Csu (814:6265)
-                                          margin: EdgeInsets.fromLTRB(0, 0, 157, 0),
-                                          height: double.infinity,
-                                          child: Row(crossAxisAlignment: CrossAxisAlignment.center, children: [
-                                            Container(
-                                              // maskgroup5B1 (814:6267)
-                                              margin: EdgeInsets.fromLTRB(0, 0, 9.83, 0),
-                                              width: 39.17,
-                                              height: 39.17,
-                                              child: Image.network(
-                                                addon.image,
+                                bool isChosen = false;
+                                return GestureDetector(
+                                  onTap: () {
+                                    setState(() {
+                                      addon.isChosen = !addon.isChosen;
+                                    });
+                                  },
+                                  child: Container(
+                                    // group17854Bxo (814:6260)
+                                    margin: EdgeInsets.fromLTRB(0, 0, 0.35, 10),
+
+                                    decoration: BoxDecoration(
+                                        color: addon.isChosen != false ? Colors.redAccent : null, borderRadius: BorderRadius.circular(5)),
+                                    width: double.infinity,
+                                    height: 39.17,
+                                    child: Row(
+                                      crossAxisAlignment: CrossAxisAlignment.center,
+                                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                      children: [
+                                        Container(
+                                            // group17851Csu (814:6265)
+                                            margin: EdgeInsets.fromLTRB(0, 0, 157, 0),
+                                            height: double.infinity,
+                                            child: Row(crossAxisAlignment: CrossAxisAlignment.center, children: [
+                                              Container(
+                                                // maskgroup5B1 (814:6267)
+                                                margin: EdgeInsets.fromLTRB(0, 0, 9.83, 0),
                                                 width: 39.17,
                                                 height: 39.17,
+                                                child: Image.network(
+                                                  addon.image,
+                                                  width: 39.17,
+                                                  height: 39.17,
+                                                ),
                                               ),
-                                            ),
+                                              Container(
+                                                // masroomm3q (814:6266)
+
+                                                margin: EdgeInsets.fromLTRB(0, 0, 0, 1.17),
+                                                child: Text(
+                                                  '${addon.name}',
+                                                  style: TextStyle(
+                                                    fontSize: 14,
+                                                    fontWeight: FontWeight.w400,
+                                                    height: 1.2575,
+                                                    color: Color(0xff000000),
+                                                  ),
+                                                ),
+                                              ),
+                                            ])),
+                                        Row(
+                                          children: [
                                             Container(
-                                              // masroomm3q (814:6266)
-                                              margin: EdgeInsets.fromLTRB(0, 0, 0, 1.17),
+                                              // 3n3 (814:6264)
+                                              margin: EdgeInsets.fromLTRB(0, 2.83, 7, 0),
                                               child: Text(
-                                                '${addon.name}',
+                                                '+${addon.price}',
+                                                textAlign: TextAlign.right,
                                                 style: TextStyle(
                                                   fontSize: 14,
                                                   fontWeight: FontWeight.w400,
@@ -355,26 +396,10 @@ class _FoodDetailState extends State<FoodDetail> {
                                                 ),
                                               ),
                                             ),
-                                          ])),
-                                      Row(
-                                        children: [
-                                          Container(
-                                            // 3n3 (814:6264)
-                                            margin: EdgeInsets.fromLTRB(0, 2.83, 7, 0),
-                                            child: Text(
-                                              '+${addon.price}',
-                                              textAlign: TextAlign.right,
-                                              style: TextStyle(
-                                                fontSize: 14,
-                                                fontWeight: FontWeight.w400,
-                                                height: 1.2575,
-                                                color: Color(0xff000000),
-                                              ),
-                                            ),
-                                          ),
-                                        ],
-                                      ),
-                                    ],
+                                          ],
+                                        ),
+                                      ],
+                                    ),
                                   ),
                                 );
                               }).toList()

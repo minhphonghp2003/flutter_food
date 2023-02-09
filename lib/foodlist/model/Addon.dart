@@ -3,6 +3,7 @@ class Addon {
   String name;
   int price;
   String image;
+  bool isChosen = false;
   Addon({required this.id, required this.name, required this.price, required this.image});
   Addon.fromJson(Map<dynamic, dynamic> json)
       : id = json["id"],
