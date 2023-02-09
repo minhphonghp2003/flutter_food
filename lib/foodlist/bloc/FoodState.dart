@@ -1,3 +1,4 @@
+import '../model/Addon.dart';
 import '../model/Category.dart';
 import '../model/Food.dart';
 
@@ -14,4 +15,14 @@ class FoodStateProductFetchedSuccess extends FoodState {
   List<Food> food;
   String? sort;
   FoodStateProductFetchedSuccess({required this.food, this.sort});
+}
+
+class FoodStateDescriptionAndImgFetchedSuccess extends FoodState {
+  FoodDetailImgAndDes imgAndDes;
+  FoodStateDescriptionAndImgFetchedSuccess({required this.imgAndDes});
+}
+
+class FoodStateAddonFetchedSuccess extends FoodState {
+  List<Addon> addons;
+  FoodStateAddonFetchedSuccess({required this.addons});
 }

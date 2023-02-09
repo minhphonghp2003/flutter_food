@@ -30,3 +30,12 @@ class Food {
         categories = (json['categories'] as List).map((e) => Category.fromJson(e)).toList(),
         price = json['price'].toString();
 }
+
+class FoodDetailImgAndDes {
+  List<dynamic> imageLinks;
+  String description;
+  FoodDetailImgAndDes({required this.imageLinks, required this.description});
+  FoodDetailImgAndDes.fromJson(Map<dynamic, dynamic> json)
+      : description = json["description"],
+        imageLinks = (json['images'] as List).map((e) => e["link"]).toList();
+}

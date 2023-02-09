@@ -15,7 +15,7 @@ class ProductWidget extends StatelessWidget {
       onTap: () {
         Navigator.of(context).push(
           MaterialPageRoute(
-            builder: (context) => const FoodDetail(),
+            builder: (context) => FoodDetail(food: food),
           ),
         );
       },

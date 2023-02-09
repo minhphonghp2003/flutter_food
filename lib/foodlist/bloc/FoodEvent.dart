@@ -9,3 +9,10 @@ class FoodProductFetched extends FoodEvent {
   String? sortDirect = null;
   FoodProductFetched({required this.page, required this.size, this.sort, this.sortDirect});
 }
+
+class FoodDescriptionAndImageFetched extends FoodEvent {
+  String id;
+  FoodDescriptionAndImageFetched({required this.id});
+}
+
+class FoodAddonFetched extends FoodEvent {}
