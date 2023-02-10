@@ -4,6 +4,7 @@ import 'package:food/authenticate/bloc/AuthBloc.dart';
 import 'package:food/foodlist/bloc/FoodBloc.dart';
 import 'package:food/foodlist/bloc/FoodEvent.dart';
 import 'package:food/foodlist/bloc/FoodState.dart';
+import 'package:food/foodlist/presentation/FoodSearch.dart';
 import 'package:food/foodlist/presentation/widget/Category.dart';
 import 'package:food/foodlist/presentation/widget/ProductWidget.dart';
 import 'package:food/foodlist/presentation/widget/SearchArea.dart';
@@ -112,7 +113,11 @@ class FoodListPage extends StatelessWidget {
                                   height: double.infinity,
                                   child: GestureDetector(
                                     onTap: () {
-                                      print("View all");
+                                      Navigator.of(context).push(
+                                        MaterialPageRoute(
+                                          builder: (context) => FoodSearch(),
+                                        ),
+                                      );
                                     },
                                     child: Row(
                                       crossAxisAlignment: CrossAxisAlignment.center,
