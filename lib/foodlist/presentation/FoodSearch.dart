@@ -6,227 +6,179 @@ class FoodSearch extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        body: Stack(children: [
-      Positioned(
-        // typeofpizzaWk3 (814:5553)
-        left: 26,
-        top: 228,
-        child: Align(
-          child: SizedBox(
-            width: 122,
-            height: 23,
-            child: Text(
-              '80 type of pizza',
-              style: TextStyle(
-                fontSize: 19,
-                fontWeight: FontWeight.w400,
-                height: 1.2000000602,
-                color: Color(0xff9796a1),
-              ),
-            ),
+      floatingActionButton: FloatingActionButton(
+          onPressed: () {
+            Navigator.pop(context);
+          },
+          child: Icon(
+            Icons.arrow_back_rounded,
+            color: Colors.black,
           ),
+          backgroundColor: Colors.white),
+      body: Container(
+        // homeNdp (11:124)
+        padding: EdgeInsets.fromLTRB(24, 70, 0, 0),
+        width: double.infinity,
+        decoration: BoxDecoration(
+          color: Color(0xffffffff),
+          borderRadius: BorderRadius.circular(25),
         ),
-      ),
-      Positioned(
-        // group17955BbH (814:5554)
-        left: 27,
-        top: 37,
-        child: Align(
-          child: SizedBox(
-            width: 38,
-            height: 38,
-            child: Image.asset(
-              "assets/avatar.png",
-              width: 38,
-              height: 38,
-            ),
-          ),
-        ),
-      ),
-      Positioned(
-        // group18048SGK (814:5557)
-        left: 154,
-        top: 0,
-        child: Container(
-          width: 319,
-          height: 334.4,
-          child: Stack(
-            children: [
-              Positioned(
-                // maskgroup899 (814:5558)
-                left: 0,
-                top: 0,
-                child: Align(
-                  child: SizedBox(
-                    width: 319,
-                    height: 319,
-                    child: Image.asset(
-                      "assets/avatar.png",
-                      width: 319,
-                      height: 319,
-                    ),
-                  ),
-                ),
-              ),
-              Positioned(
-                // maskgroup1ij (814:5563)
-                left: 32,
-                top: 106,
-                child: Align(
-                  child: SizedBox(
-                    width: 108.71,
-                    height: 138.4,
-                    child: Image.asset(
-                      "assets/avatar.png",
-                      width: 108.71,
-                      height: 138.4,
-                    ),
-                  ),
-                ),
-              ),
-            ],
-          ),
-        ),
-      ),
-      Positioned(
-        // fastfoodJC3 (814:5566)
-        left: 26,
-        top: 112,
-        child: Align(
-          child: SizedBox(
-            width: 123,
-            height: 112,
-            child: RichText(
-              text: TextSpan(
+        child: ListView(
+          // crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Container(
+              // letscookingpki (47:896)
+              margin: EdgeInsets.fromLTRB(5, 0, 0, 38),
+              child: Text(
+                'Let’s Cooking',
                 style: TextStyle(
-                  fontSize: 55.917881012,
+                  fontSize: 24,
                   fontWeight: FontWeight.w700,
-                  height: 1.1000000205,
-                  color: Color(0xff111719),
+                  height: 1.5,
+                  letterSpacing: 0.0240000004,
+                  color: Color(0xff525252),
                 ),
+              ),
+            ),
+            Container(
+              // autogroupdvinJvn (6aLGWpcvBJad5rSsrnDviN)
+              margin: EdgeInsets.fromLTRB(5, 0, 18, 11),
+              width: double.infinity,
+              child: Row(
+                crossAxisAlignment: CrossAxisAlignment.end,
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  TextSpan(
-                    text: 'Fast\n',
-                    style: TextStyle(
-                      fontSize: 45,
-                      fontWeight: FontWeight.w700,
-                      height: 1.1,
-                      color: Color(0xff272d2f),
+                  Container(
+                    // categorydy4 (14:21)
+                    child: Text(
+                      'Category',
+                      style: TextStyle(
+                        fontSize: 20,
+                        fontWeight: FontWeight.w700,
+                        height: 1.5,
+                        letterSpacing: 0.0200000003,
+                        color: Color(0xff525252),
+                      ),
                     ),
                   ),
-                  TextSpan(
-                    text: 'Food',
+                  Text(
+                    // viewallMPG (99:839)
+                    'View all',
                     style: TextStyle(
-                      fontSize: 55.917881012,
-                      fontWeight: FontWeight.w700,
-                      height: 1.1000000205,
-                      color: Color(0xfffe724c),
+                      fontSize: 14,
+                      fontWeight: FontWeight.w500,
+                      height: 1.5,
+                      letterSpacing: 0.0140000002,
+                      color: Colors.redAccent,
                     ),
                   ),
                 ],
               ),
             ),
-          ),
+            Container(
+              // menucategoryhCE (47:790)
+              margin: EdgeInsets.fromLTRB(5, 0, 0, 58),
+              height: 35,
+              child: ListView(
+                scrollDirection: Axis.horizontal,
+                children: [
+                  Container(
+                    // group70DwG (99:831)
+                    width: 116,
+                    height: double.infinity,
+                    decoration: BoxDecoration(
+                      border: Border.all(color: Colors.redAccent),
+                      borderRadius: BorderRadius.circular(15),
+                    ),
+                    child: Center(
+                      child: Text(
+                        'Trending',
+                        style: TextStyle(
+                          fontSize: 14,
+                          fontWeight: FontWeight.w600,
+                          height: 1.5,
+                          letterSpacing: 0.0140000002,
+                          color: Colors.redAccent,
+                        ),
+                      ),
+                    ),
+                  ),
+                  SizedBox(
+                    width: 21,
+                  ),
+                  Container(
+                    // group716EN (99:832)
+                    width: 116,
+                    height: double.infinity,
+                    decoration: BoxDecoration(
+                      color: Colors.redAccent,
+                      borderRadius: BorderRadius.circular(15),
+                    ),
+                    child: Center(
+                      child: Text(
+                        'New',
+                        style: TextStyle(
+                          fontSize: 14,
+                          fontWeight: FontWeight.w600,
+                          height: 1.5,
+                          letterSpacing: 0.0140000002,
+                          color: Color(0xffffffff),
+                        ),
+                      ),
+                    ),
+                  ),
+                  SizedBox(
+                    width: 21,
+                  ),
+                  Container(
+                    // group72xnN (99:833)
+                    width: 116,
+                    height: double.infinity,
+                    decoration: BoxDecoration(
+                      border: Border.all(color: Colors.redAccent),
+                      borderRadius: BorderRadius.circular(15),
+                    ),
+                    child: Center(
+                      child: Text(
+                        'High rating',
+                        style: TextStyle(
+                          fontSize: 14,
+                          fontWeight: FontWeight.w600,
+                          height: 1.5,
+                          letterSpacing: 0.0140000002,
+                          color: Colors.redAccent,
+                        ),
+                      ),
+                    ),
+                  ),
+                  SizedBox(
+                    width: 21,
+                  ),
+                ],
+              ),
+            ),
+            Container(
+              // group68ANe (98:794)
+              width: 380,
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: [
+                  Product(),
+                  SizedBox(
+                    height: 24,
+                  ),
+                  Product(),
+                  SizedBox(
+                    height: 24,
+                  ),
+                  Product(),
+                ],
+              ),
+            ),
+          ],
         ),
       ),
-      Positioned(
-          // group18049Foh (814:5453)
-          left: 26,
-          top: 306,
-          child: Container(
-              width: 323,
-              height: 825.71,
-              child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
-                Container(
-                  // group18101KHm (814:5534)
-                  margin: EdgeInsets.fromLTRB(3.5, 0, 16.86, 21),
-                  width: double.infinity,
-                  child: Row(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Container(
-                        // group180471RV (814:5547)
-                        margin: EdgeInsets.fromLTRB(0, 2, 157.86, 0),
-                        child: Row(
-                          crossAxisAlignment: CrossAxisAlignment.center,
-                          children: [
-                            Container(
-                              // shortbysyV (814:5548)
-                              margin: EdgeInsets.fromLTRB(0, 0, 15.5, 1),
-                              child: Text(
-                                'Sort by:',
-                                textAlign: TextAlign.center,
-                                style: TextStyle(
-                                  fontSize: 14,
-                                  fontWeight: FontWeight.w400,
-                                  height: 1.2575,
-                                  color: Color(0xff111719),
-                                ),
-                              ),
-                            ),
-                            Container(
-                              // group18046Kab (814:5549)
-                              margin: EdgeInsets.fromLTRB(0, 1, 0, 0),
-                              child: Row(
-                                crossAxisAlignment: CrossAxisAlignment.center,
-                                children: [
-                                  Container(
-                                    // populardbH (814:5550)
-                                    margin: EdgeInsets.fromLTRB(0, 0, 7, 0),
-                                    child: Text(
-                                      'Popular',
-                                      textAlign: TextAlign.center,
-                                      style: TextStyle(
-                                        fontSize: 14,
-                                        fontWeight: FontWeight.w400,
-                                        height: 1.2575,
-                                        color: Color(0xfffe724c),
-                                      ),
-                                    ),
-                                  ),
-                                  Container(
-                                    // vector11JxK (814:5551)
-                                    margin: EdgeInsets.fromLTRB(0, 0, 0, 4),
-                                    width: 4,
-                                    height: 2,
-                                    child: Image.asset(
-                                      "assets/avatar.png",
-                                      width: 4,
-                                      height: 2,
-                                    ),
-                                  ),
-                                ],
-                              ),
-                            ),
-                          ],
-                        ),
-                      ),
-                      Container(
-                        // group17859nMh (814:5535)
-                        width: 18.28,
-                        height: 18,
-                        child: Image.asset(
-                          "assets/avatar.png",
-                          width: 18.28,
-                          height: 18,
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
-                Container(
-                    // group18044sP9 (814:5454)
-                    width: double.infinity,
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.center,
-                      children: [
-                        Product(),
-                        Product(),
-                        Product(),
-                      ],
-                    ))
-              ])))
-    ]));
+    );
   }
 }
 
