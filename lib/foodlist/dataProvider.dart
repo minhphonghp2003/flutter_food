@@ -48,11 +48,23 @@ class FoodProvider {
     List<Addon> Addons = (decodedResponse as List).map((e) => Addon.fromJson(e)).toList();
     return Addons;
   }
+
+  Future<List<Food>> getProductsByCategory(Category? category, String sort, String sortDirect, int size, int page) async {
+    var response = await client.get(Uri.parse(host +
+        "$path/category?id=${category?.id != null ? category?.id : "*"}&size=${size}&page=${page}&sortField=${sort}&sortDirect=${sortDirect}"));
+    var decodedResponse = jsonDecode(utf8.decode(response.bodyBytes));
+    List<Food> food = [];
+
+    for (var f in decodedResponse["hits"]) {
+      food.add(Food.fromJson(f["_source"]));
+    }
+    return food;
+  }
 }
 
 void main() async {
   var provider = new FoodProvider(client: http.Client());
   // print((await provider.getFoodDetailImgAndDes("53d8e8c3-7ecd-4cf7-a0e1-2d691b100003")).imageLinks);
   // print(await provider.getProducts(1, 2, "lastest", "c0a5bc18-c2c6-45dc-bd9d-846ef63ff265"));
-  // await provider.getAddons();
+  // await provider.getProductsByCategory(null, "price", "desc", 5, 1);
 }

@@ -115,7 +115,9 @@ class FoodListPage extends StatelessWidget {
                                     onTap: () {
                                       Navigator.of(context).push(
                                         MaterialPageRoute(
-                                          builder: (context) => FoodSearch(),
+                                          builder: (context) => FoodSearch(
+                                            searchType: "New arrival",
+                                          ),
                                         ),
                                       );
                                     },

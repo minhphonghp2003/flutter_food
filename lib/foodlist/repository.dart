@@ -14,6 +14,10 @@ class FoodRepository {
     return await _dataProvider.getProducts(page, size, sort, sortDirect, userId);
   }
 
+  Future<List<Food>> getProductsByCategory(Category? category, String sort, String sortDirect, int size, int page) async {
+    return await _dataProvider.getProductsByCategory(category, sort, sortDirect, size, page);
+  }
+
   Future<FoodDetailImgAndDes> getFoodImgAndDes(String id) async {
     return await _dataProvider.getFoodDetailImgAndDes(id);
   }

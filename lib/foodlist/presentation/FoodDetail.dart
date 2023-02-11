@@ -1,3 +1,4 @@
+import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:food/foodlist/bloc/FoodBloc.dart';
@@ -19,10 +20,21 @@ class FoodDetail extends StatefulWidget {
 class _FoodDetailState extends State<FoodDetail> {
   List<Addon> addons = [];
   String description = "";
+  List<dynamic> images = [];
   int quanity = 1;
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+        floatingActionButton: FloatingActionButton(
+          onPressed: () {
+            Navigator.pop(context);
+          },
+          child: Icon(
+            Icons.arrow_back,
+            color: Colors.black,
+          ),
+          backgroundColor: Colors.white,
+        ),
         body: BlocProvider(
             create: (BuildContext context) => FoodBloc()
               ..add(FoodDescriptionAndImageFetched(id: widget.food.id))
@@ -51,43 +63,44 @@ class _FoodDetailState extends State<FoodDetail> {
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
                               ClipRRect(
-                                borderRadius: BorderRadius.circular(15.0),
-                                child: Container(
-                                  // autogroupevjpvZ9 (W75PEmcrgnd2CP49mVeVjP)
-                                  margin: EdgeInsets.fromLTRB(3, 0, 3.6, 22),
-                                  padding: EdgeInsets.fromLTRB(8, 10, 16, 10),
-                                  width: double.infinity,
-                                  height: 206,
-                                  decoration: BoxDecoration(
-                                    image: DecorationImage(
-                                      fit: BoxFit.cover,
-                                      image: AssetImage(
-                                        'assets/bigproduct.png',
-                                      ),
-                                    ),
-                                  ),
-                                  child: Row(
-                                    crossAxisAlignment: CrossAxisAlignment.start,
-                                    children: [
-                                      Container(
-                                          // group18071y1d (814:6308)
-                                          margin: EdgeInsets.fromLTRB(0, 0, 233, 0),
-                                          width: 48,
-                                          height: 48,
-                                          child: CustomFloatingButton(
-                                            onPressed: () {
-                                              Navigator.pop(context);
-                                            },
-                                            child: Icon(
-                                              Icons.keyboard_backspace_rounded,
-                                              color: Colors.black,
-                                            ),
-                                            backgroundColor: Colors.white,
+                                  borderRadius: BorderRadius.circular(15.0),
+                                  child: BlocBuilder<FoodBloc, FoodState>(builder: (context, state) {
+                                    if (state is FoodStateDescriptionAndImgFetchedSuccess) {
+                                      images = state.imgAndDes.imageLinks;
+                                    }
+                                    //margin: EdgeInsets.all(10), child: Image.network(images[pagePosition]));
+                                    return Container(
+                                        // autogroupevjpvZ9 (W75PEmcrgnd2CP49mVeVjP)
+                                        margin: EdgeInsets.fromLTRB(3, 0, 3.6, 22),
+                                        padding: EdgeInsets.fromLTRB(8, 10, 16, 10),
+                                        width: double.infinity,
+                                        height: 206,
+                                        child: CarouselSlider(
+                                          items: images.map((i) {
+                                            return Container(
+                                              margin: EdgeInsets.all(6.0),
+                                              decoration: BoxDecoration(
+                                                borderRadius: BorderRadius.circular(8.0),
+                                                image: DecorationImage(
+                                                  image: NetworkImage("${i}"),
+                                                  fit: BoxFit.cover,
+                                                ),
+                                              ),
+                                            );
+                                          }).toList(),
+                                          options: (CarouselOptions(
+                                            height: 200.0,
+                                            enlargeCenterPage: true,
+                                            autoPlay: true,
+                                            aspectRatio: 16 / 9,
+                                            autoPlayCurve: Curves.fastOutSlowIn,
+                                            enableInfiniteScroll: true,
+                                            autoPlayAnimationDuration: Duration(milliseconds: 1000),
+                                            viewportFraction: 0.8,
                                           )),
-                                    ],
-                                  ),
-                                ),
-                              ),
+                                        ));
+                                    // });
+                                  })),
                               Container(
                                 // groundbeeftacosJi7 (814:6281)
                                 margin: EdgeInsets.fromLTRB(0, 0, 0, 11),
@@ -241,7 +254,7 @@ class _FoodDetailState extends State<FoodDetail> {
                                       child: GestureDetector(
                                           onTap: () {
                                             setState(() {
-                                              quanity == 0 ? 0 : quanity--;
+                                              quanity == 1 ? 1 : quanity--;
                                             });
                                           },
                                           child: Icon(Icons.remove)),
@@ -297,6 +310,7 @@ class _FoodDetailState extends State<FoodDetail> {
                       child: BlocBuilder<FoodBloc, FoodState>(builder: (context, state) {
                         if (state is FoodStateDescriptionAndImgFetchedSuccess) {
                           description = state.imgAndDes.description;
+                          images = state.imgAndDes.imageLinks;
                         }
                         return Text(
                           description != null ? description : "",
@@ -321,90 +335,90 @@ class _FoodDetailState extends State<FoodDetail> {
                       ),
                     ),
                   ),
-                  BlocConsumer<FoodBloc, FoodState>(listener: (context, state) {
-                    print("listem $state");
-                  }, builder: (context, state) {
-                    if (state is FoodStateAddonFetchedSuccess) {
-                      addons = state.addons;
-                    }
-                    return Column(
-                        children: addons != null
-                            ? addons.map((addon) {
-                                bool isChosen = false;
-                                return GestureDetector(
-                                  onTap: () {
-                                    setState(() {
-                                      addon.isChosen = !addon.isChosen;
-                                    });
-                                  },
-                                  child: Container(
-                                    // group17854Bxo (814:6260)
-                                    margin: EdgeInsets.fromLTRB(0, 0, 0.35, 10),
+                  BlocConsumer<FoodBloc, FoodState>(
+                      listener: (context, state) {},
+                      builder: (context, state) {
+                        if (state is FoodStateAddonFetchedSuccess) {
+                          addons = state.addons;
+                        }
+                        return Column(
+                            children: addons != null
+                                ? addons.map((addon) {
+                                    bool isChosen = false;
+                                    return GestureDetector(
+                                      onTap: () {
+                                        setState(() {
+                                          addon.isChosen = !addon.isChosen;
+                                        });
+                                      },
+                                      child: Container(
+                                        // group17854Bxo (814:6260)
+                                        margin: EdgeInsets.fromLTRB(0, 0, 0.35, 10),
 
-                                    decoration: BoxDecoration(
-                                        color: addon.isChosen != false ? Colors.redAccent : null, borderRadius: BorderRadius.circular(5)),
-                                    width: double.infinity,
-                                    height: 39.17,
-                                    child: Row(
-                                      crossAxisAlignment: CrossAxisAlignment.center,
-                                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                      children: [
-                                        Container(
-                                            // group17851Csu (814:6265)
-                                            margin: EdgeInsets.fromLTRB(0, 0, 157, 0),
-                                            height: double.infinity,
-                                            child: Row(crossAxisAlignment: CrossAxisAlignment.center, children: [
-                                              Container(
-                                                // maskgroup5B1 (814:6267)
-                                                margin: EdgeInsets.fromLTRB(0, 0, 9.83, 0),
-                                                width: 39.17,
-                                                height: 39.17,
-                                                child: Image.network(
-                                                  addon.image,
-                                                  width: 39.17,
-                                                  height: 39.17,
-                                                ),
-                                              ),
-                                              Container(
-                                                // masroomm3q (814:6266)
-
-                                                margin: EdgeInsets.fromLTRB(0, 0, 0, 1.17),
-                                                child: Text(
-                                                  '${addon.name}',
-                                                  style: TextStyle(
-                                                    fontSize: 14,
-                                                    fontWeight: FontWeight.w400,
-                                                    height: 1.2575,
-                                                    color: Color(0xff000000),
-                                                  ),
-                                                ),
-                                              ),
-                                            ])),
-                                        Row(
+                                        decoration: BoxDecoration(
+                                            color: addon.isChosen != false ? Colors.redAccent : null, borderRadius: BorderRadius.circular(5)),
+                                        width: double.infinity,
+                                        height: 39.17,
+                                        child: Row(
+                                          crossAxisAlignment: CrossAxisAlignment.center,
+                                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                           children: [
                                             Container(
-                                              // 3n3 (814:6264)
-                                              margin: EdgeInsets.fromLTRB(0, 2.83, 7, 0),
-                                              child: Text(
-                                                '+${addon.price}',
-                                                textAlign: TextAlign.right,
-                                                style: TextStyle(
-                                                  fontSize: 14,
-                                                  fontWeight: FontWeight.w400,
-                                                  height: 1.2575,
-                                                  color: Color(0xff000000),
+                                                // group17851Csu (814:6265)
+                                                margin: EdgeInsets.fromLTRB(0, 0, 157, 0),
+                                                height: double.infinity,
+                                                child: Row(crossAxisAlignment: CrossAxisAlignment.center, children: [
+                                                  Container(
+                                                    // maskgroup5B1 (814:6267)
+                                                    margin: EdgeInsets.fromLTRB(0, 0, 9.83, 0),
+                                                    width: 39.17,
+                                                    height: 39.17,
+                                                    child: Image.network(
+                                                      addon.image,
+                                                      width: 39.17,
+                                                      height: 39.17,
+                                                    ),
+                                                  ),
+                                                  Container(
+                                                    // masroomm3q (814:6266)
+
+                                                    margin: EdgeInsets.fromLTRB(0, 0, 0, 1.17),
+                                                    child: Text(
+                                                      '${addon.name}',
+                                                      style: TextStyle(
+                                                        fontSize: 14,
+                                                        fontWeight: FontWeight.w400,
+                                                        height: 1.2575,
+                                                        color: Color(0xff000000),
+                                                      ),
+                                                    ),
+                                                  ),
+                                                ])),
+                                            Row(
+                                              children: [
+                                                Container(
+                                                  // 3n3 (814:6264)
+                                                  margin: EdgeInsets.fromLTRB(0, 2.83, 7, 0),
+                                                  child: Text(
+                                                    '+${addon.price}',
+                                                    textAlign: TextAlign.right,
+                                                    style: TextStyle(
+                                                      fontSize: 14,
+                                                      fontWeight: FontWeight.w400,
+                                                      height: 1.2575,
+                                                      color: Color(0xff000000),
+                                                    ),
+                                                  ),
                                                 ),
-                                              ),
+                                              ],
                                             ),
                                           ],
                                         ),
-                                      ],
-                                    ),
-                                  ),
-                                );
-                              }).toList()
-                            : [Container()]);
-                  }),
+                                      ),
+                                    );
+                                  }).toList()
+                                : [Container()]);
+                      }),
                   Container(
                     child: Builder(builder: (context) {
                       return CustomFloatingButtonExtend(
