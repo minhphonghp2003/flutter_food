@@ -359,7 +359,7 @@ class NewProduct extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return BlocBuilder<FoodBloc, FoodState>(builder: (context, state) {
-      if (state is FoodStateProductFetchedSuccess && state.sort == null) {
+      if (state is FoodStateProductFetchedSuccess && state.sort == "createdAt") {
         food = state.food;
       }
       if (food!.length > 0) {

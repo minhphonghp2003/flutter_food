@@ -7,18 +7,11 @@ class FoodAllCategoriesFetched extends FoodEvent {}
 class FoodProductFetched extends FoodEvent {
   int page;
   int size;
-  String? sort = null;
-  String? sortDirect = null;
-  FoodProductFetched({required this.page, required this.size, this.sort, this.sortDirect});
-}
-
-class FoodProductByCategoryFetched extends FoodEvent {
-  int page;
-  int size;
   String sort;
   String sortDirect;
   Category? category;
-  FoodProductByCategoryFetched({required this.page, required this.size, required this.sort, required this.sortDirect, this.category});
+
+  FoodProductFetched({required this.page, this.category, required this.size, this.sort = "createdAt", this.sortDirect = "desc"});
 }
 
 class FoodDescriptionAndImageFetched extends FoodEvent {

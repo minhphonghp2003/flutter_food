@@ -24,18 +24,9 @@ class _FoodSearchState extends State<FoodSearch> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        floatingActionButton: FloatingActionButton(
-            onPressed: () {
-              Navigator.pop(context);
-            },
-            child: Icon(
-              Icons.arrow_back_rounded,
-              color: Colors.black,
-            ),
-            backgroundColor: Colors.white),
         body: BlocProvider(
-            create: (BuildContext context) => FoodBloc()
-              ..add(FoodProductByCategoryFetched(page: 1, size: 8, sort: widget.sort, sortDirect: widget.sortDirect, category: widget.category)),
+            create: (BuildContext context) =>
+                FoodBloc()..add(FoodProductFetched(page: 1, size: 8, sort: widget.sort, sortDirect: widget.sortDirect, category: widget.category)),
             child: BlocConsumer<FoodBloc, FoodState>(listener: (context, state) {
               // do stuff here based on BlocA's state
             }, builder: (context, state) {
@@ -44,7 +35,7 @@ class _FoodSearchState extends State<FoodSearch> {
               }
               return Container(
                 // homeNdp (11:124)
-                padding: EdgeInsets.fromLTRB(24, 70, 0, 0),
+                padding: EdgeInsets.fromLTRB(24, 30, 0, 0),
                 width: double.infinity,
                 decoration: BoxDecoration(
                   color: Color(0xffffffff),
@@ -53,58 +44,39 @@ class _FoodSearchState extends State<FoodSearch> {
                 child: ListView(
                   // crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Container(
-                      // letscookingpki (47:896)
-                      margin: EdgeInsets.fromLTRB(5, 0, 0, 38),
-                      child: Text(
-                        '${widget.searchType}',
-                        style: TextStyle(
-                          fontSize: 24,
-                          fontWeight: FontWeight.w700,
-                          height: 1.5,
-                          letterSpacing: 0.0240000004,
-                          color: Color(0xff525252),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.start,
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      children: [
+                        FloatingActionButton(
+                          onPressed: () {
+                            Navigator.pop(context);
+                          },
+                          child: Icon(
+                            Icons.keyboard_backspace_rounded,
+                            color: Colors.black,
+                          ),
+                          backgroundColor: Colors.white,
                         ),
-                      ),
-                    ),
-                    Container(
-                      // autogroupdvinJvn (6aLGWpcvBJad5rSsrnDviN)
-                      margin: EdgeInsets.fromLTRB(5, 0, 18, 11),
-                      width: double.infinity,
-                      child: Row(
-                        crossAxisAlignment: CrossAxisAlignment.end,
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          Container(
-                            // categorydy4 (14:21)
-                            child: Text(
-                              'Category',
-                              style: TextStyle(
-                                fontSize: 20,
-                                fontWeight: FontWeight.w700,
-                                height: 1.5,
-                                letterSpacing: 0.0200000003,
-                                color: Color(0xff525252),
-                              ),
-                            ),
-                          ),
-                          Text(
-                            // viewallMPG (99:839)
-                            'View all',
+                        Container(
+                          // letscookingpki (47:896)
+                          margin: EdgeInsets.fromLTRB(15, 0, 0, 0),
+                          child: Text(
+                            '${widget.searchType}',
                             style: TextStyle(
-                              fontSize: 14,
-                              fontWeight: FontWeight.w500,
+                              fontSize: 24,
+                              fontWeight: FontWeight.w700,
                               height: 1.5,
-                              letterSpacing: 0.0140000002,
-                              color: Colors.redAccent,
+                              letterSpacing: 0.0240000004,
+                              color: Color(0xff525252),
                             ),
                           ),
-                        ],
-                      ),
+                        ),
+                      ],
                     ),
                     Container(
                       // menucategoryhCE (47:790)
-                      margin: EdgeInsets.fromLTRB(5, 0, 0, 58),
+                      margin: EdgeInsets.fromLTRB(5, 30, 0, 58),
                       height: 35,
                       child: ListView(
                         scrollDirection: Axis.horizontal,
@@ -200,15 +172,6 @@ class _FoodSearchState extends State<FoodSearch> {
                             ],
                           );
                         }).toList(),
-                        // children: [
-                        //   Product(),
-                        //
-                        //   // Product(),
-                        //   // SizedBox(
-                        //   //   height: 24,
-                        //   // ),
-                        //   // Product(),
-                        // ],
                       ),
                     ),
                   ],
@@ -253,46 +216,44 @@ class Product extends StatelessWidget {
           children: [
             Container(
               // autogroup2jz7QGb (W75LxRFimd3JQN1Dqu2JZ7)
-              margin: EdgeInsets.fromLTRB(0, 0, 0, 12.14),
+              // margin: EdgeInsets.fromLTRB(0, 0, 0, 12.14),
               width: double.infinity,
               height: 179.71,
               child: Stack(
                 children: [
-                  Positioned(
-                    // maskgrouphmV (814:5457)
-                    left: 0,
-                    top: 0,
-                    child: Align(
-                      child: SizedBox(
-                        width: 323,
+                  Align(
+                    child: ClipRRect(
+                      borderRadius: BorderRadius.circular(15),
+                      child: Image.network(
+                        food.image,
+                        fit: BoxFit.fill,
+                        // width: 350,
                         height: 165.14,
-                        child: ClipRRect(
-                          borderRadius: BorderRadius.circular(15),
-                          child: Image.network(
-                            food.image,
-                            fit: BoxFit.fill,
-                            width: 323,
-                            height: 165.14,
-                          ),
-                        ),
                       ),
                     ),
                   ),
-                  Positioned(
-                    // group175471vb (814:5468)
-                    left: 13,
-                    top: 11.9997558594,
-                    child: Container(
-                        width: 72,
-                        height: 34,
-                        decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(121.4285736084),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Container(
+                          width: 72,
+                          height: 34,
+                          decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(121.4285736084),
+                          ),
+                          child: CustomFloatingButtonExtend(
+                            backgroundColor: Colors.white,
+                            child: Text("${food.price}", style: TextStyle(color: Colors.black)),
+                            onPressed: () {},
+                          )),
+                      Container(
+                        padding: EdgeInsets.fromLTRB(0, 0, 10, 0),
+                        child: Icon(
+                          Icons.favorite_outlined,
+                          color: food.isFavorite != false ? Colors.redAccent : Colors.grey,
                         ),
-                        child: CustomFloatingButtonExtend(
-                          backgroundColor: Colors.white,
-                          child: Text("${food.price}", style: TextStyle(color: Colors.black)),
-                          onPressed: () {},
-                        )),
+                      )
+                    ],
                   ),
                   Positioned(
                     // group17548ugX (814:5472)

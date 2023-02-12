@@ -1,6 +1,7 @@
 import 'dart:convert';
 
 import 'package:food/foodlist/model/Food.dart';
+import 'package:food/foodlist/model/GetProductParams.dart';
 import 'package:http/http.dart' as http;
 
 import 'model/Addon.dart';
@@ -23,17 +24,6 @@ class FoodProvider {
     return categories;
   }
 
-  Future<List<Food>> getProducts(int page, int size, String? sort, String? sortDirect, String? userId) async {
-    var response = await client.get(Uri.parse(host + "$path?page=$page&size=$size&sort=$sort&sortDirect=$sortDirect&userId=$userId"));
-    var decodedResponse = jsonDecode(utf8.decode(response.bodyBytes));
-    List<Food> food = [];
-
-    for (var f in decodedResponse["hits"]) {
-      food.add(Food.fromJson(f["_source"]));
-    }
-    return food;
-  }
-
   Future<FoodDetailImgAndDes> getFoodDetailImgAndDes(String id) async {
     var response = await client.get(Uri.parse(host + "$path/detail/$id"));
     var decodedResponse = jsonDecode(utf8.decode(response.bodyBytes));
@@ -49,9 +39,9 @@ class FoodProvider {
     return Addons;
   }
 
-  Future<List<Food>> getProductsByCategory(Category? category, String sort, String sortDirect, int size, int page) async {
+  Future<List<Food>> getProducts(GetProductParams params) async {
     var response = await client.get(Uri.parse(host +
-        "$path/category?id=${category?.id != null ? category?.id : "*"}&size=${size}&page=${page}&sortField=${sort}&sortDirect=${sortDirect}"));
+        "$path?categoryId=${params.category != null ? params.category?.id : "*"}&size=${params.size}&page=${params.page}&sortField=${params.sort}&sortDirect=${params.sortDirect}&userId=${params.userId}"));
     var decodedResponse = jsonDecode(utf8.decode(response.bodyBytes));
     List<Food> food = [];
 

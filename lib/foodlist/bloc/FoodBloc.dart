@@ -6,6 +6,7 @@ import 'package:food/foodlist/bloc/FoodEvent.dart';
 import 'package:food/foodlist/bloc/FoodState.dart';
 import 'package:food/foodlist/model/Addon.dart';
 import 'package:food/foodlist/model/Food.dart';
+import 'package:food/foodlist/model/GetProductParams.dart';
 import 'package:food/foodlist/repository.dart';
 
 import '../model/Category.dart';
@@ -18,18 +19,11 @@ class FoodBloc extends Bloc<FoodEvent, FoodState> {
     on<FoodDescriptionAndImageFetched>(_foodDescriptionAndImgFetched);
     on<FoodAddonFetched>(_foodAddonFetched);
     on<FoodProductFetched>(_foodProductFetched);
-    on<FoodProductByCategoryFetched>(_foodProductByCategoryFetched);
   }
   Future<String?> _getToken() async {
     String? login_cookie = await _storage.read(key: "login_cookie");
     String? token = jsonDecode(login_cookie!)["token"];
     return token;
-  }
-
-  _foodProductByCategoryFetched(FoodProductByCategoryFetched event, emit) async {
-    List<Food> food = await _foodRepository.getProductsByCategory(event.category, event.sort, event.sortDirect, event.size, event.page);
-    print(food);
-    emit(FoodStateProductFetchedSuccess(food: food, sort: event.sort));
   }
 
   _foodAddonFetched(event, emit) async {
@@ -49,7 +43,9 @@ class FoodBloc extends Bloc<FoodEvent, FoodState> {
     if (login_cookie != null) {
       userId = jsonDecode(login_cookie)["id"];
     }
-    List<Food> food = await _foodRepository.getProducts(event.page, event.size, event.sort, event.sortDirect, userId);
+    GetProductParams params = new GetProductParams(
+        sort: event.sort, sortDirect: event.sortDirect, size: event.size, page: event.page, category: event.category, userId: userId);
+    List<Food> food = await _foodRepository.getProducts(params);
 
     emit(FoodStateProductFetchedSuccess(food: food, sort: event.sort));
   }
