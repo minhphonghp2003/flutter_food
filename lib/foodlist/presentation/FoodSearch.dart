@@ -5,22 +5,25 @@ import 'package:food/foodlist/bloc/FoodEvent.dart';
 import 'package:food/foodlist/bloc/FoodState.dart';
 import 'package:food/foodlist/presentation/FoodDetail.dart';
 import 'package:food/foodlist/presentation/widget/CustomFloatingButton.dart';
+import 'package:food/foodlist/presentation/widget/SortingField.dart';
 
 import '../model/Category.dart';
 import '../model/Food.dart';
 
 class FoodSearch extends StatefulWidget {
-  FoodSearch({Key? key, required this.searchType, this.category = null, this.sortDirect = "desc", this.sort = "createdAt"}) : super(key: key);
+  FoodSearch({Key? key, this.searchName, this.sortedType, this.category = null, this.sortDirect = "desc", this.sort = "createdAt"}) : super(key: key);
   Category? category;
   String sort;
   String sortDirect;
-  String searchType;
+  String? sortedType;
+  String? searchName;
   @override
   State<FoodSearch> createState() => _FoodSearchState();
 }
 
 class _FoodSearchState extends State<FoodSearch> {
   List<Food> foods = [];
+  List<SortField> sorts = [New(), HighPrice(), LowPrice(), Rating(), Trending()];
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -58,17 +61,20 @@ class _FoodSearchState extends State<FoodSearch> {
                           ),
                           backgroundColor: Colors.white,
                         ),
-                        Container(
-                          // letscookingpki (47:896)
-                          margin: EdgeInsets.fromLTRB(15, 0, 0, 0),
-                          child: Text(
-                            '${widget.searchType}',
-                            style: TextStyle(
-                              fontSize: 24,
-                              fontWeight: FontWeight.w700,
-                              height: 1.5,
-                              letterSpacing: 0.0240000004,
-                              color: Color(0xff525252),
+                        Flexible(
+                          child: Container(
+                            // letscookingpki (47:896)
+                            margin: EdgeInsets.fromLTRB(15, 0, 0, 0),
+                            child: Text(
+                              '${widget.searchName != null ? widget.searchName : " "}',
+                              style: TextStyle(
+                                fontSize: 20,
+                                overflow: TextOverflow.ellipsis,
+                                fontWeight: FontWeight.w700,
+                                height: 1.5,
+                                letterSpacing: 0.0240000004,
+                                color: Color(0xff525252),
+                              ),
                             ),
                           ),
                         ),
@@ -79,107 +85,83 @@ class _FoodSearchState extends State<FoodSearch> {
                       margin: EdgeInsets.fromLTRB(5, 30, 0, 58),
                       height: 35,
                       child: ListView(
-                        scrollDirection: Axis.horizontal,
-                        children: [
-                          Container(
-                            // group70DwG (99:831)
-                            width: 116,
-                            height: double.infinity,
-                            decoration: BoxDecoration(
-                              border: Border.all(color: Colors.redAccent),
-                              borderRadius: BorderRadius.circular(15),
-                            ),
-                            child: Center(
-                              child: Text(
-                                'Trending',
-                                style: TextStyle(
-                                  fontSize: 14,
-                                  fontWeight: FontWeight.w600,
-                                  height: 1.5,
-                                  letterSpacing: 0.0140000002,
-                                  color: Colors.redAccent,
+                          scrollDirection: Axis.horizontal,
+                          children: sorts.map((s) {
+                            if (widget.sortedType == s.searchName) {
+                              s.isActive = true;
+                            } else {
+                              s.isActive = false;
+                            }
+                            return Row(children: [
+                              GestureDetector(
+                                onTap: () {
+                                  setState(() {
+                                    widget.sortedType = s.searchName;
+                                    widget.sort = s.sort;
+                                    widget.sortDirect = s.sortDirect;
+                                  });
+
+                                  s.fetchSortedData(context, widget.category);
+                                },
+                                child: SortWidget(
+                                  sortField: s,
                                 ),
                               ),
-                            ),
-                          ),
-                          SizedBox(
-                            width: 21,
-                          ),
-                          Container(
-                            // group716EN (99:832)
-                            width: 116,
-                            height: double.infinity,
-                            decoration: BoxDecoration(
-                              color: Colors.redAccent,
-                              border: Border.all(color: Colors.redAccent),
-                              borderRadius: BorderRadius.circular(15),
-                            ),
-                            child: Center(
-                              child: Text(
-                                'New',
-                                style: TextStyle(
-                                  fontSize: 14,
-                                  fontWeight: FontWeight.w600,
-                                  height: 1.5,
-                                  letterSpacing: 0.0140000002,
-                                  color: Color(0xffffffff),
-                                ),
-                              ),
-                            ),
-                          ),
-                          SizedBox(
-                            width: 21,
-                          ),
-                          Container(
-                            // group72xnN (99:833)
-                            width: 116,
-                            height: double.infinity,
-                            decoration: BoxDecoration(
-                              border: Border.all(color: Colors.redAccent),
-                              borderRadius: BorderRadius.circular(15),
-                            ),
-                            child: Center(
-                              child: Text(
-                                'High rating',
-                                style: TextStyle(
-                                  fontSize: 14,
-                                  fontWeight: FontWeight.w600,
-                                  height: 1.5,
-                                  letterSpacing: 0.0140000002,
-                                  color: Colors.redAccent,
-                                ),
-                              ),
-                            ),
-                          ),
-                          SizedBox(
-                            width: 21,
-                          ),
-                        ],
-                      ),
-                    ),
-                    Container(
-                      // group68ANe (98:794)
-                      width: 380,
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.center,
-                        children: foods.map((f) {
-                          return Column(
-                            children: [
-                              Product(food: f),
                               SizedBox(
-                                height: 24,
+                                width: 21,
                               ),
-                            ],
-                          );
-                        }).toList(),
-                      ),
+                            ]);
+                          }).toList()),
                     ),
+                    Column(
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      children: foods.map((f) {
+                        return Column(
+                          children: [
+                            Product(food: f),
+                            SizedBox(
+                              height: 24,
+                            ),
+                          ],
+                        );
+                      }).toList(),
+                    )
                   ],
                 ),
               );
             })
             // child:
             ));
+  }
+}
+
+class SortWidget extends StatelessWidget {
+  SortWidget({
+    required this.sortField,
+    Key? key,
+  }) : super(key: key);
+  SortField sortField;
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      // group72xnN (99:833)
+      width: 116,
+      height: double.infinity,
+      decoration: BoxDecoration(
+          border: Border.all(color: Colors.redAccent), borderRadius: BorderRadius.circular(15), color: sortField.isActive ? Colors.redAccent : null),
+      child: Center(
+        child: Text(
+          '${sortField.title}',
+          style: TextStyle(
+            fontSize: 14,
+            fontWeight: FontWeight.w600,
+            height: 1.5,
+            letterSpacing: 0.0140000002,
+            color: sortField.isActive ? Colors.white : Colors.redAccent,
+          ),
+        ),
+      ),
+    );
   }
 }
 

@@ -7,7 +7,6 @@ import 'package:food/foodlist/bloc/FoodState.dart';
 import 'package:food/foodlist/presentation/FoodSearch.dart';
 import 'package:food/foodlist/presentation/widget/Category.dart';
 import 'package:food/foodlist/presentation/widget/ProductWidget.dart';
-import 'package:food/foodlist/presentation/widget/SearchArea.dart';
 import 'package:food/foodlist/presentation/widget/SubProductWidget.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
 
@@ -16,10 +15,6 @@ import '../model/Food.dart';
 
 class FoodListPage extends StatelessWidget {
   FoodListPage({Key? key}) : super(key: key);
-  void _onLoading() async {
-    await Future.delayed(Duration(milliseconds: 1000));
-    _refreshController.loadComplete();
-  }
 
   RefreshController _refreshController = RefreshController(initialRefresh: false);
   @override
@@ -82,7 +77,29 @@ class FoodListPage extends StatelessWidget {
                               ),
                             ),
                           ),
-                          SearchArea(),
+                          // SearchArea(),
+                          Container(
+                            margin: EdgeInsets.fromLTRB(0, 0, 25, 30),
+                            child: TextFormField(
+                              onFieldSubmitted: (val) {
+                                Navigator.of(context).push(
+                                  MaterialPageRoute(
+                                    builder: (context) => FoodSearch(
+                                      searchName: "Search results for \n${val}",
+                                      sortedType: "New arrival",
+                                    ),
+                                  ),
+                                );
+                              },
+                              decoration: const InputDecoration(
+                                icon: Icon(
+                                  Icons.search,
+                                  color: Colors.redAccent,
+                                ),
+                                labelText: 'Search for food or categories...',
+                              ),
+                            ),
+                          ),
                           CategorySection(),
                           Container(
                             // autogroupd83bLCH (W75QAk4va9HNfubZz5d83b)
@@ -116,7 +133,7 @@ class FoodListPage extends StatelessWidget {
                                       Navigator.of(context).push(
                                         MaterialPageRoute(
                                           builder: (context) => FoodSearch(
-                                            searchType: "New arrival",
+                                            sortedType: "New arrival",
                                           ),
                                         ),
                                       );
@@ -179,14 +196,24 @@ class FoodListPage extends StatelessWidget {
                                   // group17552Ax1 (814:6415)
                                   margin: EdgeInsets.fromLTRB(0, 3, 0, 3),
                                   height: double.infinity,
-                                  child: Row(
-                                    crossAxisAlignment: CrossAxisAlignment.center,
-                                    children: [
-                                      Container(
-                                        // viewallJHX (814:6416)
-                                        margin: EdgeInsets.fromLTRB(0, 0, 5, 0),
-                                        child: GestureDetector(
-                                          onTap: () {},
+                                  child: GestureDetector(
+                                    onTap: () {
+                                      Navigator.of(context).push(
+                                        MaterialPageRoute(
+                                          builder: (context) => FoodSearch(
+                                            sortedType: "Most popular",
+                                            sort: "reviewCount",
+                                            sortDirect: "desc",
+                                          ),
+                                        ),
+                                      );
+                                    },
+                                    child: Row(
+                                      crossAxisAlignment: CrossAxisAlignment.center,
+                                      children: [
+                                        Container(
+                                          // viewallJHX (814:6416)
+                                          margin: EdgeInsets.fromLTRB(0, 0, 5, 0),
                                           child: Text(
                                             'View All',
                                             textAlign: TextAlign.right,
@@ -198,17 +225,14 @@ class FoodListPage extends StatelessWidget {
                                             ),
                                           ),
                                         ),
-                                      ),
-                                      GestureDetector(
-                                        onTap: () {},
-                                        child: Container(
+                                        Container(
                                             // path3424ok5 (814:6417)
                                             margin: EdgeInsets.fromLTRB(0, 0, 0, 4.32),
                                             // width: 3.34,
                                             // height: 6.68,
                                             child: Text(">", style: TextStyle(color: Colors.red))),
-                                      ),
-                                    ],
+                                      ],
+                                    ),
                                   ),
                                 ),
                               ],
@@ -246,14 +270,24 @@ class FoodListPage extends StatelessWidget {
                                   // group17552Ax1 (814:6415)
                                   margin: EdgeInsets.fromLTRB(0, 3, 0, 3),
                                   height: double.infinity,
-                                  child: Row(
-                                    crossAxisAlignment: CrossAxisAlignment.center,
-                                    children: [
-                                      Container(
-                                        // viewallJHX (814:6416)
-                                        margin: EdgeInsets.fromLTRB(0, 0, 5, 0),
-                                        child: GestureDetector(
-                                          onTap: () {},
+                                  child: GestureDetector(
+                                    onTap: () {
+                                      Navigator.of(context).push(
+                                        MaterialPageRoute(
+                                          builder: (context) => FoodSearch(
+                                            sortedType: "Good price",
+                                            sort: "price",
+                                            sortDirect: "asc",
+                                          ),
+                                        ),
+                                      );
+                                    },
+                                    child: Row(
+                                      crossAxisAlignment: CrossAxisAlignment.center,
+                                      children: [
+                                        Container(
+                                          // viewallJHX (814:6416)
+                                          margin: EdgeInsets.fromLTRB(0, 0, 5, 0),
                                           child: Text(
                                             'View All',
                                             textAlign: TextAlign.right,
@@ -265,17 +299,14 @@ class FoodListPage extends StatelessWidget {
                                             ),
                                           ),
                                         ),
-                                      ),
-                                      GestureDetector(
-                                        onTap: () {},
-                                        child: Container(
+                                        Container(
                                             // path3424ok5 (814:6417)
                                             margin: EdgeInsets.fromLTRB(0, 0, 0, 4.32),
                                             // width: 3.34,
                                             // height: 6.68,
                                             child: Text(">", style: TextStyle(color: Colors.red))),
-                                      ),
-                                    ],
+                                      ],
+                                    ),
                                   ),
                                 ),
                               ],

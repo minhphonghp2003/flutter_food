@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:food/foodlist/model/Category.dart';
 
+import '../FoodSearch.dart';
+
 class CategoryWidget extends StatelessWidget {
   CategoryWidget({Key? key, required this.category}) : super(key: key);
   Category category;
@@ -8,7 +10,16 @@ class CategoryWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
-      onTap: () {},
+      onTap: () {
+        Navigator.of(context).push(
+          MaterialPageRoute(
+            builder: (context) => FoodSearch(
+              searchName: "${category.name}",
+              category: category,
+            ),
+          ),
+        );
+      },
       child: Container(
         // group17821uzq (814:6510)
         margin: EdgeInsets.fromLTRB(0, 0, 14.64, 0),
