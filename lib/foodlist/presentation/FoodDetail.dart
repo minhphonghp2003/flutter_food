@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:food/foodlist/bloc/FoodBloc.dart';
 import 'package:food/foodlist/model/Addon.dart';
+import 'package:food/foodlist/presentation/ReviewPage.dart';
 import 'package:food/foodlist/presentation/widget/CustomFloatingButton.dart';
 
 import '../bloc/FoodEvent.dart';
@@ -164,7 +165,16 @@ class _FoodDetailState extends State<FoodDetail> {
                                             ),
                                           ),
                                           GestureDetector(
-                                            onTap: () {},
+                                            onTap: () {
+                                              Navigator.of(context).push(
+                                                MaterialPageRoute(
+                                                  builder: (context) => Reviews(
+                                                    productId: widget.food.id,
+                                                    food: widget.food,
+                                                  ),
+                                                ),
+                                              );
+                                            },
                                             child: Text(
                                               // seereviewvew (814:6290)
                                               'See Review',

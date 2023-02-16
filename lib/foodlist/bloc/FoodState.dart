@@ -1,6 +1,7 @@
 import '../model/Addon.dart';
 import '../model/Category.dart';
 import '../model/Food.dart';
+import '../model/Review.dart';
 
 abstract class FoodState {}
 
@@ -25,4 +26,9 @@ class FoodStateDescriptionAndImgFetchedSuccess extends FoodState {
 class FoodStateAddonFetchedSuccess extends FoodState {
   List<Addon> addons;
   FoodStateAddonFetchedSuccess({required this.addons});
+}
+
+class FoodStateReviewFetchedSuccess extends FoodState {
+  List<Review> reviews;
+  FoodStateReviewFetchedSuccess({required this.reviews});
 }

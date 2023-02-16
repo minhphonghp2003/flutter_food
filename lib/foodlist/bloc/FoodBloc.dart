@@ -10,6 +10,7 @@ import 'package:food/foodlist/model/GetProductParams.dart';
 import 'package:food/foodlist/repository.dart';
 
 import '../model/Category.dart';
+import '../model/Review.dart';
 
 class FoodBloc extends Bloc<FoodEvent, FoodState> {
   final _storage = new FlutterSecureStorage();
@@ -19,11 +20,17 @@ class FoodBloc extends Bloc<FoodEvent, FoodState> {
     on<FoodDescriptionAndImageFetched>(_foodDescriptionAndImgFetched);
     on<FoodAddonFetched>(_foodAddonFetched);
     on<FoodProductFetched>(_foodProductFetched);
+    on<FoodReviewFetched>(_foodReviewFetched);
   }
   Future<String?> _getToken() async {
     String? login_cookie = await _storage.read(key: "login_cookie");
     String? token = jsonDecode(login_cookie!)["token"];
     return token;
+  }
+
+  _foodReviewFetched(FoodReviewFetched event, emit) async {
+    List<Review> reviews = await _foodRepository.getReviews(event.productId);
+    emit(FoodStateReviewFetchedSuccess(reviews: reviews));
   }
 
   _foodAddonFetched(event, emit) async {

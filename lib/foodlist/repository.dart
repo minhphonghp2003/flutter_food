@@ -3,6 +3,7 @@ import 'package:food/foodlist/model/Addon.dart';
 import 'package:food/foodlist/model/Category.dart';
 import 'package:food/foodlist/model/Food.dart';
 import 'package:food/foodlist/model/GetProductParams.dart';
+import 'package:food/foodlist/model/Review.dart';
 import 'package:http/http.dart' as http;
 
 class FoodRepository {
@@ -25,5 +26,9 @@ class FoodRepository {
 
   Future<List<Addon>> getAddons() async {
     return await _dataProvider.getAddons();
+  }
+
+  Future<List<Review>> getReviews(String productId) async {
+    return await _dataProvider.getReviews(productId);
   }
 }
