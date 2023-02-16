@@ -86,7 +86,7 @@ class FoodListPage extends StatelessWidget {
                                   MaterialPageRoute(
                                     builder: (context) => FoodSearch(
                                       searchName: "Search results for \n${val}",
-                                      sortedType: "New arrival",
+                                      searchKeyword: val,
                                     ),
                                   ),
                                 );

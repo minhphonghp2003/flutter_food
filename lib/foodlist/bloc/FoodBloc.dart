@@ -43,11 +43,20 @@ class FoodBloc extends Bloc<FoodEvent, FoodState> {
     if (login_cookie != null) {
       userId = jsonDecode(login_cookie)["id"];
     }
-    GetProductParams params = new GetProductParams(
-        sort: event.sort, sortDirect: event.sortDirect, size: event.size, page: event.page, category: event.category, userId: userId);
-    List<Food> food = await _foodRepository.getProducts(params);
+    if (event.keyword != null) {
+      SearchParams params =
+          new SearchParams(sort: event.sort, sortDirect: event.sortDirect, size: event.size, page: event.page, keyword: event.keyword);
 
-    emit(FoodStateProductFetchedSuccess(food: food, sort: event.sort));
+      List<Food> food = await _foodRepository.search(params);
+
+      emit(FoodStateProductFetchedSuccess(food: food, sort: event.sort));
+    } else {
+      GetProductParams params = new GetProductParams(
+          sort: event.sort, sortDirect: event.sortDirect, size: event.size, page: event.page, category: event.category, userId: userId);
+      List<Food> food = await _foodRepository.getProducts(params);
+
+      emit(FoodStateProductFetchedSuccess(food: food, sort: event.sort));
+    }
   }
 
   _foodAllCategoriesFetched(event, emit) async {

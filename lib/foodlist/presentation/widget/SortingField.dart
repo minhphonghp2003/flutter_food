@@ -6,7 +6,7 @@ import 'package:food/foodlist/bloc/FoodEvent.dart';
 import '../../model/Category.dart';
 
 abstract class SortField {
-  void fetchSortedData(BuildContext context, Category? category);
+  void fetchSortedData(BuildContext context, Category? category, String? keyword);
   late String searchName;
   late String title;
   late bool isActive;
@@ -18,8 +18,8 @@ class Trending implements SortField {
   String searchName = "Most popular";
   String title = "Trending";
   @override
-  void fetchSortedData(BuildContext context, Category? category) async {
-    context.read<FoodBloc>().add(FoodProductFetched(page: 1, size: 8, sortDirect: sortDirect, sort: sort, category: category));
+  void fetchSortedData(BuildContext context, Category? category, String? keyword) async {
+    context.read<FoodBloc>().add(FoodProductFetched(page: 1, size: 8, sortDirect: sortDirect, keyword: keyword, sort: sort, category: category));
   }
 
   bool isActive = false;
@@ -40,8 +40,8 @@ class New implements SortField {
   String searchName = "New arrival";
   String title = "New";
   @override
-  void fetchSortedData(BuildContext context, Category? category) async {
-    context.read<FoodBloc>().add(FoodProductFetched(page: 1, size: 8, sortDirect: sortDirect, sort: sort, category: category));
+  void fetchSortedData(BuildContext context, Category? category, String? keyword) async {
+    context.read<FoodBloc>().add(FoodProductFetched(page: 1, size: 8, sortDirect: sortDirect, keyword: keyword, sort: sort, category: category));
   }
 
   bool isActive = false;
@@ -56,8 +56,8 @@ class Rating implements SortField {
   String searchName = "High rating";
   String title = "High rating";
   @override
-  void fetchSortedData(BuildContext context, Category? category) async {
-    context.read<FoodBloc>().add(FoodProductFetched(page: 1, size: 8, sortDirect: sortDirect, sort: sort, category: category));
+  void fetchSortedData(BuildContext context, Category? category, String? keyword) async {
+    context.read<FoodBloc>().add(FoodProductFetched(page: 1, size: 8, sortDirect: sortDirect, keyword: keyword, sort: sort, category: category));
   }
 
   bool isActive = false;
@@ -72,8 +72,8 @@ class LowPrice implements SortField {
   String searchName = "Good price";
   String title = "Low price";
   @override
-  void fetchSortedData(BuildContext context, Category? category) async {
-    context.read<FoodBloc>().add(FoodProductFetched(page: 1, size: 8, sortDirect: sortDirect, sort: sort, category: category));
+  void fetchSortedData(BuildContext context, Category? category, String? keyword) async {
+    context.read<FoodBloc>().add(FoodProductFetched(page: 1, size: 8, sortDirect: sortDirect, keyword: keyword, sort: sort, category: category));
   }
 
   bool isActive = false;
@@ -88,8 +88,8 @@ class HighPrice implements SortField {
   String searchName = "High price";
   String title = "High price";
   @override
-  void fetchSortedData(BuildContext context, Category? category) async {
-    context.read<FoodBloc>().add(FoodProductFetched(page: 1, size: 8, sortDirect: sortDirect, sort: sort, category: category));
+  void fetchSortedData(BuildContext context, Category? category, String? keyword) async {
+    context.read<FoodBloc>().add(FoodProductFetched(page: 1, size: 8, sortDirect: sortDirect, keyword: keyword, sort: sort, category: category));
   }
 
   bool isActive = false;

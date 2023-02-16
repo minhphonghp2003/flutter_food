@@ -15,6 +15,10 @@ class FoodRepository {
     return await _dataProvider.getProducts(params);
   }
 
+  Future<List<Food>> search(SearchParams params) async {
+    return await _dataProvider.search(params);
+  }
+
   Future<FoodDetailImgAndDes> getFoodImgAndDes(String id) async {
     return await _dataProvider.getFoodDetailImgAndDes(id);
   }

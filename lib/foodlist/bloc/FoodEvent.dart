@@ -10,8 +10,9 @@ class FoodProductFetched extends FoodEvent {
   String sort;
   String sortDirect;
   Category? category;
+  String? keyword;
 
-  FoodProductFetched({required this.page, this.category, required this.size, this.sort = "createdAt", this.sortDirect = "desc"});
+  FoodProductFetched({required this.page, this.keyword, this.category, required this.size, this.sort = "createdAt", this.sortDirect = "desc"});
 }
 
 class FoodDescriptionAndImageFetched extends FoodEvent {

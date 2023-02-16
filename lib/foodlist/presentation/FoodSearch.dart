@@ -11,12 +11,15 @@ import '../model/Category.dart';
 import '../model/Food.dart';
 
 class FoodSearch extends StatefulWidget {
-  FoodSearch({Key? key, this.searchName, this.sortedType, this.category = null, this.sortDirect = "desc", this.sort = "createdAt"}) : super(key: key);
+  FoodSearch(
+      {Key? key, this.searchName, this.searchKeyword, this.sortedType, this.category = null, this.sortDirect = "desc", this.sort = "createdAt"})
+      : super(key: key);
   Category? category;
   String sort;
   String sortDirect;
   String? sortedType;
   String? searchName;
+  String? searchKeyword;
   @override
   State<FoodSearch> createState() => _FoodSearchState();
 }
@@ -28,8 +31,9 @@ class _FoodSearchState extends State<FoodSearch> {
   Widget build(BuildContext context) {
     return Scaffold(
         body: BlocProvider(
-            create: (BuildContext context) =>
-                FoodBloc()..add(FoodProductFetched(page: 1, size: 8, sort: widget.sort, sortDirect: widget.sortDirect, category: widget.category)),
+            create: (BuildContext context) => FoodBloc()
+              ..add(FoodProductFetched(
+                  page: 1, size: 8, keyword: widget.searchKeyword, sort: widget.sort, sortDirect: widget.sortDirect, category: widget.category)),
             child: BlocConsumer<FoodBloc, FoodState>(listener: (context, state) {
               // do stuff here based on BlocA's state
             }, builder: (context, state) {
@@ -101,7 +105,7 @@ class _FoodSearchState extends State<FoodSearch> {
                                     widget.sortDirect = s.sortDirect;
                                   });
 
-                                  s.fetchSortedData(context, widget.category);
+                                  s.fetchSortedData(context, widget.category, widget.searchKeyword);
                                 },
                                 child: SortWidget(
                                   sortField: s,

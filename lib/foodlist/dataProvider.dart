@@ -50,6 +50,17 @@ class FoodProvider {
     }
     return food;
   }
+
+  Future<List<Food>> search(SearchParams params) async {
+    var response = await client.get(Uri.parse(host +
+        "$path/search?size=${params.size}&page=${params.page}&sortField=${params.sort}&sortDirect=${params.sortDirect}&keyword=${params.keyword}"));
+    var decodedResponse = jsonDecode(utf8.decode(response.bodyBytes));
+    List<Food> food = [];
+    for (var f in decodedResponse["hits"]) {
+      food.add(Food.fromJson(f["_source"]));
+    }
+    return food;
+  }
 }
 
 void main() async {
