@@ -108,7 +108,7 @@ class Reviews extends StatelessWidget {
               BlocBuilder<FoodBloc, FoodState>(builder: (context, state) {
                 if (state is FoodStateReviewFetchedSuccess) {
                   return Column(
-                      children: state.reviews.map((r) {
+                      children: state.reviews.reversed.map((r) {
                     return Container(
                       // group17775T79 (814:3930)
                       margin: EdgeInsets.fromLTRB(0, 0, 0, 44),
@@ -152,7 +152,7 @@ class Reviews extends StatelessWidget {
                                           ),
                                         ),
                                         Text(
-                                          "${r.rating}",
+                                          "${r.rating.toStringAsFixed(1)}",
                                           style: TextStyle(fontSize: 10),
                                         ),
                                         Icon(

@@ -1,16 +1,25 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
+import 'package:food/foodlist/bloc/FoodBloc.dart';
+import 'package:food/foodlist/bloc/FoodEvent.dart';
+import 'package:food/foodlist/bloc/FoodState.dart';
 import 'package:food/foodlist/model/Food.dart';
+import 'package:food/foodlist/model/Review.dart';
 
 class AddReview extends StatelessWidget {
   AddReview({Key? key, required this.food}) : super(key: key);
   Food food;
-  TextEditingController rating = new TextEditingController(text: "3.0");
+  TextEditingController rating = new TextEditingController(text: "3");
   TextEditingController content = new TextEditingController();
+  TextEditingController name = new TextEditingController();
+  TextEditingController email = new TextEditingController();
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: SafeArea(
+        body: SafeArea(
+      child: BlocProvider(
+        create: (BuildContext context) => FoodBloc(),
         child: Container(
           // reviewresturentEHq (814:3841)
           padding: EdgeInsets.fromLTRB(26, 37, 27, 33),
@@ -48,6 +57,20 @@ class AddReview extends StatelessWidget {
                   ),
                 ),
               ),
+              BlocConsumer<FoodBloc, FoodState>(listener: (context, state) {
+                if (state is FoodStateReviewAddedSuccess) {
+                  Navigator.pop(context);
+                }
+              }, builder: (context, state) {
+                if (state is FoodStateReviewAddedFailure) {
+                  return Center(
+                      child: Text(
+                    "Please fill in all the fields",
+                    style: TextStyle(color: Colors.redAccent),
+                  ));
+                }
+                return Container();
+              }),
               Container(
                 // howwasyourlastorderfrompizzahu (814:3842)
                 margin: EdgeInsets.fromLTRB(1, 0, 0, 27),
@@ -70,7 +93,7 @@ class AddReview extends StatelessWidget {
                   initialRating: 3,
                   minRating: 1,
                   direction: Axis.horizontal,
-                  allowHalfRating: true,
+                  allowHalfRating: false,
                   itemCount: 5,
                   itemPadding: EdgeInsets.symmetric(horizontal: 4.0),
                   itemBuilder: (context, _) => Icon(
@@ -78,7 +101,7 @@ class AddReview extends StatelessWidget {
                     color: Colors.amber,
                   ),
                   onRatingUpdate: (value) {
-                    rating.text = value.toString();
+                    rating.text = value.toInt().toString();
                   },
                 ),
               ),
@@ -86,12 +109,20 @@ class AddReview extends StatelessWidget {
                 height: 50,
               ),
               TextField(
+                controller: name,
+                decoration: const InputDecoration(labelText: "Your name is"),
+              ),
+              TextField(
+                controller: email,
+                decoration: const InputDecoration(labelText: "Your email address (this won't be showed)"),
+              ),
+              TextField(
                 controller: content,
                 decoration: const InputDecoration(labelText: "Write your comment"),
               ),
               Container(
                 // line60yGf (814:3869)
-                margin: EdgeInsets.fromLTRB(1, 0, 0, 190),
+                margin: EdgeInsets.fromLTRB(1, 0, 0, 90),
                 width: 321,
                 height: 1,
                 decoration: BoxDecoration(
@@ -100,7 +131,7 @@ class AddReview extends StatelessWidget {
               ),
               Container(
                 // group175325ab (814:3863)
-                margin: EdgeInsets.fromLTRB(39, 0, 35, 10),
+                margin: EdgeInsets.fromLTRB(39, 0, 32, 10),
                 width: double.infinity,
                 height: 60,
                 decoration: BoxDecoration(
@@ -128,19 +159,23 @@ class AddReview extends StatelessWidget {
                           ),
                         ],
                       ),
-                      child: FloatingActionButton.extended(
-                        onPressed: () {
-                          print(rating.text + content.text);
-                        },
-                        label: Text("Submit"),
-                        backgroundColor: Colors.redAccent,
-                      )),
+                      child: Builder(builder: (context) {
+                        return FloatingActionButton.extended(
+                          onPressed: () {
+                            Review review =
+                                Review(rating: int.parse(rating.text), name: name.text, content: content.text, productId: food.id, email: email.text);
+                            context.read<FoodBloc>().add(FoodReviewAdded(review: review));
+                          },
+                          label: Text("Submit"),
+                          backgroundColor: Colors.redAccent,
+                        );
+                      })),
                 ),
               ),
             ],
           ),
         ),
       ),
-    );
+    ));
   }
 }

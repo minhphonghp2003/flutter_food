@@ -31,4 +31,8 @@ class FoodRepository {
   Future<List<Review>> getReviews(String productId) async {
     return await _dataProvider.getReviews(productId);
   }
+
+  Future<void> addReview(Review review) async {
+    await _dataProvider.addReview(review);
+  }
 }

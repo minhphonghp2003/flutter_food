@@ -142,7 +142,7 @@ class _FoodDetailState extends State<FoodDetail> {
                                             // R3y (814:6288)
                                             margin: EdgeInsets.fromLTRB(0, 0, 7, 0),
                                             child: Text(
-                                              '${widget.food.rating}',
+                                              '${widget.food.rating.toStringAsFixed(1)}',
                                               style: TextStyle(
                                                 fontSize: 14,
                                                 fontWeight: FontWeight.w600,

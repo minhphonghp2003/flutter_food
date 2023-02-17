@@ -21,11 +21,21 @@ class FoodBloc extends Bloc<FoodEvent, FoodState> {
     on<FoodAddonFetched>(_foodAddonFetched);
     on<FoodProductFetched>(_foodProductFetched);
     on<FoodReviewFetched>(_foodReviewFetched);
+    on<FoodReviewAdded>(_foodReviewAdded);
   }
   Future<String?> _getToken() async {
     String? login_cookie = await _storage.read(key: "login_cookie");
     String? token = jsonDecode(login_cookie!)["token"];
     return token;
+  }
+
+  _foodReviewAdded(FoodReviewAdded event, emit) async {
+    if (event.review.name.length == 0 || event.review.content.length == 0) {
+      emit(FoodStateReviewAddedFailure());
+    } else {
+      await _foodRepository.addReview(event.review);
+      emit(FoodStateReviewAddedSuccess());
+    }
   }
 
   _foodReviewFetched(FoodReviewFetched event, emit) async {

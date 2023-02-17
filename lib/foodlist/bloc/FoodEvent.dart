@@ -1,4 +1,5 @@
 import '../model/Category.dart';
+import '../model/Review.dart';
 
 abstract class FoodEvent {}
 
@@ -25,4 +26,9 @@ class FoodAddonFetched extends FoodEvent {}
 class FoodReviewFetched extends FoodEvent {
   String productId;
   FoodReviewFetched({required this.productId});
+}
+
+class FoodReviewAdded extends FoodEvent {
+  Review review;
+  FoodReviewAdded({required this.review});
 }

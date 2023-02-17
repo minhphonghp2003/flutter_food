@@ -72,10 +72,16 @@ class FoodProvider {
     }
     return reviews;
   }
+
+  Future<void> addReview(Review review) async {
+    var response = await client.post(Uri.parse(host + "$path/review"), body: review.toJson());
+  }
 }
 
 void main() async {
   var provider = new FoodProvider(client: http.Client());
+  Review review = Review(content: "", name: "", rating: 5, email: "review@food.com", productId: "1a2e8eae-9c27-4af3-9e91-19800ca2fc85");
+  await provider.addReview(review);
   // await (provider.getReviews("1a2e8eae-9c27-4af3-9e91-19800ca2fc85"));
   // print((await provider.getFoodDetailImgAndDes("53d8e8c3-7ecd-4cf7-a0e1-2d691b100003")).imageLinks);
   // print(await provider.getProducts(1, 2, "lastest", "c0a5bc18-c2c6-45dc-bd9d-846ef63ff265"));

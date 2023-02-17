@@ -271,7 +271,7 @@ class Product extends StatelessWidget {
                               // RYP (814:5478)
                               // margin: EdgeInsets.fromLTRB(0, 0, 6.59, 0),
                               child: Text(
-                                '${food.rating}',
+                                '${food.rating.toStringAsFixed(1)}',
                                 style: TextStyle(
                                   fontSize: 12.1428575516,
                                   fontWeight: FontWeight.w600,

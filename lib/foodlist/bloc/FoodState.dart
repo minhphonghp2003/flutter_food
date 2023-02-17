@@ -32,3 +32,7 @@ class FoodStateReviewFetchedSuccess extends FoodState {
   List<Review> reviews;
   FoodStateReviewFetchedSuccess({required this.reviews});
 }
+
+class FoodStateReviewAddedSuccess extends FoodState {}
+
+class FoodStateReviewAddedFailure extends FoodState {}
