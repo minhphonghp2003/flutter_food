@@ -1,5 +1,4 @@
 import 'package:food/foodlist/dataProvider.dart';
-import 'package:food/foodlist/model/Addon.dart';
 import 'package:food/foodlist/model/Category.dart';
 import 'package:food/foodlist/model/Food.dart';
 import 'package:food/foodlist/model/GetProductParams.dart';
@@ -24,15 +23,15 @@ class FoodRepository {
     return await _dataProvider.getFoodDetailImgAndDes(id);
   }
 
-  Future<List<Addon>> getAddons() async {
-    return await _dataProvider.getAddons();
-  }
-
   Future<List<Review>> getReviews(String productId) async {
     return await _dataProvider.getReviews(productId);
   }
 
   Future<void> addReview(Review review) async {
     await _dataProvider.addReview(review);
+  }
+
+  Future<Map<dynamic, dynamic>> addToCart(String productId, int quantity, String token) async {
+    return await _dataProvider.addToCart(productId, quantity, token);
   }
 }

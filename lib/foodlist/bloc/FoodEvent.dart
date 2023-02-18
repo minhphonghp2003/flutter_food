@@ -21,8 +21,6 @@ class FoodDescriptionAndImageFetched extends FoodEvent {
   FoodDescriptionAndImageFetched({required this.id});
 }
 
-class FoodAddonFetched extends FoodEvent {}
-
 class FoodReviewFetched extends FoodEvent {
   String productId;
   FoodReviewFetched({required this.productId});
@@ -31,4 +29,10 @@ class FoodReviewFetched extends FoodEvent {
 class FoodReviewAdded extends FoodEvent {
   Review review;
   FoodReviewAdded({required this.review});
+}
+
+class FoodAddToCart extends FoodEvent {
+  String productId;
+  int quanity;
+  FoodAddToCart({required this.productId, required this.quanity});
 }

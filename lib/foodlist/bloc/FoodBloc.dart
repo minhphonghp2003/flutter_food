@@ -4,7 +4,6 @@ import 'package:bloc/bloc.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:food/foodlist/bloc/FoodEvent.dart';
 import 'package:food/foodlist/bloc/FoodState.dart';
-import 'package:food/foodlist/model/Addon.dart';
 import 'package:food/foodlist/model/Food.dart';
 import 'package:food/foodlist/model/GetProductParams.dart';
 import 'package:food/foodlist/repository.dart';
@@ -18,15 +17,25 @@ class FoodBloc extends Bloc<FoodEvent, FoodState> {
   FoodBloc() : super(FoodStateInitial()) {
     on<FoodAllCategoriesFetched>(_foodAllCategoriesFetched);
     on<FoodDescriptionAndImageFetched>(_foodDescriptionAndImgFetched);
-    on<FoodAddonFetched>(_foodAddonFetched);
     on<FoodProductFetched>(_foodProductFetched);
     on<FoodReviewFetched>(_foodReviewFetched);
     on<FoodReviewAdded>(_foodReviewAdded);
+    on<FoodAddToCart>(_foodAddToCart);
   }
   Future<String?> _getToken() async {
     String? login_cookie = await _storage.read(key: "login_cookie");
-    String? token = jsonDecode(login_cookie!)["token"];
+    String? token = login_cookie != null ? jsonDecode(login_cookie)["token"] : null;
     return token;
+  }
+
+  _foodAddToCart(FoodAddToCart event, emit) async {
+    String? token = await _getToken();
+    if (token == null) {
+      emit(FoodStateAddToCartFailure(error: "No valid token"));
+    } else {
+      await _foodRepository.addToCart(event.productId, event.quanity, token);
+      emit(FoodStateAddToCartSuccess());
+    }
   }
 
   _foodReviewAdded(FoodReviewAdded event, emit) async {
@@ -41,11 +50,6 @@ class FoodBloc extends Bloc<FoodEvent, FoodState> {
   _foodReviewFetched(FoodReviewFetched event, emit) async {
     List<Review> reviews = await _foodRepository.getReviews(event.productId);
     emit(FoodStateReviewFetchedSuccess(reviews: reviews));
-  }
-
-  _foodAddonFetched(event, emit) async {
-    List<Addon> addons = await _foodRepository.getAddons();
-    emit(FoodStateAddonFetchedSuccess(addons: addons));
   }
 
   _foodDescriptionAndImgFetched(event, emit) async {

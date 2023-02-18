@@ -36,3 +36,10 @@ class FoodStateReviewFetchedSuccess extends FoodState {
 class FoodStateReviewAddedSuccess extends FoodState {}
 
 class FoodStateReviewAddedFailure extends FoodState {}
+
+class FoodStateAddToCartSuccess extends FoodState {}
+
+class FoodStateAddToCartFailure extends FoodState {
+  String error;
+  FoodStateAddToCartFailure({required this.error});
+}

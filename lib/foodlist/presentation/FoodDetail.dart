@@ -1,8 +1,9 @@
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:food/app.dart';
+import 'package:food/authenticate/presentation/LoginPage.dart';
 import 'package:food/foodlist/bloc/FoodBloc.dart';
-import 'package:food/foodlist/model/Addon.dart';
 import 'package:food/foodlist/presentation/ReviewPage.dart';
 import 'package:food/foodlist/presentation/widget/CustomFloatingButton.dart';
 
@@ -19,7 +20,6 @@ class FoodDetail extends StatefulWidget {
 }
 
 class _FoodDetailState extends State<FoodDetail> {
-  List<Addon> addons = [];
   String description = "";
   List<dynamic> images = [];
   int quanity = 1;
@@ -37,9 +37,7 @@ class _FoodDetailState extends State<FoodDetail> {
           backgroundColor: Colors.white,
         ),
         body: BlocProvider(
-            create: (BuildContext context) => FoodBloc()
-              ..add(FoodDescriptionAndImageFetched(id: widget.food.id))
-              ..add(FoodAddonFetched()),
+            create: (BuildContext context) => FoodBloc()..add(FoodDescriptionAndImageFetched(id: widget.food.id)),
             child: Container(
               // fooddetails9N3 (814:6237)
               padding: EdgeInsets.fromLTRB(17, 27, 23.4, 32),
@@ -332,104 +330,19 @@ class _FoodDetailState extends State<FoodDetail> {
                           ),
                         );
                       })),
-                  Container(
-                    // choiceofaddonFwR (814:6270)
-                    margin: EdgeInsets.fromLTRB(0, 0, 197.6, 5),
-                    child: Text(
-                      'Choice of Add On',
-                      style: TextStyle(
-                        fontSize: 18,
-                        fontWeight: FontWeight.w600,
-                        height: 1.2575,
-                        color: Color(0xff323643),
-                      ),
-                    ),
-                  ),
-                  BlocConsumer<FoodBloc, FoodState>(
-                      listener: (context, state) {},
-                      builder: (context, state) {
-                        if (state is FoodStateAddonFetchedSuccess) {
-                          addons = state.addons;
-                        }
-                        return Column(
-                            children: addons != null
-                                ? addons.map((addon) {
-                                    bool isChosen = false;
-                                    return GestureDetector(
-                                      onTap: () {
-                                        setState(() {
-                                          addon.isChosen = !addon.isChosen;
-                                        });
-                                      },
-                                      child: Container(
-                                        // group17854Bxo (814:6260)
-                                        margin: EdgeInsets.fromLTRB(0, 0, 0.35, 10),
-
-                                        decoration: BoxDecoration(
-                                            color: addon.isChosen != false ? Colors.redAccent : null, borderRadius: BorderRadius.circular(5)),
-                                        width: double.infinity,
-                                        height: 39.17,
-                                        child: Row(
-                                          crossAxisAlignment: CrossAxisAlignment.center,
-                                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                          children: [
-                                            Container(
-                                                // group17851Csu (814:6265)
-                                                margin: EdgeInsets.fromLTRB(0, 0, 157, 0),
-                                                height: double.infinity,
-                                                child: Row(crossAxisAlignment: CrossAxisAlignment.center, children: [
-                                                  Container(
-                                                    // maskgroup5B1 (814:6267)
-                                                    margin: EdgeInsets.fromLTRB(0, 0, 9.83, 0),
-                                                    width: 39.17,
-                                                    height: 39.17,
-                                                    child: Image.network(
-                                                      addon.image,
-                                                      width: 39.17,
-                                                      height: 39.17,
-                                                    ),
-                                                  ),
-                                                  Container(
-                                                    // masroomm3q (814:6266)
-
-                                                    margin: EdgeInsets.fromLTRB(0, 0, 0, 1.17),
-                                                    child: Text(
-                                                      '${addon.name}',
-                                                      style: TextStyle(
-                                                        fontSize: 14,
-                                                        fontWeight: FontWeight.w400,
-                                                        height: 1.2575,
-                                                        color: Color(0xff000000),
-                                                      ),
-                                                    ),
-                                                  ),
-                                                ])),
-                                            Row(
-                                              children: [
-                                                Container(
-                                                  // 3n3 (814:6264)
-                                                  margin: EdgeInsets.fromLTRB(0, 2.83, 7, 0),
-                                                  child: Text(
-                                                    '+${addon.price}',
-                                                    textAlign: TextAlign.right,
-                                                    style: TextStyle(
-                                                      fontSize: 14,
-                                                      fontWeight: FontWeight.w400,
-                                                      height: 1.2575,
-                                                      color: Color(0xff000000),
-                                                    ),
-                                                  ),
-                                                ),
-                                              ],
-                                            ),
-                                          ],
-                                        ),
-                                      ),
-                                    );
-                                  }).toList()
-                                : [Container()]);
-                      }),
-                  Container(
+                  BlocListener<FoodBloc, FoodState>(
+                    listener: (context, state) {
+                      if (state is FoodStateAddToCartFailure) {
+                        Navigator.of(context).push(
+                          MaterialPageRoute(
+                            builder: (context) => LoginPage(),
+                          ),
+                        );
+                      }
+                      if (state is FoodStateAddToCartSuccess) {
+                        Navigator.of(context).pushAndRemoveUntil(MaterialPageRoute(builder: (context) => FoodApp()), (Route<dynamic> route) => false);
+                      }
+                    },
                     child: Builder(builder: (context) {
                       return CustomFloatingButtonExtend(
                           child: Row(
@@ -445,10 +358,10 @@ class _FoodDetailState extends State<FoodDetail> {
                           ),
                           backgroundColor: Colors.redAccent,
                           onPressed: () {
-                            // context.read<FoodBloc>().add(FoodAddonFetched());
+                            context.read<FoodBloc>().add(FoodAddToCart(productId: widget.food.id, quanity: quanity));
                           });
                     }),
-                  )
+                  ),
                 ],
               ),
             )));
