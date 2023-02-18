@@ -1,5 +1,6 @@
 import 'dart:convert';
 
+import 'package:food/foodlist/model/Cart.dart';
 import 'package:food/foodlist/model/Food.dart';
 import 'package:food/foodlist/model/GetProductParams.dart';
 import 'package:http/http.dart' as http;
@@ -79,12 +80,23 @@ class FoodProvider {
     var decodedResponse = jsonDecode(utf8.decode(response.bodyBytes));
     return decodedResponse[0];
   }
+
+  Future<List<Cart>> getCart(String token) async {
+    var response = await client.get(Uri.parse(host + "v1/cart"), headers: {"token": token});
+    var decodedResponse = jsonDecode(utf8.decode(response.bodyBytes));
+    List<Cart> carts = [];
+    for (var c in decodedResponse) {
+      carts.add(Cart.fromJson(c));
+    }
+    return carts;
+  }
 }
 
 void main() async {
   var provider = new FoodProvider(client: http.Client());
-  // await provider.addToCart("1a2e8eae-9c27-4af3-9e91-19800ca2fc85", 9,
-  //     "eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjZjNWYyNDY5LTQ4MWMtNDY3Mi1iMWViLTdmOGRiNjU2NWI2NiIsInJvbGUiOiJhZG1pbiIsInVzZXJuYW1lIjoidXNlcjIiLCJpYXQiOjE2NzY2ODk5MDEsImV4cCI6MTY3NzI5NDcwMX0.MMJtOv50VOc4QVSm0iNhW1RBwcAkM4ZcM7HHV3g5Z9R01RMTCs_RkKGTztLZsyjydrrtlm5lV7CCf4H_JLq-4WtXtLZECAlAAj8Bn30WvcyegglZ5umiSagk6jU9ySQyjErKnNb8CQFAVS7f1vihD1r2T9YsZVzu_ziQ8Tjmvf8DrZaJkj4cc_6r-FGSZ04rm2du-mcvSO1yPnJrCZ8grRDKKNjiNCv63c2wnhAzlVzeZ2TeDP6_IOfAva_UDxUVDSzqxUfsNCdedY1AnL6PxGyzaYGLrXsvGK7c78iFLoHbjnzqYwBP44PqC8yYoP8a8ERjEqivwpgb2X4yq2QE7A");
+  var res = await provider.getCart(
+      "eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjZjNWYyNDY5LTQ4MWMtNDY3Mi1iMWViLTdmOGRiNjU2NWI2NiIsInJvbGUiOiJhZG1pbiIsInVzZXJuYW1lIjoidXNlcjIiLCJpYXQiOjE2NzY2ODk5MDEsImV4cCI6MTY3NzI5NDcwMX0.MMJtOv50VOc4QVSm0iNhW1RBwcAkM4ZcM7HHV3g5Z9R01RMTCs_RkKGTztLZsyjydrrtlm5lV7CCf4H_JLq-4WtXtLZECAlAAj8Bn30WvcyegglZ5umiSagk6jU9ySQyjErKnNb8CQFAVS7f1vihD1r2T9YsZVzu_ziQ8Tjmvf8DrZaJkj4cc_6r-FGSZ04rm2du-mcvSO1yPnJrCZ8grRDKKNjiNCv63c2wnhAzlVzeZ2TeDP6_IOfAva_UDxUVDSzqxUfsNCdedY1AnL6PxGyzaYGLrXsvGK7c78iFLoHbjnzqYwBP44PqC8yYoP8a8ERjEqivwpgb2X4yq2QE7A");
+  print(res);
   // await (provider.getReviews("1a2e8eae-9c27-4af3-9e91-19800ca2fc85"));
   // print((await provider.getFoodDetailImgAndDes("53d8e8c3-7ecd-4cf7-a0e1-2d691b100003")).imageLinks);
   // print(await provider.getProducts(1, 2, "lastest", "c0a5bc18-c2c6-45dc-bd9d-846ef63ff265"));

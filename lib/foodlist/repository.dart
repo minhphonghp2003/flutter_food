@@ -1,4 +1,5 @@
 import 'package:food/foodlist/dataProvider.dart';
+import 'package:food/foodlist/model/Cart.dart';
 import 'package:food/foodlist/model/Category.dart';
 import 'package:food/foodlist/model/Food.dart';
 import 'package:food/foodlist/model/GetProductParams.dart';
@@ -33,5 +34,9 @@ class FoodRepository {
 
   Future<Map<dynamic, dynamic>> addToCart(String productId, int quantity, String token) async {
     return await _dataProvider.addToCart(productId, quantity, token);
+  }
+
+  Future<List<Cart>> getCart(String token) async {
+    return await _dataProvider.getCart(token);
   }
 }

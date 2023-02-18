@@ -1,4 +1,5 @@
 import '../model/Addon.dart';
+import '../model/Cart.dart';
 import '../model/Category.dart';
 import '../model/Food.dart';
 import '../model/Review.dart';
@@ -43,3 +44,10 @@ class FoodStateAddToCartFailure extends FoodState {
   String error;
   FoodStateAddToCartFailure({required this.error});
 }
+
+class FoodStateGetCartSuccess extends FoodState {
+  List<Cart> carts;
+  FoodStateGetCartSuccess({required this.carts});
+}
+
+class FoodStateGetCartFailure extends FoodState {}

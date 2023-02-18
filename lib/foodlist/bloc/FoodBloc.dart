@@ -4,6 +4,7 @@ import 'package:bloc/bloc.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:food/foodlist/bloc/FoodEvent.dart';
 import 'package:food/foodlist/bloc/FoodState.dart';
+import 'package:food/foodlist/model/Cart.dart';
 import 'package:food/foodlist/model/Food.dart';
 import 'package:food/foodlist/model/GetProductParams.dart';
 import 'package:food/foodlist/repository.dart';
@@ -21,11 +22,22 @@ class FoodBloc extends Bloc<FoodEvent, FoodState> {
     on<FoodReviewFetched>(_foodReviewFetched);
     on<FoodReviewAdded>(_foodReviewAdded);
     on<FoodAddToCart>(_foodAddToCart);
+    on<FoodCartGotten>(_foodCartGotten);
   }
   Future<String?> _getToken() async {
     String? login_cookie = await _storage.read(key: "login_cookie");
     String? token = login_cookie != null ? jsonDecode(login_cookie)["token"] : null;
     return token;
+  }
+
+  _foodCartGotten(FoodCartGotten event, emit) async {
+    String? token = await _getToken();
+    if (token == null) {
+      emit(FoodStateGetCartFailure());
+    } else {
+      List<Cart> carts = await _foodRepository.getCart(token);
+      emit(FoodStateGetCartSuccess(carts: carts));
+    }
   }
 
   _foodAddToCart(FoodAddToCart event, emit) async {

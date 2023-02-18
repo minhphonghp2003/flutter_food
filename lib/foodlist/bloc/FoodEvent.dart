@@ -36,3 +36,5 @@ class FoodAddToCart extends FoodEvent {
   int quanity;
   FoodAddToCart({required this.productId, required this.quanity});
 }
+
+class FoodCartGotten extends FoodEvent {}
